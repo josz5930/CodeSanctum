@@ -1,7 +1,6 @@
 # Contributing to CodeAttest
 
-Thanks for your interest in CodeAttest. Contributions — bug reports, reproducible
-failing cases, documentation fixes, and pull requests — are welcome.
+Thanks for your interest in CodeAttest. 
 
 Please read the [Support policy](./README.md#support-policy) first: CodeAttest is
 an open-source project, not a supported commercial product. The sections below
@@ -44,17 +43,6 @@ are about improving the project itself.
 
 6. Formatting is **check-only** (LF, final newline, no trailing whitespace). Fix
    issues by hand; `npm run format` reports but does not rewrite.
-
-## Pull requests
-
-- Describe what changed and why, and link any related issue.
-- Green `npm run ci` is expected. If Cargo is unavailable in your environment,
-  note which `rust:*` steps were skipped (`PENDING`) rather than run.
-- Small, focused PRs are easier to review and merge.
-
-Maintainer review and merge happen on a best-effort basis when someone has the
-time and interest. See the [Support policy](./README.md#support-policy) for what
-that does and does not promise.
 
 ## Security
 
