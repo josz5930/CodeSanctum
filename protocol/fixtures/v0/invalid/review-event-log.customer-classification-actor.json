@@ -1,0 +1,29 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:e44d30a9af3ec549fdc694303920bde2e8766b0a1e15311f9e7a07c543cffd12",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 1,
+      "idempotency_key": "classification:review:synthetic-demo-001:classification_record:finding_001",
+      "event_type": "classification_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-owner"
+      },
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:finding_001"
+      ],
+      "visibility": "internal_only",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "internal_note": "NOT_CUSTOMER_SOURCE reviewer classification rationale"
+    }
+  ]
+}

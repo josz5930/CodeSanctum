@@ -1,0 +1,22 @@
+{
+  "protocol_version": "codeattest.v0",
+  "event_id": "evidence_event:acc-0003",
+  "review_id": "review:synthetic-demo-001",
+  "sequence_number": 10,
+  "idempotency_key": "SYNTHETIC_DEMO_DATA-acc-0003",
+  "event_type": "evidence_accessed",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "SYNTHETIC_DEMO_DATA-reviewer-1"
+  },
+  "event_timestamp": "2026-07-19T00:00:00Z",
+  "artifact_refs": [
+    "artifact_ref:raw_snippet_003"
+  ],
+  "source_derived_class": "transient_source_derived",
+  "purpose": "NOT_CUSTOMER_SOURCE expert classification of a synthetic finding",
+  "access_scope": {
+    "tenant_id": "SYNTHETIC_DEMO_DATA-tenant-1",
+    "review_scope": "review:synthetic-demo-002"
+  }
+}

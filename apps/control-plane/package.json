@@ -1,0 +1,22 @@
+{
+  "name": "@onevps/control-plane",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "dependencies": {
+    "@onevps/protocol-ts": "0.0.0",
+    "canonicalize": "3.0.0"
+  },
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/review-event-semantics.test.mjs && node test/review-event-log.test.mjs && node test/review-event-convergence.test.mjs && node test/evidence-storage.test.mjs && node test/evidence-storage-convergence.test.mjs && node test/submission-outcome-event.test.mjs && node test/submission-outcome-convergence.test.mjs && node test/finding-classification.test.mjs && node test/finding-classification-convergence.test.mjs && node test/remediation-guidance.test.mjs && node test/remediation-guidance-convergence.test.mjs && node test/validation-path.test.mjs && node test/validation-path-convergence.test.mjs && node test/outcome-records.test.mjs && node test/outcome-records-convergence.test.mjs && node test/verification-pass-scope.test.mjs && node test/verification-pass-scope-convergence.test.mjs && node test/verification-completion.test.mjs && node test/verification-review-patches.test.mjs && node test/epic-5-control-plane.test.mjs && node test/attestation-finalization-outcome.test.mjs",
+    "story-5.1-check": "node test/epic-5-control-plane.test.mjs",
+    "story-5.2-check": "node test/epic-5-control-plane.test.mjs",
+    "story-5.5-check": "node test/epic-5-control-plane.test.mjs",
+    "story-5.6-check": "node test/epic-5-control-plane.test.mjs"
+  }
+}

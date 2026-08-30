@@ -1,0 +1,15 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_status_record_id": "customer_status:synthetic_status_invalid_date_001",
+  "finding_ref": "review_finding_draft:demo_finding_context",
+  "customer_remediation_status": "planned",
+  "due_date": "2026-02-30",
+  "recorded_at": "2026-07-23T01:00:00Z",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact"
+}

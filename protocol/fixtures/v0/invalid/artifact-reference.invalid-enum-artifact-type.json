@@ -1,0 +1,16 @@
+{
+  "protocol_version": "codeattest.v0",
+  "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+  "artifact_type": "invalid_artifact_type",
+  "digest": "sha256:a14e3f0d1c34bfb20fb76d991dfa832ae452cd72c7dcc9888551aab39b396c4f",
+  "size_bytes": 230,
+  "source_derived_class": "transient_source_derived",
+  "manifest_entry_ref": "manifest_entry:synthetic_raw_snippet",
+  "media_type": "text/plain",
+  "content_path": "demo-raw-snippet.synthetic.txt",
+  "synthetic_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "content_path_anchor": "fixture_root"
+}

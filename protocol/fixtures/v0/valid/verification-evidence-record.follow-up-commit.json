@@ -1,0 +1,44 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "verification_evidence_record_id": "verification_evidence:synthetic_follow_up_commit",
+  "record_version": 1,
+  "verification_pass_id": "verification_pass:synthetic_pass_001",
+  "verification_pass_ref": "verification_pass:synthetic_pass_001",
+  "scope_version": 1,
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "requested_verification_type": "follow_up_commit",
+  "intake_state": "accepted_for_review",
+  "state_reason": "SYNTHETIC_DEMO_DATA validation metadata is ready for bounded reviewer evaluation. NOT_CUSTOMER_SOURCE.",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "recorded_at": "2026-07-30T12:00:00Z",
+  "access_scope": {
+    "tenant_id": "tenant:synthetic-demo",
+    "review_scope": "review:synthetic-demo-001"
+  },
+  "environment_profile": "synthetic_demo",
+  "disclosure_state": "metadata_only",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA evidence remains bounded to the formal path and criterion. NOT_CUSTOMER_SOURCE."
+  ],
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "follow_up_commit": {
+    "original_selected_commit": {
+      "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+      "source_control_system": "git"
+    },
+    "follow_up_commit": {
+      "commit_sha": "1123456789abcdef0123456789abcdef01234567",
+      "source_control_system": "git"
+    },
+    "original_repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+    "follow_up_repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+    "relationship_to_selected_commit": "customer_declared_related",
+    "relationship_basis": "SYNTHETIC_DEMO_DATA customer declares repository relationship without inferred ancestry. NOT_CUSTOMER_SOURCE."
+  }
+}

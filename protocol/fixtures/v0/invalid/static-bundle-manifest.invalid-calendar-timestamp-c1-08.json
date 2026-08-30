@@ -1,0 +1,8 @@
+{
+  "protocol_version": "codeattest.v0",
+  "fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "created_at": "2026-04-31T00:00:00Z"
+}

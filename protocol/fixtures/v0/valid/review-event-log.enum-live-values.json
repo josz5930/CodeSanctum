@@ -1,0 +1,211 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:ff5519244ee36e8b0768c84e07f8b1d82da884b5dd725d8ea183557664d5a07f",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 100,
+      "idempotency_key": "validation_path:review:synthetic-demo-001:validation_path:synthetic_enum_validation_001",
+      "event_type": "validation_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_enum_validation_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA validation_recorded enum coverage record. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:a44288f1f25eb80d7f21cdee0dbe164511364b060d81e70bc43379e7ef231964",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 101,
+      "idempotency_key": "false_positive:review:synthetic-demo-001:false_positive:synthetic_enum_001",
+      "event_type": "false_positive_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:01Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_enum_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA false_positive_recorded enum coverage record. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:123f1bc720b4ccf8edbbf6898fd0095545bdb2dd464c25b9669be33caef18d25",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 102,
+      "idempotency_key": "accepted_risk:review:synthetic-demo-001:accepted_risk:synthetic_enum_001",
+      "event_type": "customer_accepted_risk_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer_user:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:02Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_enum_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "Accepted risk recorded for synthetic enum coverage. Customer rationale: SYNTHETIC_DEMO_DATA bounded test rationale NOT_CUSTOMER_SOURCE"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:07895fe718bb0465cf6bf270f67b2d733d0450a12a112ebfa91c4151a25e9e91",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 103,
+      "idempotency_key": "attestation:review:synthetic-demo-001:attestation:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:attestation_version:1",
+      "event_type": "attestation_generated",
+      "actor": {
+        "actor_type": "vendor_service",
+        "actor_id": "vendor_service:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:03Z",
+      "artifact_refs": [
+        "artifact_ref:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA attestation_generated enum coverage record. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:2ee65d886d13693b5b4377ebb3a0074d05b50b6a65334e26605fbf53a0330a0e",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 104,
+      "idempotency_key": "static_bundle:review:synthetic-demo-001:static_bundle:synthetic_enum_001:manifest_version:1:manifest_id:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "event_type": "static_bundle_generated",
+      "actor": {
+        "actor_type": "vendor_service",
+        "actor_id": "vendor_service:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:04Z",
+      "artifact_refs": [
+        "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA static_bundle_generated enum coverage record. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:e7bc7a5c80e5bf4107b4e4ca0c2df2dbcadec1d1ad9c58ce8730f13717684a13",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 105,
+      "idempotency_key": "attestation_package_finalized:review:synthetic-demo-001:static_bundle:synthetic_enum_001:finalization_version:1:record_id:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc:generated_manifest_id:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd:manifest_id:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "event_type": "attestation_package_finalized",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer_user:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:05Z",
+      "artifact_refs": [
+        "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA attestation_package_finalized enum coverage record. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:ab099f676086fedec53ca52ce926739bd8462a651f062c4ffe0285773a975c06",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 106,
+      "idempotency_key": "attestation_package_exported:review:synthetic-demo-001:static_bundle:synthetic_enum_002:finalization_version:1:record_id:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd:generated_manifest_id:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee:manifest_id:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "event_type": "attestation_package_exported",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer_user:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:06Z",
+      "artifact_refs": [
+        "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA attestation_package_exported enum coverage record. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:9446a3ae05f6af41f221e15097c580e681aa44660e6f8e92b3e16de369a87f62",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 107,
+      "idempotency_key": "pilot_metric:review:synthetic-demo-001:pilot_metric:synthetic_enum_001:record_version:1:content_id:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "event_type": "pilot_metric_recorded",
+      "actor": {
+        "actor_type": "vendor_service",
+        "actor_id": "vendor_service:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:07Z",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "visibility": "internal_only",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ]
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:8bf51f193a33061132b941f3f6392246c994f58d477e3309924e4e143f54375f",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 108,
+      "idempotency_key": "pilot_feedback:review:synthetic-demo-001:pilot_feedback:synthetic_enum_001:record_version:1:content_id:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "event_type": "pilot_feedback_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:SYNTHETIC_DEMO_DATA-enum-coverage-NOT_CUSTOMER_SOURCE"
+      },
+      "event_timestamp": "2026-08-01T00:00:08Z",
+      "artifact_refs": [
+        "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "visibility": "internal_only",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ]
+    }
+  ]
+}

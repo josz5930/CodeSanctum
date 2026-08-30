@@ -1,0 +1,56 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "verification_pass_id": "verification_pass:synthetic_pass_additional_script_001",
+  "scope_version": 1,
+  "included_pass_started_at": "2026-07-29T00:00:00Z",
+  "included_pass_start_basis": "SYNTHETIC_DEMO_DATA review completion timestamp recorded for included verification-pass availability. NOT_CUSTOMER_SOURCE.",
+  "scope_recorded_at": "2026-07-29T12:00:00Z",
+  "pass_deadline": "2026-08-28T00:00:00Z",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "selected_findings": [
+    {
+      "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+      "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+      "current_classification": "requires_customer_side_validation",
+      "remediation_guidance_ref": "remediation_guidance:synthetic_requires_path_only_001",
+      "validation_path_ref": "validation_path:synthetic_script_001",
+      "reviewer_validation_script_refs": [
+        "validation_script:synthetic_included_001",
+        "validation_script:synthetic_additional_002"
+      ],
+      "requested_verification_type": "reviewer_authored_script_output",
+      "eligibility_state": "requires_additional_agreement",
+      "eligibility_reason": "SYNTHETIC_DEMO_DATA selected finding needs an additional script candidate with pricing TBD before included-pass scope can proceed. NOT_CUSTOMER_SOURCE.",
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA customer-provided script output remains later evidence intake and is not a Story 4.1 decision. NOT_CUSTOMER_SOURCE."
+      ]
+    }
+  ],
+  "included_script_allocation": {
+    "included_slots": [
+      {
+        "slot": 1,
+        "validation_script_ref": "validation_script:synthetic_included_001",
+        "finding_ref": "review_finding_draft:demo_metadata_only"
+      }
+    ],
+    "additional_script_candidates": [
+      {
+        "validation_script_ref": "validation_script:synthetic_additional_002",
+        "finding_ref": "review_finding_draft:demo_metadata_only",
+        "pricing_posture": "pricing_tbd",
+        "reason": "SYNTHETIC_DEMO_DATA pricing TBD applies to this additional reviewer-authored script candidate. NOT_CUSTOMER_SOURCE."
+      }
+    ]
+  },
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA this verification pass is limited to selected findings, submitted follow-up evidence, and recorded validation criteria. NOT_CUSTOMER_SOURCE.",
+    "SYNTHETIC_DEMO_DATA this selection is not a complete fresh secure-code review and does not record a verification decision. NOT_CUSTOMER_SOURCE."
+  ],
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

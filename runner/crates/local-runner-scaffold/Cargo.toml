@@ -1,0 +1,18 @@
+[package]
+name = "onevps-local-runner-scaffold"
+version = "0.0.0"
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+ml-dsa = "0.1.1"
+regex = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_json_canonicalizer = "0.3.2"
+sha2 = "0.10.9"
+ureq = { version = "3.4.0", default-features = false, features = ["rustls"] }

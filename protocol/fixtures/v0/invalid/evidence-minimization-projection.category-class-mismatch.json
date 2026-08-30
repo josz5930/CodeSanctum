@@ -1,0 +1,12 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "entries": [
+    {
+      "artifact_ref": "artifact_ref:raw_snippet_003",
+      "minimization_category": "deleted_transient",
+      "source_derived_class": "retained_review_artifact",
+      "deletion_evidence_ref": "deletion_evidence:del-ev-0003"
+    }
+  ]
+}

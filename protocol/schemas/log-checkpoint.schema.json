@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:log-checkpoint",
+  "title": "Log Checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "tree_size": {
+            "const": 0
+          }
+        },
+        "required": [
+          "tree_size"
+        ]
+      },
+      "then": {
+        "properties": {
+          "merkle_root": {
+            "const": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "merkle_root": {
+            "const": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "required": [
+          "merkle_root"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tree_size": {
+            "const": 0
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "checkpoint_id",
+    "deployment_identity",
+    "checkpoint_timestamp",
+    "merkle_root",
+    "tree_size",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "checkpoint_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "deployment_identity": {
+      "type": "string",
+      "enum": [
+        "demo",
+        "pilot"
+      ]
+    },
+    "checkpoint_timestamp": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "merkle_root": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/sha256_hex"
+    },
+    "tree_size": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "canonicalization": {
+      "type": "string",
+      "const": "rfc8785"
+    },
+    "identity_hash_algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "identity_input_excludes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "const": "checkpoint_id"
+      }
+    }
+  }
+}

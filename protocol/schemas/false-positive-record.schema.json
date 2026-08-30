@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:false-positive-record",
+  "title": "False Positive Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "false_positive_record_id",
+    "review_finding_draft_ref",
+    "classification_record_ref",
+    "review_finding_draft_evidence_refs",
+    "evidence_basis",
+    "rationale",
+    "limitations",
+    "recorded_at",
+    "actor",
+    "source_reference_state",
+    "source_derived_class",
+    "visibility"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "false_positive_record_id": {
+      "type": "string",
+      "pattern": "^false_positive:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "review_finding_draft_ref": {
+      "type": "string",
+      "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "classification_record_ref": {
+      "type": "string",
+      "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "candidate_finding_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^candidate_finding:[a-z0-9][a-z0-9_-]{2,63}$"
+      }
+    },
+    "review_finding_draft_evidence_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_ref",
+          "availability_state",
+          "available_for_review",
+          "display_state",
+          "source_derived_class"
+        ],
+        "properties": {
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "availability_state": {
+            "type": "string",
+            "enum": [
+              "retained_review_artifact",
+              "deleted_under_policy",
+              "never_collected",
+              "not_submitted_by_policy",
+              "unresolved_reference"
+            ]
+          },
+          "available_for_review": {
+            "type": "boolean"
+          },
+          "display_state": {
+            "type": "string",
+            "enum": [
+              "available_reference",
+              "deleted",
+              "not_collected",
+              "not_submitted",
+              "unresolved_reference"
+            ]
+          },
+          "deletion_evidence_ref": {
+            "type": "string",
+            "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "source_derived_class": {
+            "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+          }
+        }
+      }
+    },
+    "evidence_basis": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "scanner_output",
+          "metadata_only",
+          "finding_context_snippet",
+          "extended_approved_source_context",
+          "retained_review_artifact",
+          "deleted_under_policy_reference",
+          "not_submitted_by_policy_reference",
+          "never_collected_reference",
+          "unresolved_reference"
+        ]
+      }
+    },
+    "rationale": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "recorded_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_type",
+        "actor_id"
+      ],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "const": "reviewer"
+        },
+        "actor_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "source_reference_state": {
+      "type": "string",
+      "enum": [
+        "retained_review_artifact",
+        "deleted_under_policy",
+        "never_collected",
+        "not_submitted_by_policy",
+        "unresolved_reference"
+      ]
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "customer_facing",
+        "internal_only"
+      ]
+    },
+    "field_export_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rationale", "limitations", "evidence_basis", "candidate_finding_refs", "evidence_consumer_export"],
+      "properties": {
+        "rationale": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "limitations": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "evidence_basis": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "candidate_finding_refs": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        },
+        "evidence_consumer_export": {
+          "type": "string",
+          "enum": [
+            "include",
+            "exclude"
+          ]
+        }
+      }
+    }
+  }
+}

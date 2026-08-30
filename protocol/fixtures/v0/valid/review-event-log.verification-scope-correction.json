@@ -1,0 +1,53 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:9c07d20a7801218e89818450dd1f46048c62dac62388a8a2f9cd03c5f46a12e5",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "verification_scope:review:synthetic-demo-001:verification_pass:synthetic_pass_correction_001:scope_version:1",
+      "event_type": "verification_scope_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-29T12:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_pass_correction_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA verification-pass scope version one recorded for selected findings only. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:4cda7cbcbcf9461c7289912258ff2d911b3129f258bcd4215afdbbfab8edc765",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 1,
+      "idempotency_key": "verification_scope:review:synthetic-demo-001:verification_pass:synthetic_pass_correction_001:scope_version:2",
+      "event_type": "verification_scope_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-29T13:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_pass_correction_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "supersedes_event_id": "sha256:9c07d20a7801218e89818450dd1f46048c62dac62388a8a2f9cd03c5f46a12e5",
+      "reason": "SYNTHETIC_DEMO_DATA verification-pass scope version two corrects selected scope without a verification decision. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

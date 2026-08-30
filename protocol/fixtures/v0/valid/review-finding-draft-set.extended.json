@@ -1,0 +1,63 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "normalization_run_id": "normalization_run:synthetic-demo-extended",
+  "normalization_status": "drafts_created",
+  "created_at": "2026-07-21T00:03:00Z",
+  "vendor_receipt_ref": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "source_scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage_mode": "extended_approved_snippets_or_targeted_files",
+  "review_finding_drafts": [
+    {
+      "review_finding_draft_id": "review_finding_draft:demo_extended",
+      "candidate_finding_refs": [
+        "candidate_finding:demo_regex_001"
+      ],
+      "group_key": "regex|demo.regex.eval|src/app.ts:2:18",
+      "sources": [
+        "regex"
+      ],
+      "affected_area": "src/app.ts:2:18",
+      "evidence_refs": [
+        {
+          "artifact_ref": "artifact_ref:scanner_finding_set",
+          "availability_state": "retained_review_artifact",
+          "available_for_review": true,
+          "display_state": "available_reference",
+          "source_derived_class": "retained_review_artifact"
+        },
+        {
+          "artifact_ref": "artifact_ref:synthetic_extended_context",
+          "availability_state": "retained_review_artifact",
+          "available_for_review": true,
+          "display_state": "available_reference",
+          "source_derived_class": "customer_opt_in_retained_source"
+        }
+      ],
+      "severity": "warning",
+      "confidence": "medium",
+      "scanner_rule_ids": [
+        "demo.regex.eval"
+      ],
+      "status": "draft",
+      "review_lifecycle_state": "under_review",
+      "coverage_mode": "extended_approved_snippets_or_targeted_files",
+      "evidence_basis": [
+        "scanner_output",
+        "extended_approved_source_context",
+        "retained_review_artifact"
+      ],
+      "threshold_gaps": [
+        "Extended approved context is available, but normalization still requires reviewer judgment before classification."
+      ],
+      "source_reference_state": "retained_review_artifact",
+      "source_derived_class": "retained_review_artifact"
+    }
+  ],
+  "normalization_limitations": [
+    "Extended approved source context is preserved by reference only and remains input evidence for reviewer judgment."
+  ],
+  "source_derived_class": "retained_review_artifact"
+}

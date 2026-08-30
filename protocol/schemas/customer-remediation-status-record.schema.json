@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+  "title": "Customer Remediation Status Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "customer_status_record_id",
+    "customer_remediation_status",
+    "recorded_at",
+    "actor",
+    "visibility",
+    "source_derived_class"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "customer_status_record_id": {
+      "type": "string",
+      "pattern": "^customer_status:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "finding_ref": {
+      "type": "string",
+      "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "classification_record_ref": {
+      "type": "string",
+      "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "remediation_guidance_ref": {
+      "type": "string",
+      "pattern": "^remediation_guidance:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "customer_remediation_status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "planned",
+        "in_progress",
+        "remediated_by_customer",
+        "validation_pending",
+        "deferred",
+        "not_applicable"
+      ]
+    },
+    "owner": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "due_date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "target_state": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "customer_notes": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "recorded_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "const": "customer_user"
+        },
+        "actor_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "field_export_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "due_date", "target_state", "customer_notes"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "enum": ["include", "exclude"]
+        },
+        "due_date": {
+          "type": "string",
+          "enum": ["include", "exclude"]
+        },
+        "target_state": {
+          "type": "string",
+          "enum": ["include", "exclude"]
+        },
+        "customer_notes": {
+          "type": "string",
+          "enum": ["include", "exclude"]
+        }
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["customer_facing", "internal_only"]
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    }
+  }
+}

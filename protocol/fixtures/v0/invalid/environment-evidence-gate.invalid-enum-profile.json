@@ -1,0 +1,24 @@
+{
+  "protocol_version": "codeattest.v0",
+  "environment_profile": "invalid_profile",
+  "allowed_source_derived_classes": [
+    "never_collected",
+    "retained_review_artifact",
+    "transient_source_derived"
+  ],
+  "real_raw_snippet_acceptance": false,
+  "real_targeted_file_acceptance": false,
+  "access_control_ready": false,
+  "access_logging_ready": false,
+  "encryption_at_rest_ready": false,
+  "retention_defaults_ready": false,
+  "deletion_controls_ready": false,
+  "demo_budget_gate_ready": true,
+  "signing_release_trust_ready": false,
+  "retention_period_required": false,
+  "evidence_boundary": "synthetic-demo-only",
+  "notes": [
+    "Synthetic demo mode rejects real Raw Snippets and real targeted files.",
+    "This gate does not implement production storage, access logging, encryption, deletion evidence, or receipt issuance."
+  ]
+}

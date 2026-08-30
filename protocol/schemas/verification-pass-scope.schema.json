@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:verification-pass-scope",
+  "title": "Verification Pass Scope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "verification_pass_id",
+    "scope_version",
+    "included_pass_started_at",
+    "scope_recorded_at",
+    "pass_deadline",
+    "actor",
+    "selected_findings",
+    "included_script_allocation",
+    "limitations",
+    "source_derived_class",
+    "visibility"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "verification_pass_id": {
+      "type": "string",
+      "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "scope_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "included_pass_started_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "included_pass_start_basis": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "scope_recorded_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "pass_deadline": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "enum": ["customer_user", "reviewer", "vendor_service"]
+        },
+        "actor_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "customer_actor_ref": {
+      "type": "string",
+      "pattern": "^customer:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "customer_selection_evidence_ref": {
+      "type": "string",
+      "pattern": "^customer_selection:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "selected_findings": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_finding_draft_ref",
+          "classification_record_ref",
+          "current_classification",
+          "requested_verification_type",
+          "eligibility_state",
+          "eligibility_reason",
+          "limitations"
+        ],
+        "properties": {
+          "review_finding_draft_ref": {
+            "type": "string",
+            "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "classification_record_ref": {
+            "type": "string",
+            "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "current_classification": {
+            "type": "string",
+            "enum": ["likely", "confirmed", "inconclusive", "requires_customer_side_validation"]
+          },
+          "remediation_guidance_ref": {
+            "type": "string",
+            "pattern": "^remediation_guidance:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "customer_status_record_ref": {
+            "type": "string",
+            "pattern": "^customer_status:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "current_customer_remediation_status": {
+            "type": "string",
+            "enum": [
+              "not_started",
+              "planned",
+              "in_progress",
+              "remediated_by_customer",
+              "validation_pending",
+              "deferred",
+              "not_applicable"
+            ]
+          },
+          "validation_path_ref": {
+            "type": "string",
+            "pattern": "^validation_path:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "reviewer_validation_script_refs": {
+            "type": "array",
+            "maxItems": 10000,
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^validation_script:[a-z0-9][a-z0-9_-]{2,63}$"
+            }
+          },
+          "accepted_risk_record_ref": {
+            "type": "string",
+            "pattern": "^accepted_risk:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "false_positive_record_ref": {
+            "type": "string",
+            "pattern": "^false_positive:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "requested_verification_type": {
+            "type": "string",
+            "enum": [
+              "follow_up_commit",
+              "customer_validation_evidence",
+              "reviewer_authored_script_output",
+              "manual_validation_record",
+              "remote_dynamic_testing_evidence"
+            ]
+          },
+          "eligibility_state": {
+            "type": "string",
+            "enum": [
+              "eligible",
+              "out_of_scope",
+              "requires_additional_agreement",
+              "blocked_pending_validation_path"
+            ]
+          },
+          "eligibility_reason": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "limitations": {
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "items": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+            }
+          }
+        }
+      }
+    },
+    "included_script_allocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included_slots", "additional_script_candidates"],
+      "properties": {
+        "included_slots": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["slot", "validation_script_ref", "finding_ref"],
+            "properties": {
+              "slot": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              },
+              "validation_script_ref": {
+                "type": "string",
+                "pattern": "^validation_script:[a-z0-9][a-z0-9_-]{2,63}$"
+              },
+              "finding_ref": {
+                "type": "string",
+                "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+              }
+            }
+          }
+        },
+        "additional_script_candidates": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["validation_script_ref", "finding_ref", "pricing_posture", "reason"],
+            "properties": {
+              "validation_script_ref": {
+                "type": "string",
+                "pattern": "^validation_script:[a-z0-9][a-z0-9_-]{2,63}$"
+              },
+              "finding_ref": {
+                "type": "string",
+                "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+              },
+              "pricing_posture": {
+                "type": "string",
+                "const": "pricing_tbd"
+              },
+              "reason": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["customer_facing", "internal_only"]
+    }
+  }
+}

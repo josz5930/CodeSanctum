@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:static-bundle-verification-package",
+  "title": "Static Bundle Verification Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "attachment_index_id",
+    "signed_payload_manifest_id",
+    "signing_input_attachment",
+    "signature_attachment",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "attachment_index_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "signed_payload_manifest_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "signing_input_attachment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "artifact_ref", "media_type", "digest", "size_bytes", "signing_input"],
+      "properties": {
+        "relative_path": { "type": "string", "const": "verification/static-bundle-signing-input.json" },
+        "artifact_ref": { "type": "string", "const": "artifact_ref:static_bundle_signing_input" },
+        "media_type": { "type": "string", "const": "application/json" },
+        "digest": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/artifact_digest" },
+        "size_bytes": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "signing_input": { "$ref": "urn:codeattest:protocol:v0:identity-signing-input" }
+      }
+    },
+    "signature_attachment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "artifact_ref", "media_type", "digest", "size_bytes", "signature_envelope"],
+      "properties": {
+        "relative_path": { "type": "string", "const": "verification/static-bundle-signature.json" },
+        "artifact_ref": { "type": "string", "const": "artifact_ref:static_bundle_signature" },
+        "media_type": { "type": "string", "const": "application/json" },
+        "digest": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/artifact_digest" },
+        "size_bytes": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "signature_envelope": { "$ref": "urn:codeattest:protocol:v0:signature-envelope" }
+      }
+    },
+    "canonicalization": { "type": "string", "const": "rfc8785" },
+    "identity_hash_algorithm": { "type": "string", "const": "sha256" },
+    "identity_input_excludes": { "type": "array", "minItems": 1, "maxItems": 1, "uniqueItems": true, "items": { "type": "string", "const": "attachment_index_id" } }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:pilot-metric-record",
+  "title": "Pilot Metric Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "pilot_metric_record_id",
+    "record_version",
+    "review_id",
+    "recorded_at",
+    "recorded_by",
+    "measurement_window",
+    "metrics",
+    "caveats",
+    "content_free",
+    "pii_free",
+    "visibility",
+    "source_derived_class"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "pilot_metric_record_id": { "type": "string", "pattern": "^pilot_metric:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "record_version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "recorded_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "recorded_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "enum": ["reviewer", "vendor_service"] },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "measurement_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_timestamp", "end_timestamp"],
+      "properties": {
+        "start_timestamp": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+        "end_timestamp": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_finding_count", "classified_finding_count", "actionable_classification_count", "review_hours", "validation_hours", "turnaround_hours", "disclosure_mode", "submission_rejection_count", "repeat_intent_signal", "pay_intent_signal"],
+      "properties": {
+        "candidate_finding_count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "classified_finding_count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "actionable_classification_count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "review_hours": { "type": "number", "minimum": 0, "maximum": 9007199254740991 },
+        "validation_hours": { "type": "number", "minimum": 0, "maximum": 9007199254740991 },
+        "turnaround_hours": { "type": "number", "minimum": 0, "maximum": 9007199254740991 },
+        "disclosure_mode": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode" },
+        "submission_rejection_count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "repeat_intent_signal": { "type": "string", "enum": ["yes", "no", "unsure", "not_asked"] },
+        "pay_intent_signal": { "type": "string", "enum": ["yes", "no", "unsure", "not_asked"] }
+      }
+    },
+    "caveats": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "content_free": { "type": "boolean", "const": true },
+    "pii_free": { "type": "boolean", "const": true },
+    "visibility": { "type": "string", "const": "internal_only" },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" }
+  }
+}

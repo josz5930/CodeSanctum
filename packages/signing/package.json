@@ -1,0 +1,17 @@
+{
+  "name": "@onevps/signing",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/base64url.test.mjs && node test/ml-dsa.test.mjs && node test/cross-verification.test.mjs && node test/published-test-key.test.mjs && node test/key-directory.test.mjs && node test/envelope.test.mjs && node test/custody.test.mjs && node test/directory-tool.test.mjs && node test/no-active-test-key.test.mjs && node test/runner-release.test.mjs"
+  },
+  "dependencies": {
+    "@onevps/protocol-ts": "0.0.0"
+  }
+}

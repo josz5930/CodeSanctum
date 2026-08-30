@@ -1,0 +1,85 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_scope_id": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "review_id": "review:synthetic-demo-001",
+  "generated_at": "2026-07-06T00:00:00Z",
+  "selected_application": {
+    "application_id": "synthetic-demo-app",
+    "display_name": "Synthetic Demo Application"
+  },
+  "selected_commit": {
+    "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+    "source_control_system": "git"
+  },
+  "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0-story-1.3-fixture"
+  },
+  "technical_context": [
+    {
+      "context_type": "language",
+      "status": "detected",
+      "value": "typescript"
+    },
+    {
+      "context_type": "language",
+      "status": "detected",
+      "value": "python"
+    },
+    {
+      "context_type": "framework",
+      "status": "detected",
+      "value": "react"
+    },
+    {
+      "context_type": "framework",
+      "status": "not_detected",
+      "value": "django"
+    },
+    {
+      "context_type": "scanner",
+      "status": "unsupported",
+      "value": "scanner behavior begins after protocol fixture seeding"
+    }
+  ],
+  "dependency_manifests": [
+    {
+      "manifest_type": "package_json",
+      "status": "detected",
+      "path": "package.json",
+      "package_manager": "npm",
+      "dependency_count": 2,
+      "dependencies": [
+        "react",
+        "typescript"
+      ]
+    },
+    {
+      "manifest_type": "requirements_txt",
+      "status": "detected",
+      "path": "requirements.txt",
+      "package_manager": "pip",
+      "dependency_count": 1,
+      "dependencies": [
+        "fastapi"
+      ]
+    },
+    {
+      "manifest_type": "pyproject_toml",
+      "status": "unsupported",
+      "path": "pyproject.toml",
+      "package_manager": "unknown",
+      "dependency_count": 0,
+      "dependencies": [],
+      "limitation": "pyproject.toml detected but dependency extraction is deferred to runner implementation"
+    },
+    {
+      "manifest_type": "pipfile",
+      "status": "not_found",
+      "package_manager": "pipenv",
+      "dependency_count": 0,
+      "dependencies": []
+    }
+  ]
+}

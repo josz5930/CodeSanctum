@@ -1,0 +1,28 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:315a23f31ce08575689d64ea42e9a7b9831ad164906c667906003a23e39c6b7e",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "deletion-0000",
+      "event_type": "evidence_deleted",
+      "actor": {
+        "actor_type": "vendor_service",
+        "actor_id": "SYNTHETIC_DEMO_DATA-intake-service"
+      },
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:deletion_evidence_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ]
+    }
+  ]
+}

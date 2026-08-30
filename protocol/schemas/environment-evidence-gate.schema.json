@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:environment-evidence-gate",
+  "title": "Environment Evidence Gate",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "environment_profile": { "const": "partner_pilot_real_snippet_ready" } }, "required": ["environment_profile"] },
+      "then": { "required": ["readiness_decision_ref"] },
+      "else": { "not": { "required": ["readiness_decision_ref"] } }
+    },
+    {
+      "if": { "properties": { "environment_profile": { "const": "synthetic_demo" } }, "required": ["environment_profile"] },
+      "then": {
+        "properties": {
+          "real_raw_snippet_acceptance": { "const": false },
+          "real_targeted_file_acceptance": { "const": false },
+          "evidence_boundary": { "const": "synthetic-demo-only" },
+          "allowed_source_derived_classes": { "not": { "contains": { "const": "customer_opt_in_retained_source" } } }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          { "properties": { "real_raw_snippet_acceptance": { "const": true } }, "required": ["real_raw_snippet_acceptance"] },
+          { "properties": { "real_targeted_file_acceptance": { "const": true } }, "required": ["real_targeted_file_acceptance"] },
+          { "properties": { "allowed_source_derived_classes": { "contains": { "const": "customer_opt_in_retained_source" } } } }
+        ]
+      },
+      "then": {
+        "properties": {
+          "environment_profile": { "const": "partner_pilot_real_snippet_ready" },
+          "access_control_ready": { "const": true },
+          "access_logging_ready": { "const": true },
+          "encryption_at_rest_ready": { "const": true },
+          "retention_defaults_ready": { "const": true },
+          "deletion_controls_ready": { "const": true },
+          "demo_budget_gate_ready": { "const": true },
+          "signing_release_trust_ready": { "const": true },
+          "retention_period_required": { "const": true },
+          "allowed_source_derived_classes": { "contains": { "const": "customer_opt_in_retained_source" } }
+        }
+      }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "environment_profile",
+    "allowed_source_derived_classes",
+    "real_raw_snippet_acceptance",
+    "real_targeted_file_acceptance",
+    "access_control_ready",
+    "access_logging_ready",
+    "encryption_at_rest_ready",
+    "retention_defaults_ready",
+    "deletion_controls_ready",
+    "demo_budget_gate_ready",
+    "signing_release_trust_ready",
+    "retention_period_required",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "environment_profile": {
+      "type": "string",
+      "enum": [
+        "synthetic_demo",
+        "partner_pilot_candidate",
+        "partner_pilot_real_snippet_ready"
+      ]
+    },
+    "allowed_source_derived_classes": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+      }
+    },
+    "real_raw_snippet_acceptance": {
+      "type": "boolean"
+    },
+    "real_targeted_file_acceptance": {
+      "type": "boolean"
+    },
+    "access_control_ready": {
+      "type": "boolean"
+    },
+    "access_logging_ready": {
+      "type": "boolean"
+    },
+    "encryption_at_rest_ready": {
+      "type": "boolean"
+    },
+    "retention_defaults_ready": {
+      "type": "boolean"
+    },
+    "deletion_controls_ready": {
+      "type": "boolean"
+    },
+    "demo_budget_gate_ready": {
+      "type": "boolean"
+    },
+    "signing_release_trust_ready": {
+      "type": "boolean"
+    },
+    "retention_period_required": {
+      "type": "boolean"
+    },
+    "evidence_boundary": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "readiness_decision_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "notes": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    }
+  }
+}

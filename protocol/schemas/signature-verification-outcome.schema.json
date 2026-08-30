@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:signature-verification-outcome",
+  "title": "Signature Verification Outcome",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "signed_identity_type",
+    "signed_identity",
+    "algorithm_profile",
+    "key_id",
+    "key_version",
+    "key_directory_version",
+    "verified_at",
+    "result"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "signed_identity_type": {
+      "type": "string",
+      "enum": ["outbound_manifest", "evidence_bundle", "vendor_receipt", "static_bundle_manifest", "attestation_package_finalization", "disclosure_policy", "review_event", "security_review_attestation", "signing_key_directory", "environment_readiness_decision"]
+    },
+    "signed_identity": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "algorithm_profile": {
+      "type": "string",
+      "const": "ml_dsa_65"
+    },
+    "key_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "key_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "key_directory_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "verified_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "signature_bytes_untrusted",
+        "signature_key_unknown",
+        "signature_key_revoked",
+        "signature_key_outside_validity_window",
+        "signature_key_algorithm_mismatch",
+        "signature_key_directory_untrusted",
+        "signature_signing_input_mismatch"
+      ]
+    }
+  }
+}

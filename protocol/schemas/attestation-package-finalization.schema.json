@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:attestation-package-finalization",
+  "title": "Attestation Package Finalization",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "attestation_package_finalization_id",
+    "finalization_version",
+    "review_id",
+    "static_bundle_id",
+    "generated_manifest_ref",
+    "finalized_manifest_ref",
+    "finalized_manifest_version",
+    "customer_actor",
+    "visible_context",
+    "receipt_verification_state",
+    "signature_verification_state",
+    "deletion_evidence_state",
+    "portal_verification_state",
+    "finalized_at",
+    "customer_control_after_export",
+    "export_state",
+    "visibility",
+    "source_derived_class",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "attestation_package_finalization_id": { "type": "string", "pattern": "^attestation_finalization:[a-f0-9]{64}$" },
+    "finalization_version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "static_bundle_id": { "type": "string", "pattern": "^static_bundle:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "generated_manifest_ref": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "finalized_manifest_ref": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "finalized_manifest_version": { "type": "integer", "minimum": 2, "maximum": 9007199254740991 },
+    "customer_actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "const": "customer_user" },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "visible_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attestation_id", "static_bundle_id", "generated_manifest_id", "limitations_visible", "receipt_context_visible", "export_consequence_visible"],
+      "properties": {
+        "attestation_id": { "type": "string", "pattern": "^attestation:[a-f0-9]{64}$" },
+        "static_bundle_id": { "type": "string", "pattern": "^static_bundle:[a-z0-9][a-z0-9_-]{2,63}$" },
+        "generated_manifest_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "limitations_visible": { "type": "boolean", "const": true },
+        "receipt_context_visible": { "type": "boolean", "const": true },
+        "export_consequence_visible": { "type": "boolean", "const": true }
+      }
+    },
+    "receipt_verification_state": { "type": "string", "const": "verified" },
+    "signature_verification_state": { "type": "string", "const": "verified" },
+    "deletion_evidence_state": { "type": "string", "const": "resolved" },
+    "portal_verification_state": { "type": "string", "const": "verified_offline" },
+    "finalized_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "customer_control_after_export": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "export_state": { "type": "string", "enum": ["not_exported", "exported"] },
+    "exported_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "visibility": { "type": "string", "const": "customer_facing" },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" },
+    "canonicalization": { "type": "string", "const": "rfc8785" },
+    "identity_hash_algorithm": { "type": "string", "const": "sha256" },
+    "identity_input_excludes": { "type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": { "type": "string", "enum": ["attestation_package_finalization_id", "export_state", "exported_at"] } }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "export_state": { "const": "exported" } } },
+      "then": { "required": ["exported_at"] },
+      "else": { "not": { "required": ["exported_at"] } }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:56eaa8db8b05c49a170d674b87658d48190c768ddff3343c2d96f89dfc79861b",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "customer_remediation:review:synthetic-demo-001:customer_status:synthetic_status_001",
+      "event_type": "customer_remediation_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-23T01:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_status_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ]
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:c8d8916bd200468ccd1404aba7e2043eed126a27d9f5a9b594eedaa73684a9f3",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 1,
+      "idempotency_key": "accepted_risk:review:synthetic-demo-001:accepted_risk:synthetic_customer_002",
+      "event_type": "customer_accepted_risk_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-28T02:10:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_customer_002"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "Accepted risk recorded for review_finding_draft:demo_finding_context. Customer rationale: SYNTHETIC_DEMO_DATA customer approved carrying residual risk. NOT_CUSTOMER_SOURCE.",
+      "supersedes_event_id": "sha256:56eaa8db8b05c49a170d674b87658d48190c768ddff3343c2d96f89dfc79861b"
+    }
+  ]
+}

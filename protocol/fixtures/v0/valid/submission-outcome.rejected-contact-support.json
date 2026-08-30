@@ -1,0 +1,32 @@
+{
+  "protocol_version": "codeattest.v0",
+  "submission_outcome_id": "submission_outcome:synthetic-demo-contact-support",
+  "review_id": "review:synthetic-demo-001",
+  "outcome_state": "rejected_no_receipt",
+  "bundle_instance_id": "bundle_instance:synthetic-demo-0001",
+  "submission_attempt_id": "submission_attempt:synthetic-demo-0001",
+  "occurred_at": "2026-07-20T00:00:00Z",
+  "submission_identities": [
+    {
+      "identity_type": "manifest_id",
+      "identity_value": "sha256:1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a"
+    },
+    {
+      "identity_type": "evidence_bundle_id",
+      "identity_value": "sha256:2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b"
+    },
+    {
+      "identity_type": "bundle_instance_id",
+      "identity_value": "bundle_instance:synthetic-demo-0001"
+    },
+    {
+      "identity_type": "submission_attempt_id",
+      "identity_value": "submission_attempt:synthetic-demo-0001"
+    }
+  ],
+  "failure_reason_codes": [
+    "artifact_digest_mismatch"
+  ],
+  "next_path": "contact_support",
+  "customer_facing_summary": "This submission was rejected before any receipt was issued."
+}

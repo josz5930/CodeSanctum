@@ -1,0 +1,15 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability (do not open an issue)
+    url: https://github.com/josz5930/CodeSanctum/security/advisories/new
+    about: >-
+      Report suspected vulnerabilities privately via GitHub Security Advisories.
+      Do not file a public issue or PR. See SECURITY.md for what a report must
+      include.
+  - name: Support policy (please read first)
+    url: https://github.com/josz5930/CodeSanctum#support-policy
+    about: >-
+      CodeAttest is open source, not a supported product. Deployment help,
+      environment debugging, implementation consulting, compatibility guarantees,
+      and response-time/SLA commitments are out of scope. Issues are for
+      improving the project.

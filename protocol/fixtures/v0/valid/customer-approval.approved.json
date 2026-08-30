@@ -1,0 +1,37 @@
+{
+  "protocol_version": "codeattest.v0",
+  "approval_id": "approval:synthetic_demo_approval",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "decision": "approved",
+  "decided_at": "2026-07-10T00:10:00Z",
+  "approving_actor": {
+    "actor_type": "customer_user",
+    "actor_id": "maya@example.com"
+  },
+  "displayed_context": {
+    "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+    "selected_application": {
+      "application_id": "synthetic-demo-app",
+      "display_name": "Synthetic Demo Application"
+    },
+    "selected_commit": {
+      "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+      "source_control_system": "git"
+    },
+    "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+    "coverage_mode": "finding_context_snippets",
+    "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+    "scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "disclosure_warnings": [
+      "Manifest preview is local-only and does not transmit evidence.",
+      "Raw Snippets are source-code disclosure even when capped or redaction is configured.",
+      "Redaction configuration is recorded, but secret detection cannot prove absence of secrets."
+    ],
+    "bundle_preview_summary": "not_submitted local Evidence Bundle preview with review scope, scanner finding set, Disclosure Policy, outbound manifest, approved synthetic Raw Snippet artifact reference, customer approval, bundle identity, and demo signature metadata; no evidence is sent and no remote intake result is produced."
+  },
+  "warnings_acknowledged": [
+    "Manifest preview is local-only and does not transmit evidence.",
+    "Raw Snippets are source-code disclosure even when capped or redaction is configured.",
+    "Redaction configuration is recorded, but secret detection cannot prove absence of secrets."
+  ]
+}

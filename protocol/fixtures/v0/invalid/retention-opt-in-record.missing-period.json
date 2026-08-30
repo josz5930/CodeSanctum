@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "retention_record_id": "retention_record:opt-in-0004",
+  "source_derived_class": "customer_opt_in_retained_source",
+  "customer_approval_ref": "approval:synthetic-demo-opt-in-0004",
+  "retained_artifact_refs": [
+    "artifact_ref:opt_in_snippet_004"
+  ]
+}

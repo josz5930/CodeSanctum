@@ -1,0 +1,50 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "entries": [
+    {
+      "event_id": "sha256:4f985be9c79e8b67e8876497484968016e22264b28d2d4c0f7690cffb012ab1b",
+      "event_type": "receipt_issued",
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "actor_category": "vendor_service",
+      "artifact_refs": [
+        "artifact_ref:vendor_receipt_001"
+      ],
+      "visibility": "customer_facing",
+      "reason": "SYNTHETIC_DEMO_DATA intake receipt artifact recorded for the synthetic demo bundle. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "event_id": "sha256:0733d6881e9d60fca06abe9e732fee23e9aac7cd12d544797b01e323c350e16b",
+      "event_type": "customer_remediation_recorded",
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "actor_category": "customer_user",
+      "artifact_refs": [
+        "artifact_ref:finding_001"
+      ],
+      "visibility": "internal_only",
+      "reason": "NOT_CUSTOMER_SOURCE customer recorded a remediation for the synthetic finding"
+    },
+    {
+      "event_id": "sha256:d2e398f5df7c030663cd8ecc55178d1147fdd2e1a1f7ff4973ef32944c6297a6",
+      "event_type": "evidence_deleted",
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "actor_category": "vendor_service",
+      "artifact_refs": [
+        "artifact_ref:deletion_evidence_001"
+      ],
+      "visibility": "customer_facing",
+      "reason": "SYNTHETIC_DEMO_DATA source-derived working evidence removed after analysis"
+    },
+    {
+      "event_id": "sha256:7cedfc7c3ef14a0ccbde3933588daecbcf6e05994dee6de2aaaea2397b13b417",
+      "event_type": "remediation_guidance_recorded",
+      "event_timestamp": "2026-07-23T00:00:00Z",
+      "actor_category": "reviewer",
+      "artifact_refs": [
+        "artifact_ref:synthetic_likely_001"
+      ],
+      "visibility": "customer_facing",
+      "reason": "SYNTHETIC_DEMO_DATA reviewer remediation guidance recorded for customer-facing history. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

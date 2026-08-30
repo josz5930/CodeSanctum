@@ -1,0 +1,88 @@
+{
+  "protocol_version": "codeattest.v0",
+  "created_at": "2026-07-06T00:00:00Z",
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage_mode": "finding_context_snippets",
+  "include_metadata": true,
+  "include_dependency_information": true,
+  "include_scanner_findings": true,
+  "evidence_categories": [
+    {
+      "category": "metadata",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained review metadata"
+    },
+    {
+      "category": "dependencies",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained dependency metadata"
+    },
+    {
+      "category": "scanner_findings",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained Candidate Findings only"
+    },
+    {
+      "category": "raw_snippets",
+      "included": true,
+      "source_derived_class": "transient_source_derived",
+      "retention_handling": "transient capped finding-context Raw Snippets only"
+    },
+    {
+      "category": "targeted_files",
+      "included": false,
+      "source_derived_class": "never_collected",
+      "retention_handling": "not collected in finding-context mode"
+    },
+    {
+      "category": "derived_artifacts",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained derived policy metadata"
+    },
+    {
+      "category": "never_collected_items",
+      "included": false,
+      "source_derived_class": "never_collected",
+      "retention_handling": "complete repository archives and non-selected files are not collected",
+      "limitation": "No complete repository archive is represented by this policy."
+    }
+  ],
+  "snippet_policy": {
+    "allow_raw_snippets": true,
+    "max_snippet_chars": 800,
+    "context_lines": 2,
+    "redaction_profile": "synthetic-demo-redaction",
+    "raw_snippet_default_class": "transient_source_derived",
+    "selection_behavior": "finding_context",
+    "selected_files_or_areas": []
+  },
+  "redaction_policy": {
+    "enabled": true,
+    "profile": "synthetic-demo-redaction",
+    "configuration_version": "synthetic-demo-redaction-v0",
+    "limitation": "Redaction reduces exposure but secret detection cannot prove absence of secrets."
+  },
+  "retention_policy": {
+    "raw_snippet_class": "transient_source_derived",
+    "targeted_file_class": "transient_source_derived",
+    "retain_source_opt_in": false,
+    "retention_period": "not_applicable"
+  },
+  "warnings": [
+    "Finding-context snippets are Raw Snippets and remain source-code disclosure even when capped or redacted."
+  ],
+  "limitations": [
+    "Redaction reduces exposure but secret detection cannot prove absence of secrets.",
+    "Candidate Findings are scanner output only, not review findings.",
+    "No complete repository archive is collected."
+  ],
+  "synthetic_fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ]
+}

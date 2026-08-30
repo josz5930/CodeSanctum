@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:environment-readiness-decision",
+  "title": "Environment Readiness Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "decision": { "const": "approved" } },
+        "required": ["decision"]
+      },
+      "then": {
+        "required": ["decision_signature"]
+      },
+      "else": {
+        "not": { "required": ["decision_signature"] }
+      }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "readiness_decision_id",
+    "previous_gate_version",
+    "proposed_gate_version",
+    "proposed_gate_approval_input_digest",
+    "deployment_identity",
+    "release_digest",
+    "deployment_digest",
+    "evidence_bindings",
+    "approvers",
+    "decided_at",
+    "decision",
+    "limitations",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "readiness_decision_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "previous_gate_version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740990
+    },
+    "proposed_gate_version": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 9007199254740991
+    },
+    "proposed_gate_approval_input_digest": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "deployment_identity": {
+      "type": "string",
+      "const": "pilot"
+    },
+    "release_digest": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "deployment_digest": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "evidence_bindings": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "allOf": [
+        { "contains": { "properties": { "control": { "const": "access_control_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "control": { "const": "access_logging_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "control": { "const": "encryption_at_rest_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "control": { "const": "retention_defaults_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "control": { "const": "deletion_controls_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "control": { "const": "demo_budget_gate_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "control": { "const": "signing_release_trust_ready" } }, "required": ["control"] }, "minContains": 1, "maxContains": 1 }
+      ],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["control", "readiness_evidence_ref"],
+        "properties": {
+          "control": {
+            "type": "string",
+            "enum": [
+              "access_control_ready",
+              "access_logging_ready",
+              "encryption_at_rest_ready",
+              "retention_defaults_ready",
+              "deletion_controls_ready",
+              "demo_budget_gate_ready",
+              "signing_release_trust_ready"
+            ]
+          },
+          "readiness_evidence_ref": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+          }
+        }
+      }
+    },
+    "approvers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "allOf": [
+        { "contains": { "properties": { "approval_role": { "const": "pilot_security_owner" } }, "required": ["approval_role"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "approval_role": { "const": "pilot_operations_owner" } }, "required": ["approval_role"] }, "minContains": 1, "maxContains": 1 }
+      ],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["approval_role", "actor"],
+        "properties": {
+          "approval_role": {
+            "type": "string",
+            "enum": ["pilot_security_owner", "pilot_operations_owner"]
+          },
+          "actor": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["actor_type", "actor_id"],
+            "properties": {
+              "actor_type": {
+                "type": "string",
+                "const": "reviewer"
+              },
+              "actor_id": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "decided_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "declined"]
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "decision_signature": {
+      "$ref": "urn:codeattest:protocol:v0:signature-envelope"
+    },
+    "canonicalization": {
+      "type": "string",
+      "const": "rfc8785"
+    },
+    "identity_hash_algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "identity_input_excludes": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["readiness_decision_id", "decision_signature"]
+      }
+    }
+  }
+}

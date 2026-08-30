@@ -1,0 +1,41 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "verification_evidence_record_id": "verification_evidence:synthetic_validation_evidence",
+  "record_version": 1,
+  "verification_pass_id": "verification_pass:synthetic_pass_requires_validation_001",
+  "verification_pass_ref": "verification_pass:synthetic_pass_requires_validation_001",
+  "scope_version": 1,
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "requested_verification_type": "reviewer_authored_script_output",
+  "intake_state": "accepted_for_review",
+  "state_reason": "SYNTHETIC_DEMO_DATA validation metadata is ready for bounded reviewer evaluation. NOT_CUSTOMER_SOURCE.",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "validation_path_ref": "validation_path:synthetic_script_001",
+  "reviewer_validation_script_ref": "validation_script:synthetic_included_001",
+  "validation_artifacts": [
+    {
+      "artifact_ref": "artifact_ref:synthetic_validation_output",
+      "digest": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "size_bytes": 128,
+      "media_type": "application/json",
+      "source_derived_class": "retained_review_artifact"
+    }
+  ],
+  "recorded_at": "2026-07-30T12:00:00Z",
+  "access_scope": {
+    "tenant_id": "tenant:synthetic-demo",
+    "review_scope": "review:synthetic-demo-001"
+  },
+  "environment_profile": "synthetic_demo",
+  "disclosure_state": "metadata_only",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA evidence remains bounded to the formal path and criterion. NOT_CUSTOMER_SOURCE."
+  ],
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

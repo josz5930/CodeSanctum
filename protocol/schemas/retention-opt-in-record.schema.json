@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:retention-opt-in-record",
+  "title": "Retention Opt-In Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "retention_record_id",
+    "source_derived_class",
+    "customer_approval_ref",
+    "retention_period",
+    "retained_artifact_refs"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "retention_record_id": {
+      "type": "string",
+      "pattern": "^retention_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "customer_opt_in_retained_source"
+    },
+    "customer_approval_ref": {
+      "type": "string",
+      "pattern": "^approval:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "retention_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start_timestamp",
+        "end_timestamp"
+      ],
+      "properties": {
+        "start_timestamp": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+        },
+        "end_timestamp": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+        }
+      }
+    },
+    "retained_artifact_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+      }
+    },
+    "retention_status_event_ids": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^evidence_event:[a-z0-9][a-z0-9_-]{2,63}$"
+      }
+    }
+  }
+}

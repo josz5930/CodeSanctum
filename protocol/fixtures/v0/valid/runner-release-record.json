@@ -1,0 +1,10 @@
+{
+  "protocol_version": "codeattest.v0",
+  "release_identifier": "codeattest-local-runner-v0.1.0",
+  "build_identifier": "ci-build-0001",
+  "artifact_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "released_at": "2026-08-16T00:00:00Z",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA Test release record. NOT_CUSTOMER_SOURCE."
+  ]
+}

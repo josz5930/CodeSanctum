@@ -1,0 +1,84 @@
+{
+  "protocol_version": "codeattest.v0",
+  "readiness_decision_id": "sha256:9833f20369ea4e9acec1e890b133eb049264f6b098e3499505bd1beafde8dede",
+  "previous_gate_version": 1,
+  "proposed_gate_version": 2,
+  "proposed_gate_approval_input_digest": "sha256:14b8ca78f8af211829fae80035ff473a000386208e4281ae3c5f7595a31667ec",
+  "deployment_identity": "pilot",
+  "release_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "deployment_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "evidence_bindings": [
+    {
+      "control": "access_control_ready",
+      "readiness_evidence_ref": "sha256:ef130879d6925d2b94c12d270bd936dc92ad68c3486893d7f8219239c2253b64"
+    },
+    {
+      "control": "access_logging_ready",
+      "readiness_evidence_ref": "sha256:bc4090edef023694ac3a5bd5f09a2bffd09ed48c2071b9be8febd3633429958f"
+    },
+    {
+      "control": "encryption_at_rest_ready",
+      "readiness_evidence_ref": "sha256:5df13df944b927e3beebc028b9ff601f9477f37b34d2bba5742cae26d0a6ef5d"
+    },
+    {
+      "control": "retention_defaults_ready",
+      "readiness_evidence_ref": "sha256:f012b97fa2256f5912dd1a8af9fa69ad3812be5353abe24899e72625e1ddc414"
+    },
+    {
+      "control": "deletion_controls_ready",
+      "readiness_evidence_ref": "sha256:fc93da50216d6c690972ed764ac2cd38226acecbd181c8b07fc77b85a5302e4a"
+    },
+    {
+      "control": "demo_budget_gate_ready",
+      "readiness_evidence_ref": "sha256:cc04a5c5c41bf8360884bf844399cc3fd2230e499028c379db232dc24e78a7ca"
+    },
+    {
+      "control": "signing_release_trust_ready",
+      "readiness_evidence_ref": "sha256:728a0bcd1f27d7f846256e70408a05c3eb2403c47dd555a2f23643d10ad1abc2"
+    }
+  ],
+  "approvers": [
+    {
+      "approval_role": "pilot_security_owner",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "pilot-security-owner"
+      }
+    },
+    {
+      "approval_role": "pilot_operations_owner",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "pilot-operations-owner"
+      }
+    }
+  ],
+  "decided_at": "2026-08-23T10:00:00Z",
+  "decision": "approved",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA fixture models an approval without authorizing a live gate raise. NOT_CUSTOMER_SOURCE.",
+    "Key custody is self-hosted software custody in a non-validated cryptographic module, not a hardware security module."
+  ],
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "readiness_decision_id",
+    "decision_signature"
+  ],
+  "decision_signature": {
+    "protocol_version": "codeattest.v0",
+    "algorithm_profile": "ml_dsa_65",
+    "key_id": "synthetic-pilot-managed-key",
+    "key_version": "v1",
+    "signing_time": "2026-08-23T10:00:00Z",
+    "signed_identity_type": "environment_readiness_decision",
+    "signed_identity": "sha256:9833f20369ea4e9acec1e890b133eb049264f6b098e3499505bd1beafde8dede",
+    "canonicalization": "rfc8785",
+    "signing_mode": "managed_key",
+    "signing_limitations": [
+      "SYNTHETIC_DEMO_DATA fixture signature does not authorize a live gate raise. NOT_CUSTOMER_SOURCE.",
+      "Key custody is self-hosted software custody in a non-validated cryptographic module, not a hardware security module."
+    ],
+    "signature_bytes": "ml_dsa_65:er1U06eD1CNB7jbbdjClC9LtpyFh469FDTLWuwoLwkzwVe5NpTA1ubX7mcJpjCm_jenRE5fFPMba7kTKv5jbVu-xcmq1uIg1IkynnfBlJbztRrVVA0CeLazWhrPDAc2daAaQk5beN-SDwAfNrEvW5NXPUGnybuyAJyJiznsq-019vaNi4jukJor_FaNqXh4BgFQrQ9KLEVhyi4RDduFh6Sw0SiotL16CMid21sGMQNhIPt1jdpp_5MoRe8Iapdex0LXuK6vDyNa_m2vcK-4sOG1_N4BdGVxMMkB5eIScMgyHp8JgValX-sOEL9mfjq-H4DigyNogOM6WTQHKqYa03jd2LMQDnmZMTLOPjyuHOAz_JGAWpnBoY6KJydEvXyXlnpwYEnxYVtmyyZWBoc6dclSMhEbxpQIIRGXJ0FYzUwg8gKT9_R0ELylvuo7yIT4opUdwpXE054cl2iLUb39IbhGCbpHXALdT70IdZ5XuiHxWeFqoxwiN-G222TZ9jLSWMRPYL5uK_-JJ7zIrBodGSeul6Bi8OA1UocbsEGIpUYpo5OGxMF3JL2Ka_eZBrBiVrEcVdFEBMKYKt3XcVRD8nsa_w25kY6zTj5AUnnEDvpX-tidD33IUsJgmjkZVrPHXjvcHzocpR23bd7uua-xDzUcFr5fwZ-xTNdRqUIG3IF-sWAu_nKYYEz5K7oFPU09HV0rGuG38eAwkOeob0zP87yk9Bd4oX4Kqhu6KMTT5SsKSWxcqSE4jePNLbgXcbCgnuLEFekJ7ypykl4ETAN1ALazgwj8NR6wy-9hQW-cJ9E7FXAgc5Jba13QgWxDcne8rUgfQ4Sy3AKmmozCaQHZdYJKl791O9rT8R1Jppbc5UHqa9OZdRv0UpIOORhq6Dehq3GSVRaTdel83vG3jcHRQ_ScE9O0VTnLjAExZEYtumchDD7vNU79-nYDclSF54KIzXipmvpz_lgaKXGYmGqSCSHXKr-mhEHEsStQDzeGWrTBY7_FOdfNO9AjP4V2YewsrEQ6crzT67weSTbBvH7ZOXVvSCXH_5L0389uMPh87irQHRQkNuCWuAaQObpfZPxfzyD_OimwbVOgtLYZ2EKB3agBvQmc9V3hU_bKXyBfezTFBcYoiEU_gH_wJuDGxURPKxOtQ6ULdQSlLr18uoRu89owRorZgx4_snq8qXb56FKsPJPFCh0-QF1Yj9AcSuY3fH1lrKBIBEgJ0gS79GSRISYqU79N1Lxq4zBAFJBsdegOrCvt9q_YBGo55bnpxJ1fNKvQg2ybk76q1fc7Aj0vljCF2AU6zXoWgeFsIr2gwpa_Zk-pKuEkmIAQk-pInRKQrdl9RY0bsuPLxSYVCxImiJOq1oS252YEQyD4eehKw8q3ltYW-Gv4JoUAsEm8xXrLwlEdoovrdO-FDv2H4W9NLzTkRoNQAvd871HklyqS-sfjOJuOencVc0JamxXWbrzlp8I7MUx9Gt-v7UViJ0NErZ2beo7bPWB377XwbEUCVbaOhxOvU4nYMmrjcBhve4J2sKCl7YWKiG3W49jlNjppm7UTooeFyMQHw2gRVgLyhCbfyNhAutzufha6pfX_rjv2huON2d8locVtSGyBcNqhoLbHd_QkhlBz04gwy9bskPHdG2cCR7X6RajkAIwp7wjrFP4e5hBJWm1_0iElJssfuyEx3HB9QbzZAOeWOwK6S-v_1HA5HKHMn5QZGpW1FRxWI7MHVKr_hpI2KwAaHEmo7gOu9aDwGr18CtLz92-ohbjxI2uT6FakRPgLBq0T0YJDElTrge21YaUWrbF5Vd7CzYESH1EHNerTpbBGR8iZACOpuAaSE1Huk-PuENRMdHHsc57rERN6W1NjBY8KclCC9ZeAFFywXVqkHw6_guE9CmoQ4yeSieIPJbXaHGF6FKLuPVxzimwm61Fmb2VwGtkSjEyB6Y8HLyBZuUzgPNDdniYwgDB9VDNPCZm5TboJlv2syqi8OX8rqp50MPkTLyG3MmPv_RG-Va9tBUT6j7i9-Wc7MW3SHOvlkDkYCMOtc2O-Qs39UnaGINSxiDvygTVHCXRawng8cuwHdNb_PBZHfyW8Za7Xrro_8rKAzK897cklfOg2p0Wzp0esC0bblgfxcA-rvhUnjULV2jPiJ15LTuDir6jTu1gRZer_0N9QSUoestk3HCrhBNVSS-OkVus_8QT_ZIHVZGdTDPAEPEKN4Ary63hcapVZZT3YrRFu3s9nvf70HZQelwEUtyZEvu0ADSLI1IfSGXJDnM3yiwzENh-Ec7_lw9dduQmDp-3BpBlQOvN-SlEy228fw1VFC0ObGFVhfKv12IhRFRBPybKmU6YzwRhh71wMCgxKx7rnMAdoR5-Vp7Jh8UmWmUeUbl9HRLnm5n4ItjLro_RWGNygrQX9NbLeTg_7gdUTQbjqRonNPRuLl1pedqCBRmSdMs3Ulq7NVHVnujWw7-M7hXuiw1wpcZLt57O26uImCCA1xRj-TLvt2rDxuAx0Q2T6N9Ih4u51CpHMxT1w5OlO0Jji_X0VLnMfpu7CKM1UhA87A1WABwuNZWN5G2f4iJQlYVZVJ6Tg7C4SMZ8-a7cctaXtc1fNxgPXKyPiktP-iRaCy9e5CnwWPXQP4Irj6NrXtl4dBKavZq8FcJdlXaDRWfmUsb-7l4-jrIs3wkkId0APbfJokAZTfXZrGnBVBWCgS9VWeW1ie3IEI8MCSQmpWUCN2ugZm6iyhEghwWXNp6oCyvWndwJlF3Jh2uZLOZqoKODxmsKXiGHrIqOEltOsX9NvlKwF_LZWDdZJqTqMBrEzBZdztoxP2EUpGLII28lZb7BnjXt8v7RnuWAC-aPg2kXQQAkPRhc4OvV52rn0wDOLOOe1TiX9VLNf3qLla67ENnZA8kswNCMlEiMWeIcB12ehw7fjWlyoOEgWLBrCTpnCbVDWjPJEfdfW1ZhD131iEdATa4hjpytZ_EgEgeRhw_sxqYw399geb47sapXHmNYgjPg2b55KsNFx6ZOci27Rd1GgdOh9jn_wmRvSAsz_U2_Ul6HN6KngaINXIC-UrXPE43p2FNWrPtbVsHoFJ_rSU_Ggd1xg29ucg0jjnPaCDIXbzHI-qvAeV9gCCFgvC-7Bqi8ah9voEFh-i0LSQ2DN3rWBXskijM-Rd0AZ1XBojLdYOdcFYPd6zDpn_0ElB3Xch7jHiUz4OAr-s527Sns7gSTNcubHLWdiN0BnG8o13-VkLZSwB--p8TM7CFs13Ukx6aUhCvTRvXgU8vVveeCx4O-l8v7rGNoZIyMZl3RJZ30IXBOvxlak1G08OU0LNu10TlqvVVsOVVM9Azk35VnIX2S470h48-D8UnhTut9y9WPtVM013rZmQkMNCdrKKMSYgvz44XiHjo0bW4RoQ9cSCPAcIEwqIcoZbhVrvpygcxateQDNSRFRWDSt0CZTC4mQH2Zy46Z0U62g8a5fh8EhTxV2zlrGgMd_YuDz3-C0HSSGPPeSAef84aRc2-NVWzdZSJoMuP04nCctW4-rpvNNd0UMLlGes8uojuvgZ93jWzmggZ6XAEGIVBlPPgDr2oaQZfcCSbDebHB9y6huYPYHeTWPogReIrWQU5FIAydKlFpUNgI0XGnOnegYR31KGV_n-vzjOl6cbqoEbZAO6ej2xNwkDNCo4MLEHMgDJhSspI0mizr5S5SnaFcYqfz6yvg3_ohDezq7Sx7HRzZo1-8dYH-yBSKNfZKVrY4uqXhhg0g4P-SDevZT173HrC1xDlt91gTV1zLK79sYTl08a5l5vRdEsJ0wu9Lvxkf64Em6EtWGamwMypyVYGMSkYA9kRmHZGzXfrq4PjmQuQmRZZE9fFem7_5VhMs2fo6GKySh8-WC_1rXfhFOtNBXYqizYfWK_peuqiJQGV80kj8ZF8KIUAM4YfSqrSLKn-Er0BYCed4lq0cZiQPmtmoEjJ1U6JTf1SXCd65qp9CQbjQc7km9PYwrcH7vnSsttE-2zeYHFVlxWK6Kz3m5ZCMEsigghgjKzmVA4jSDPjeei0WoLm2WbvMdd584B5bYi_juq0_Z_rOczpuVwrsbPQ4sX2AVZ-SmnGh2YyfUaedDX_F1uIBSMIJSLKo2xAMuxKQ93ps1QVAaCg4Gh8GT_zmoZaWQPLtj-UJwY6YXphaM6j0eGQPQxUkSNENs1tT5WwFqe9ToQI-9g4np6HklcGzsXlW5TU9x89Q8kMgbGFb5md57UpE0mq1ZYwqi8JQ39rqh0TmBCa49TxBvVjeUGfE4HK3dg_5Z40GNPzg3Awu3rmQBDXjdDlO7QlqciLELj7MLP6Bk8Md7o6QwNHCxKhpLV2f4EXGZ2lrszapSsrQEODypsd4uOr8MBTlCDka_BAAAAAAAAAAAAAAAAAAAAAAAAAgkPFB4l"
+  }
+}

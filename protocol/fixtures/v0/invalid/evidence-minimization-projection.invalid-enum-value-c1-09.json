@@ -1,0 +1,12 @@
+{
+  "protocol_version": "codeattest.v0",
+  "fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "entries": [
+    {
+      "minimization_category": "invalid_enum_value"
+    }
+  ]
+}

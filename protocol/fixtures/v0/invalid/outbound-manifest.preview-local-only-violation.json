@@ -1,0 +1,217 @@
+{
+  "protocol_version": "codeattest.v0",
+  "manifest_id": "sha256:afafafafafafafafafafafafafafafafafafafafafafafafafafafafafafafaf",
+  "generated_at": "2026-07-10T00:00:00Z",
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+  "scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "selected_scope_summary": {
+    "selected_application": {
+      "application_id": "synthetic-demo-app",
+      "display_name": "Synthetic Demo Application"
+    },
+    "selected_commit": {
+      "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+      "source_control_system": "git"
+    },
+    "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+    "dependency_manifest_total_count": 4,
+    "dependency_manifest_detected_count": 2
+  },
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0-story-1.7-fixture"
+  },
+  "coverage_mode": "finding_context_snippets",
+  "disclosure_policy_summary": {
+    "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+    "coverage_mode": "finding_context_snippets",
+    "redaction_profile": "synthetic-demo-redaction",
+    "redaction_configuration_version": "synthetic-demo-redaction-v0",
+    "retention_period": "not_applicable"
+  },
+  "evidence_categories": [
+    {
+      "category": "metadata",
+      "included": true,
+      "inclusion_state": "included",
+      "count": 1,
+      "reference": "review_scope_ref",
+      "source_derived_class": "retained_review_artifact",
+      "source_code_disclosure": false,
+      "redaction_state": "not_applicable",
+      "redaction_configuration_version": "not_applicable",
+      "retention_handling": "retained review metadata",
+      "limitation": "Review scope metadata is included; source contents are not included by this category.",
+      "details": [
+        "Selected application, selected commit, repository identity hash, runner metadata, and technical context are included."
+      ]
+    },
+    {
+      "category": "dependencies",
+      "included": true,
+      "inclusion_state": "included",
+      "count": 2,
+      "reference": "review_scope.dependency_manifests",
+      "source_derived_class": "retained_review_artifact",
+      "source_code_disclosure": false,
+      "redaction_state": "not_applicable",
+      "redaction_configuration_version": "not_applicable",
+      "retention_handling": "retained dependency metadata",
+      "limitation": "Dependency names and manifest metadata are included; lockfile expansion may be unsupported.",
+      "details": [
+        "Detected package_json and requirements_txt dependency metadata are represented by count and reference: 2 detected of 4 total dependency manifest slots."
+      ]
+    },
+    {
+      "category": "scanner_findings",
+      "included": true,
+      "inclusion_state": "included",
+      "count": 2,
+      "reference": "scanner_finding_set_ref",
+      "source_derived_class": "retained_review_artifact",
+      "source_code_disclosure": false,
+      "redaction_state": "not_applicable",
+      "redaction_configuration_version": "not_applicable",
+      "retention_handling": "retained Candidate Findings only",
+      "limitation": "Candidate Findings are scanner output only and are not expert review findings.",
+      "details": [
+        "Candidate Finding identifiers, affected areas, rules, severity, confidence, and scanner run metadata are included."
+      ]
+    },
+    {
+      "category": "raw_snippets",
+      "included": true,
+      "inclusion_state": "included",
+      "count": 2,
+      "reference": "planned_finding_context_snippets",
+      "source_derived_class": "transient_source_derived",
+      "source_code_disclosure": true,
+      "redaction_state": "redaction_configured",
+      "redaction_configuration_version": "synthetic-demo-redaction-v0",
+      "retention_handling": "transient capped finding-context Raw Snippets only",
+      "limitation": "Raw Snippets are source-code disclosure; redaction configuration is recorded, and secret detection cannot prove absence of secrets.",
+      "details": [
+        "Source-code disclosure label: Raw Snippets.",
+        "Preview records planned snippet metadata only; no snippet source contents are included in this fixture.",
+        "Snippet cap is 800 characters with 2 context lines."
+      ],
+      "snippet_controls": {
+        "max_snippet_chars": 800,
+        "context_lines": 2,
+        "redaction_profile": "synthetic-demo-redaction",
+        "redaction_configuration_version": "synthetic-demo-redaction-v0",
+        "retention_class": "transient_source_derived",
+        "selected_files_or_areas": []
+      }
+    },
+    {
+      "category": "targeted_files",
+      "included": false,
+      "inclusion_state": "excluded_by_policy",
+      "count": 0,
+      "reference": "not_included_by_finding_context_policy",
+      "source_derived_class": "never_collected",
+      "source_code_disclosure": false,
+      "redaction_state": "not_applicable",
+      "redaction_configuration_version": "not_applicable",
+      "retention_handling": "not collected in finding-context mode",
+      "limitation": "Targeted files are excluded by the Disclosure Policy for finding-context mode.",
+      "details": [
+        "No selected files or area references are included."
+      ]
+    },
+    {
+      "category": "derived_artifacts",
+      "included": true,
+      "inclusion_state": "included",
+      "count": 4,
+      "reference": "review_scope_ref, scanner_finding_set_ref, disclosure_policy_ref, outbound_manifest_preview",
+      "source_derived_class": "retained_review_artifact",
+      "source_code_disclosure": false,
+      "redaction_state": "not_applicable",
+      "redaction_configuration_version": "not_applicable",
+      "retention_handling": "retained derived protocol metadata",
+      "limitation": "Derived artifacts describe local protocol metadata and preview state, not a submitted evidence bundle.",
+      "details": [
+        "Review scope, scanner finding set, Disclosure Policy, and outbound manifest metadata are represented."
+      ]
+    },
+    {
+      "category": "never_collected_items",
+      "included": false,
+      "inclusion_state": "never_collected",
+      "count": 5,
+      "reference": "data_minimization_boundary",
+      "source_derived_class": "never_collected",
+      "source_code_disclosure": false,
+      "redaction_state": "not_applicable",
+      "redaction_configuration_version": "not_applicable",
+      "retention_handling": "complete repository archives and non-selected files are not collected",
+      "limitation": "Data minimization boundary is explicit before approval or transmission.",
+      "details": [
+        "complete repository archive",
+        "full Git history",
+        "unapproved source files",
+        "unapproved Raw Snippets",
+        "local environment secrets"
+      ]
+    }
+  ],
+  "artifact_references": [
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:review_scope",
+      "artifact_type": "review_scope",
+      "digest": "sha256:e145a4ac1a8129b6fe96ee90bdfeb26cfd576eb1fe2e781b882e5db6bf0bb730",
+      "size_bytes": 2157,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:metadata",
+      "media_type": "application/json",
+      "content_path": "v0/valid/review-scope.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "artifact_type": "scanner_finding_set",
+      "digest": "sha256:d0efb693f6d8469b41d65de561e73a52caca0391debaab8d23396e95ccd7261f",
+      "size_bytes": 2329,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:scanner_findings",
+      "media_type": "application/json",
+      "content_path": "v0/valid/scanner-finding-set.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:disclosure_policy",
+      "artifact_type": "disclosure_policy",
+      "digest": "sha256:dae73c45f4e5f1624044b0e8d7619b83c11b5e527ba427935bc3810ca9f2fea4",
+      "size_bytes": 3265,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:derived_artifacts",
+      "media_type": "application/json",
+      "content_path": "v0/valid/disclosure-policy.json",
+      "content_path_anchor": "fixture_root"
+    }
+  ],
+  "package_preview_state": {
+    "state": "preview_generated",
+    "send_ready": false,
+    "local_only": false
+  },
+  "approval": {
+    "approval_state": "not_requested"
+  },
+  "warnings": [
+    "Manifest preview is local-only and does not transmit evidence.",
+    "Raw Snippets are source-code disclosure even when capped or redaction is configured.",
+    "Redaction configuration is recorded, but secret detection cannot prove absence of secrets."
+  ],
+  "limitations": [
+    "Preview records manifest metadata only; it is not an approved, signed, submitted, or received evidence bundle.",
+    "Candidate Findings are scanner output only, not review findings.",
+    "No complete repository archive is collected or represented."
+  ]
+}

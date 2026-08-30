@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "invalid_enum_value",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "outbound_manifest",
+  "signed_identity": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/outbound-manifest.identity-input.json"
+}

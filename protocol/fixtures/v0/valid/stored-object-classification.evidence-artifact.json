@@ -1,0 +1,8 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic-demo-snippet-001",
+  "object_kind": "evidence_artifact",
+  "source_derived_class": "transient_source_derived",
+  "environment_profile": "synthetic_demo",
+  "artifact_ref": "artifact_ref:raw_snippet_001"
+}

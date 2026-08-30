@@ -1,0 +1,29 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:5e16c2e31288b0a5526007519b186eb221f0469f4120beae13569fb4a0fd1444",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "verification_scope:review:synthetic-demo-001:verification_pass:synthetic_pass_requires_validation_001:scope_version:1",
+      "event_type": "verification_scope_recorded",
+      "actor": {
+        "actor_type": "vendor_service",
+        "actor_id": "vendor:synthetic-control-plane"
+      },
+      "event_timestamp": "2026-07-29T12:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_pass_requires_validation_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA verification pass scope recorded for selected findings only. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

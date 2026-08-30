@@ -1,0 +1,66 @@
+{
+  "protocol_version": "codeattest.v0",
+  "previous_gate_version": 1,
+  "proposed_gate_version": 2,
+  "proposed_gate_approval_input_digest": "sha256:14b8ca78f8af211829fae80035ff473a000386208e4281ae3c5f7595a31667ec",
+  "deployment_identity": "pilot",
+  "release_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "deployment_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "evidence_bindings": [
+    {
+      "control": "access_control_ready",
+      "readiness_evidence_ref": "sha256:68bc87af7a6295f2a5dba363e8f0d73c6aa1bb35b281b4dc34b5b5b0fa5b50cc"
+    },
+    {
+      "control": "access_logging_ready",
+      "readiness_evidence_ref": "sha256:bc4090edef023694ac3a5bd5f09a2bffd09ed48c2071b9be8febd3633429958f"
+    },
+    {
+      "control": "encryption_at_rest_ready",
+      "readiness_evidence_ref": "sha256:19eecb79d0edd91126836af7416ed2b9fd705ca993ea79e54123f2b620aed0fb"
+    },
+    {
+      "control": "retention_defaults_ready",
+      "readiness_evidence_ref": "sha256:f012b97fa2256f5912dd1a8af9fa69ad3812be5353abe24899e72625e1ddc414"
+    },
+    {
+      "control": "deletion_controls_ready",
+      "readiness_evidence_ref": "sha256:fc93da50216d6c690972ed764ac2cd38226acecbd181c8b07fc77b85a5302e4a"
+    },
+    {
+      "control": "demo_budget_gate_ready",
+      "readiness_evidence_ref": "sha256:cc04a5c5c41bf8360884bf844399cc3fd2230e499028c379db232dc24e78a7ca"
+    },
+    {
+      "control": "signing_release_trust_ready",
+      "readiness_evidence_ref": "sha256:728a0bcd1f27d7f846256e70408a05c3eb2403c47dd555a2f23643d10ad1abc2"
+    }
+  ],
+  "approvers": [
+    {
+      "approval_role": "pilot_security_owner",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "pilot-security-owner"
+      }
+    },
+    {
+      "approval_role": "pilot_operations_owner",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "pilot-operations-owner"
+      }
+    }
+  ],
+  "decided_at": "2026-08-23T10:00:00Z",
+  "decision": "declined",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA fixture retains a no-go decision after an encryption control failed. NOT_CUSTOMER_SOURCE."
+  ],
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "readiness_decision_id",
+    "decision_signature"
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:finding-validation-path",
+  "title": "Finding Validation Path",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "validation_path_id",
+    "classification_record_ref",
+    "review_finding_draft_ref",
+    "review_finding_draft_evidence_refs",
+    "path_type",
+    "required_evidence",
+    "steps",
+    "expected_result",
+    "limitations",
+    "included_pass_verifiability",
+    "authored_at",
+    "actor",
+    "source_reference_state",
+    "source_derived_class",
+    "visibility"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "validation_path_id": {
+      "type": "string",
+      "pattern": "^validation_path:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "classification_record_ref": {
+      "type": "string",
+      "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "review_finding_draft_ref": {
+      "type": "string",
+      "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "review_finding_draft_evidence_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_ref",
+          "availability_state",
+          "available_for_review",
+          "display_state",
+          "source_derived_class"
+        ],
+        "properties": {
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "availability_state": {
+            "type": "string",
+            "enum": [
+              "retained_review_artifact",
+              "deleted_under_policy",
+              "never_collected",
+              "not_submitted_by_policy",
+              "unresolved_reference"
+            ]
+          },
+          "available_for_review": {
+            "type": "boolean"
+          },
+          "display_state": {
+            "type": "string",
+            "enum": [
+              "available_reference",
+              "deleted",
+              "not_collected",
+              "not_submitted",
+              "unresolved_reference"
+            ]
+          },
+          "deletion_evidence_ref": {
+            "type": "string",
+            "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "source_derived_class": {
+            "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+          }
+        }
+      }
+    },
+    "remediation_guidance_ref": {
+      "type": "string",
+      "pattern": "^remediation_guidance:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "path_type": {
+      "type": "string",
+      "enum": ["remote_dynamic_testing", "customer_run_script", "manual_steps"]
+    },
+    "required_evidence": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "steps": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "expected_result": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "included_pass_verifiability": {
+      "type": "string",
+      "enum": [
+        "verifiable_within_included_pass",
+        "customer_provided_evidence_required",
+        "additional_agreement_required"
+      ]
+    },
+    "reviewer_validation_script_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^validation_script:[a-z0-9][a-z0-9_-]{2,63}$"
+      }
+    },
+    "output_attachment_instructions": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "target": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "authorization_assumption": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "method": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "safety_constraints": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "evidence_artifacts_to_collect": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+      }
+    },
+    "authored_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "const": "reviewer"
+        },
+        "actor_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "source_reference_state": {
+      "type": "string",
+      "enum": [
+        "retained_review_artifact",
+        "deleted_under_policy",
+        "never_collected",
+        "not_submitted_by_policy",
+        "unresolved_reference"
+      ]
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["customer_facing", "internal_only"]
+    }
+  }
+}

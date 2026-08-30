@@ -1,0 +1,16 @@
+{
+  "protocol_version": "codeattest.v0",
+  "artifact_ref": "artifact_ref:malformed_digest",
+  "artifact_type": "raw_snippet",
+  "digest": "sha256:not-a-hex-digest",
+  "size_bytes": 230,
+  "source_derived_class": "transient_source_derived",
+  "manifest_entry_ref": "manifest_entry:malformed_digest",
+  "media_type": "text/plain",
+  "content_path": "demo-raw-snippet.synthetic.txt",
+  "synthetic_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "content_path_anchor": "fixture_root"
+}

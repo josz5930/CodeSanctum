@@ -1,0 +1,47 @@
+{
+  "protocol_version": "codeattest.v0",
+  "attempt_id": "runner_attempt:enum_disclosure_configure",
+  "stage": "disclosure_configure",
+  "outcome": "failed",
+  "review_state": "unapproved_not_submitted",
+  "approval_state": "not_requested",
+  "bundle_state": "not_created",
+  "remote_state": "not_submitted",
+  "occurred_at": "2026-07-10T00:20:00Z",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0"
+  },
+  "runner_trust": {
+    "runner_name": "codeattest-local-runner",
+    "runner_version": "0.0.0",
+    "build_identifier": "local-dev-build",
+    "release_identifier": "unreleased-local",
+    "release_signature_status": "unsigned_local_build",
+    "bundle_signing_mode": "enrolled_runner_key",
+    "trust_label": "demo_only_unsigned",
+    "evidence_boundary": "synthetic-demo-only",
+    "limitations": [
+      "This unsigned local build is for SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE workflows only.",
+      "Synthetic demo bundle signatures are not production ML-DSA assurance."
+    ]
+  },
+  "identities": {
+    "selected_commit": "0123456789abcdef0123456789abcdef01234567",
+    "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8"
+  },
+  "diagnostics": {
+    "stage_failed": "disclosure_configure",
+    "failure_code": "manifest_chain_invalid",
+    "message": "SYNTHETIC_DEMO_DATA disclosure_configure failed in enum coverage. NOT_CUSTOMER_SOURCE.",
+    "retryable": true,
+    "sensitive_detail_omitted": true,
+    "raw_snippets_printed": false,
+    "support_summary": "Inspect the synthetic disclosure_configure inputs and retry."
+  },
+  "next_actions": [
+    "fix local protocol inputs",
+    "rerun manifest preview",
+    "request approval only after a preview succeeds"
+  ]
+}

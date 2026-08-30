@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:static-portal-projection",
+  "title": "Static Portal Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "static_portal_projection_id",
+    "review_id",
+    "static_bundle_id",
+    "static_bundle_manifest_ref",
+    "generated_at",
+    "navigation",
+    "documents",
+    "capabilities",
+    "asset_policy",
+    "customer_safe_projection",
+    "visibility"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "static_portal_projection_id": { "type": "string", "pattern": "^static_portal_projection:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "static_bundle_id": { "type": "string", "pattern": "^static_bundle:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "static_bundle_manifest_ref": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "generated_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "navigation": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["section_id", "label", "relative_path", "order"],
+        "properties": {
+          "section_id": { "type": "string", "enum": ["overview", "scope", "receipt_chain", "methods", "findings", "validation_remediation", "limitations", "appendices"] },
+          "label": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "relative_path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[a-zA-Z0-9._/-]+$" },
+          "order": { "type": "integer", "minimum": 1, "maximum": 8 }
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["document_id", "section_id", "title", "summary", "relative_path", "source_artifact_refs", "copyable_identity_values", "phone_summary", "print_included", "search_included"],
+        "properties": {
+          "document_id": { "type": "string", "pattern": "^portal_document:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "section_id": { "type": "string", "enum": ["overview", "scope", "receipt_chain", "methods", "findings", "validation_remediation", "limitations", "appendices"] },
+          "title": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "relative_path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[a-zA-Z0-9._/-]+$" },
+          "source_artifact_refs": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } },
+          "copyable_identity_values": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" } },
+          "phone_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "print_included": { "type": "boolean", "const": true },
+          "search_included": { "type": "boolean", "const": true }
+        }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["offline_navigation", "offline_search", "print_export", "copy_controls", "phone_readable_summaries"],
+      "properties": {
+        "offline_navigation": { "type": "boolean", "const": true },
+        "offline_search": { "type": "boolean", "const": true },
+        "print_export": { "type": "boolean", "const": true },
+        "copy_controls": { "type": "boolean", "const": true },
+        "phone_readable_summaries": { "type": "boolean", "const": true }
+      }
+    },
+    "asset_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["remote_assets_allowed", "analytics_allowed", "live_api_calls_allowed", "runtime_authorization_required", "relative_links_only"],
+      "properties": {
+        "remote_assets_allowed": { "type": "boolean", "const": false },
+        "analytics_allowed": { "type": "boolean", "const": false },
+        "live_api_calls_allowed": { "type": "boolean", "const": false },
+        "runtime_authorization_required": { "type": "boolean", "const": false },
+        "relative_links_only": { "type": "boolean", "const": true }
+      }
+    },
+    "customer_safe_projection": { "type": "boolean", "const": true },
+    "visibility": { "type": "string", "const": "customer_facing" }
+  }
+}

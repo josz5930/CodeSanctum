@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "static_bundle_manifest_identity",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "static_bundle_manifest",
+  "signed_identity": "sha256:eff5abdc01fde072b92c02e482cbab62bc5ba21860f4f6b098696599abf0f138",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/static-bundle-manifest.finalized.identity-input.json"
+}

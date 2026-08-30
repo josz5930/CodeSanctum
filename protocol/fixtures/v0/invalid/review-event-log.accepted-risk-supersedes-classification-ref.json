@@ -1,0 +1,30 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:276ccd1d0fb7a5c5ae8ab821859e5a52f48930a7b101c8cd4b8e7717272ea662",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "accepted_risk:review:synthetic-demo-001:accepted_risk:synthetic_customer_001",
+      "event_type": "customer_accepted_risk_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-28T02:05:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_customer_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "Accepted risk recorded for review_finding_draft:demo_finding_context. Customer rationale: SYNTHETIC_DEMO_DATA customer approved carrying residual risk. NOT_CUSTOMER_SOURCE.",
+      "supersedes_classification_record_ref": "classification_record:synthetic_likely_001"
+    }
+  ]
+}

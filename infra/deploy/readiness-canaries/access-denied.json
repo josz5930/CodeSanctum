@@ -1,0 +1,6 @@
+{
+  "marker": "SYNTHETIC_DEMO_DATA",
+  "source": "NOT_CUSTOMER_SOURCE",
+  "scenario": "unauthenticated-read-denied",
+  "expected_outcome": "closed_without_bytes"
+}

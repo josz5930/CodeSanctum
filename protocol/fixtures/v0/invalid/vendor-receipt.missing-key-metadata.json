@@ -1,0 +1,193 @@
+{
+  "vendor_receipt_id": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "protocol_version": "codeattest.v0",
+  "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "receipt_timestamp": "2026-07-10T00:20:00Z",
+  "receiving_environment": {
+    "environment_profile": "synthetic_demo",
+    "evidence_boundary": "synthetic-demo-only"
+  },
+  "verification_state": "received_with_receipt",
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "vendor_receipt_id",
+    "receipt_signature",
+    "public_verification_metadata.signed_identity"
+  ],
+  "source_derived_class": "retained_review_artifact",
+  "approved_outbound_manifest_ref": "artifact_ref:outbound_manifest",
+  "bundle_instance_id": "bundle_instance:synthetic_demo_001",
+  "submission_attempt_id": "submission_attempt:synthetic_demo_001",
+  "selected_application": {
+    "application_id": "synthetic-demo-app",
+    "display_name": "Synthetic Demo Application"
+  },
+  "selected_commit": {
+    "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+    "source_control_system": "git"
+  },
+  "repository_identity_hash": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+  "coverage_mode": "finding_context_snippets",
+  "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+  "disclosure_policy_summary": {
+    "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+    "coverage_mode": "finding_context_snippets",
+    "redaction_profile": "synthetic-demo-redaction",
+    "redaction_configuration_version": "synthetic-demo-redaction-v0",
+    "retention_period": "not_applicable"
+  },
+  "approved_artifact_count_summary": {
+    "count_domain": "evidence_category_counts",
+    "total_count": 16,
+    "categories": [
+      {
+        "category": "metadata",
+        "count": 1
+      },
+      {
+        "category": "dependencies",
+        "count": 2
+      },
+      {
+        "category": "scanner_findings",
+        "count": 2
+      },
+      {
+        "category": "raw_snippets",
+        "count": 2
+      },
+      {
+        "category": "targeted_files",
+        "count": 0
+      },
+      {
+        "category": "derived_artifacts",
+        "count": 4
+      },
+      {
+        "category": "never_collected_items",
+        "count": 5
+      }
+    ]
+  },
+  "received_artifact_count_summary": {
+    "count_domain": "evidence_category_counts",
+    "total_count": 16,
+    "categories": [
+      {
+        "category": "metadata",
+        "count": 1
+      },
+      {
+        "category": "dependencies",
+        "count": 2
+      },
+      {
+        "category": "scanner_findings",
+        "count": 2
+      },
+      {
+        "category": "raw_snippets",
+        "count": 2
+      },
+      {
+        "category": "targeted_files",
+        "count": 0
+      },
+      {
+        "category": "derived_artifacts",
+        "count": 4
+      },
+      {
+        "category": "never_collected_items",
+        "count": 5
+      }
+    ]
+  },
+  "approved_vs_received_comparison": {
+    "comparison_state": "matched",
+    "rows": [
+      {
+        "field": "manifest_id",
+        "approved_value": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+        "received_value": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+        "result": "matched"
+      },
+      {
+        "field": "evidence_bundle_id",
+        "approved_value": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+        "received_value": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+        "result": "matched"
+      },
+      {
+        "field": "selected_commit",
+        "approved_value": "0123456789abcdef0123456789abcdef01234567",
+        "received_value": "0123456789abcdef0123456789abcdef01234567",
+        "result": "matched"
+      },
+      {
+        "field": "repository_identity_hash",
+        "approved_value": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+        "received_value": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+        "result": "matched"
+      },
+      {
+        "field": "coverage_mode",
+        "approved_value": "finding_context_snippets",
+        "received_value": "finding_context_snippets",
+        "result": "matched"
+      },
+      {
+        "field": "artifact_count_summary",
+        "approved_value": "evidence_category_counts:16",
+        "received_value": "evidence_category_counts:16",
+        "result": "matched"
+      },
+      {
+        "field": "disclosure_policy_summary",
+        "approved_value": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8:finding_context_snippets:synthetic-demo-redaction-v0",
+        "received_value": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8:finding_context_snippets:synthetic-demo-redaction-v0",
+        "result": "matched"
+      }
+    ]
+  },
+  "public_verification_metadata": {
+    "protocol_version": "codeattest.v0",
+    "algorithm_profile": "ml_dsa_65",
+    "canonicalization": "rfc8785",
+    "key_id": "codeattest-vendor-receipt-demo-key",
+    "public_key_reference": "fixture:vendor-receipt-synthetic-demo-public-key",
+    "signing_time": "2026-07-10T00:20:00Z",
+    "signed_identity_type": "vendor_receipt",
+    "signing_mode": "managed_key",
+    "signing_limitations": [
+      "SYNTHETIC_DEMO_DATA This signature covers synthetic fixture data. NOT_CUSTOMER_SOURCE.",
+      "Key custody is self-hosted software custody in a non-validated cryptographic module, not a hardware security module.",
+      "A valid signature shows which deployment key produced this artifact and says nothing about the completeness or quality of any review."
+    ],
+    "signed_identity": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2"
+  },
+  "key_rotation_readiness": {
+    "historical_key_id": "codeattest-vendor-receipt-demo-key",
+    "historical_key_version": "story-2.3-synthetic-demo",
+    "event_append_hint": "future_story_2_4_append_key_rotation_event_without_rewriting_receipt"
+  },
+  "receipt_signature": {
+    "protocol_version": "codeattest.v0",
+    "algorithm_profile": "ml_dsa_65",
+    "key_id": "codeattest-vendor-receipt-demo-key",
+    "signing_time": "2026-07-10T00:20:00Z",
+    "signed_identity_type": "vendor_receipt",
+    "signed_identity": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+    "canonicalization": "rfc8785",
+    "signing_mode": "managed_key",
+    "signing_limitations": [
+      "SYNTHETIC_DEMO_DATA This signature covers synthetic fixture data. NOT_CUSTOMER_SOURCE.",
+      "Key custody is self-hosted software custody in a non-validated cryptographic module, not a hardware security module.",
+      "A valid signature shows which deployment key produced this artifact and says nothing about the completeness or quality of any review."
+    ],
+    "signature_bytes": "ml_dsa_65:jogKTlt9oVZJp3gj5nltgxKGBWxm-ISyF0NHpmndqv1zGjrs_uekNl2B8zWaWBqpdb-AYwLXLQThhZsT0G_Y_mjFtBcgXzG7bjYsmpWdMvhU5rlLUBrh0USYoDcWdmoUcIAWSfxJGabVCN-h6-nokoKFolkCAjIxeZXxMCQFffxkR7MtlpIl23mw94cn5yftLBeW9g50BOsc6dnO7RF7x9zvPjBn4nuNjlJ-cmmo7WuwsJtPKu0fFQ76x0OjSH7VRkdrmJFUoNCQ0Q4ZtlEXXq_VmQbqYiRt8uZLjuP4TAULMiuyhiMZ_0SoBelG2EIzcI0tU_2bbhFvyRG0p4ul4PldYvdjQgsCLMEC_KjwIK4fLwFhMo5dsU7ZggyKLiC6JRbsQGsDBI29CLD3f9AxREVUxmtxCagNFcXwdaa3mJVOGOy1BvD9B810bXmJckUQVQvpOBj2Um3UFZXNXr36URZibVAWsmG7j4nJX7jc04WnvCM4NWGs4Wkmlr3o2e7XIOxTnaEy_Yr7epZFmZ6I8iceophG6Hp8KHqXguMbDZqcOUj-1ioChyTRHlldNZDaMnjD3XhfS8AUqFjVGvl6_ZbttQz4HYe27zsBmCwvD1aWzJ7CPtDr6kJA_wyAYqYpRLs_Mcm-Amq3TyUBI61gxAvsPjXirov18l8V13elX_-vAIo0S_vzQM8CQeJtV3EQG92V5sj1VjU9OPo7ViO3gVvaPlJw9jOksONTXQQ7lTgLB0HxyRlL1xhQzIvbCXirzOVNGT9jemDf-0nETEYImP-lCut7XcfkPmnmLNGggyABxBIovCPdcY_8tM0R4gQGSV86ATK5ogCGtwJA4ZNZOSPplqIiRFkTZdxVVZjhkTAoCXCQkEzR0oD4ZWWMjKP7MmxLuQ69XtSn0V7tckwwfY6I0gEk32Hbo5cL-gH5dPHmp6sHXQVUAxwEt28Ce4rlTIdyWEnxXcKc36J43-0nzeiQIRXOk5TS_-jGZnxVSRibS3eBdwMMchhYE8izLG4QKS-zPgsPFY9RMg-Rm-thEz0UVqaRelPEQvMrDnQBKXj-gcdeqEfpZxU0dYfq8mU5A1j77Ubj4x2DKbAcq2qtV9Q9lD6HuUaRXtlC6MNAD7ijTv-Qopvb61BBTF5fLQFSBx9-yw4I_J5u4EmRfjywdA13dgwbcNAX_IepltxWWHJ6k-tZqgLw6CDKTccZwQ7xJCQe_iChIZ_nqMBMHviLClEU3PXs2PaqyiLB8cJFqtBfKb6WefyRIXHIXOE_lqf2j4gOhqFish6TvJF8imowmRk6bcvVZLlnlB3_E7jTmGb0pHxiAQPKesGew33qyA2CuL-zIjNXqZFm_zxip1UAe-QNLsX0Rr7p82dDevyd5YrXB_hNI6qrW7P5HmjdE6suoyKn5dERDpK0GuvHrkCAXE51nCUaibJxUDmkjcb0t26Cyzc5FHS0eiSRyPxpI6uNeDGVjtbbqWLk5kLh4S-j46YYGmSBeuoZSXqm4Y_0o0PCrBOcVaihvN8DKb3w-GKPcn7sLVlFYC2yfnjqW9qmPURkgGobsgJ85j1sJdP4WUlQslAKwvVpJo8E9679nOdsqZlsoVZ867h6fV0GDUBElWr1MiYeFWFBPIks_E3M89SacxutCwilc-cQmtAFA7-gjxRNVqNFazZsaSytDbVCLlbIVYXWJNx93J5vMvXMr7QD28018Ox0EDdq_oHgkzlN7jmC_JIBD4_TeSKYw5gzoFOKiA-FIbynfBGcmNg0a4zAKXR0Nnn7dVhZUGlc1o0j_5VI_f6E3dKDwNyk3cUeNfvNPDWp0Wr-rovR0aqbWizAOGqM0pcct1BBP717T_RQQKWaCnlNDstlCr5x16Y6IemSNciRkiSL4sYMbqeeOd359liYOYHwX5Yyt7FIRFJlVzcdObrHjdwvV0ot17HCiKTlHsWC2vBVJrR1MwcxaJBP2YlgjMBX_M7F-GeamEf-Gb7LX-Z6GTAZ80zIdm784BwbhPZU8p30rkltOy4d4RwR1xjcve5EyTCqt9lyNkBwzvpqv8coxUCZQGUN-QzbE25WFqc_f20JLoImGB2GH65Uyv4tno03I4sQA7mS-VuDKz6R5c1vIoXxSPQHoUmDratj2kUuN_-5SILZjn8_2ytn6qqvWZLgLdU8jQeuRWINIhlzYXXHPX8klI-OiwDZdG040MqV-Fu4bTaowEZTIhtB5vx2lkPZvBpDJdJOT4rvJlMMZMXgVBM542eBHuWgAJOa86QEl_DfZrJSpDnDpv3AVATNzvIq5t-kQJB0tjIu1NBxC5KR3H2KM9s0RzPl9hGhaUakvlbDUNtQPrEoayypXLTFdxkEChaWVMxBs-4CBuMOcNTaThAOJ2xy7ks38jokbP03TEopmwHfu5tOR7xAABSvUb-OFmeXWZUyhZNXkCx6_rDnDPIZvUhCC-disC0v7KFECEHtkrJM0NmOzK-UgSFsMvOH8E00kGlxwkYmB9HBfRDykd0KI7WRGdiojPKoodOfEeJO0vZzfQBxEEmaFD0LgH7OWxBm98D8YUs6tf2GlhQYFVj09fKWct_BvElcRFq5COp1SJDAR0P0ZhHyX0-aoYaY9o3g0_eRCUGCScbyXc22G_8ij0oWmRSlPPONU0b-elWTGyrRdJ8W__WLFj20HazTIh8ZG4scTOaKrbK0uPTpGoa6QCwV1QxZPDxrSuoNWfm8h9v2r3E7sTd5CBoXT8WWE-3SqwymJi9v6OOsj2AXrskTxU_1oeu4O55if4JKuTO-reA23Ol9z2s_JQLWxCSOEEuPBcYHrCt-RtuMzVtWNRB_P44nm8wcO91CA_mrHMiOIhiGLg18xya3VZeRWiTSu8REeNr3J9w5HodRRRxz5BkpJNOl5w8FAjuOtBP09qOeEy4ccITawjXSVMA5-C3i5Nyk9QP-RFFx3H5kVCTvnOpA69M9lkJcw5SPVZwsoxEKKc1pIHIUUr2aWdatobgFc8oiuCLOFMgyisEOktz-EpC2H4VsR14VgiTJazyU1w64mUnep_lnJHgHGtEt_bIDXFhk3IzVVFqga7f95FXRoq8bHpw577QeKbFydAPWmSigMaXKUGN8OoETWD8iyG7EcxLK8uRi46xBqi316R_fviK3Ct3lQVFyD9rR4tZo01eY7pwZcMl9JeV7yjpS8f3HkGu-k0ol2ph66DNDE0e_goyvdA7aPWOn-STE2KppYTqQkfk8_s7Zij7iqGl1wULKPmY6I42VwgBjKOGKgaM8vaOnz6qeTFV9NuVzeUdgdIBS6tjNa9xt6TOyGThTroPZIvkmuqutM6yfjvFSdE6s8OCF-qYkEQ0w-aBuUgZ_v6LyiJpuY-kIB1qYGKXAAVN7Ndf9wgWCb2P5zIOXDyVPt2UYo7vECUuz7LAzEVRdQ4B-JEg_boH8H3N8Em2fZYkJYCc4mQdmWtgZ-ogTSOsOXiDpzbuVPXvk840GYY9JQPoc9ioU4VgDZK8WwdXAbt-AeANqL5PtUvrCfYjzJuijoZH6r7HqYz-YMQ6vCYWIeqhzWI9W2rpxlLiRYRH_OEtPDvEq2ndK6SLRxh_vAzSywqG6_SrQjge0A8yOvsVCejPDgSVKD50cxKadi1IXylb1XiXYnbg-gaInlRo-It8Fi95usVvabMBFUGY2SYOesB0yIq5bMO35Ohqyxc0lzB-97TUxtc0lql2ALTALWD-Y4vsLVsY4xQehuQQq0Cu_UXp9wQeY1-oH3r19a1q1Y3U2p_RGRmNjxa4mUeseuKbHGwJW6BK50lFxadGgf3MwaRfg3aeB-BhZNUYH4ZM4SIQy9GWx_qZfMBqYkASIFGHVCd4PL2CMO0Kr33AQ5mDSUTOjxGrXNyC2Ynus0WDDPjx61w_yWbtqW7Oj7z1ph8nXfe2oF_5dRycIbmpqtfNaj3gTmH2ukbU2Vxze3UW6PIcVaLVNsTVJ_8v3F07TNEP1ZCS0YJb6fRhxp2syaRM9NnYqGWTL5gpH6eqQDVmhjAfoS24ZpeAN-lD8vpHUezklRp20xe8MNU9exew8WI_5LgfaelnGm32YPB-CcgoqiR6YkBKwZIm6Ep8IewbQv1tlfZuRowhOLY0zg8ae0yc55jDZPQH40CHT7jL70X7qn7d8crnIQID1OQzXQZz-fJE3tquWuEf0LsORhAFKbZaN0Dhtu-njeRzD226jwxqrcVZ5RmTHNt0Yg3g0U8h3-TCHfmqzNph7vrJ4ERPVREOCB_jBARx-wA87yjFBt9OjRUz0wC3dS2eNbkFOaMuA6MFtr5mb314fegV5F20HOS1_82jTHTJfrWkvB-YhOz6FhpGdrB80eLrmJENaY4ON6PX_Kp7dg4y_BC06YGh4v_n_AAAAAAAAAAAAAAAAAAAAAAAACA0WGRwl"
+  }
+}

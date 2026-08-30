@@ -1,0 +1,430 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:vendor-receipt",
+  "title": "Vendor Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "vendor_receipt_id",
+    "evidence_bundle_id",
+    "manifest_id",
+    "receipt_timestamp",
+    "receiving_environment",
+    "verification_state",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes",
+    "source_derived_class",
+    "approved_outbound_manifest_ref",
+    "bundle_instance_id",
+    "submission_attempt_id",
+    "selected_application",
+    "selected_commit",
+    "repository_identity_hash",
+    "coverage_mode",
+    "disclosure_policy_ref",
+    "disclosure_policy_summary",
+    "approved_artifact_count_summary",
+    "received_artifact_count_summary",
+    "approved_vs_received_comparison",
+    "receipt_signature",
+    "public_verification_metadata",
+    "key_rotation_readiness"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "vendor_receipt_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "evidence_bundle_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "manifest_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "receipt_timestamp": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "receiving_environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment_profile", "evidence_boundary"],
+      "properties": {
+        "environment_profile": {
+          "type": "string",
+          "enum": ["synthetic_demo", "partner_pilot_candidate", "partner_pilot_real_snippet_ready"]
+        },
+        "evidence_boundary": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "verification_state": {
+      "type": "string",
+      "const": "received_with_receipt"
+    },
+    "canonicalization": {
+      "type": "string",
+      "const": "rfc8785"
+    },
+    "identity_hash_algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "identity_input_excludes": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["vendor_receipt_id", "receipt_signature", "public_verification_metadata.signed_identity"]
+      }
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    },
+    "approved_outbound_manifest_ref": {
+      "type": "string",
+      "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "bundle_instance_id": {
+      "type": "string",
+      "pattern": "^bundle_instance:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "submission_attempt_id": {
+      "type": "string",
+      "pattern": "^submission_attempt:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "selected_application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["application_id", "display_name"],
+      "properties": {
+        "application_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "display_name": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "selected_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_sha", "source_control_system"],
+      "properties": {
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "source_control_system": {
+          "type": "string",
+          "enum": ["git"]
+        }
+      }
+    },
+    "repository_identity_hash": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "coverage_mode": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+    },
+    "disclosure_policy_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "disclosure_policy_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disclosure_policy_ref",
+        "coverage_mode",
+        "redaction_profile",
+        "redaction_configuration_version",
+        "retention_period"
+      ],
+      "properties": {
+        "disclosure_policy_ref": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "coverage_mode": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+        },
+        "redaction_profile": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "redaction_configuration_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "retention_period": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "approved_artifact_count_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count_domain", "total_count", "categories"],
+      "properties": {
+        "count_domain": {
+          "type": "string",
+          "const": "evidence_category_counts"
+        },
+        "total_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["category", "count"],
+            "properties": {
+              "category": {
+                "type": "string",
+                "enum": [
+                  "metadata",
+                  "dependencies",
+                  "scanner_findings",
+                  "raw_snippets",
+                  "targeted_files",
+                  "derived_artifacts",
+                  "never_collected_items"
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "received_artifact_count_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count_domain", "total_count", "categories"],
+      "properties": {
+        "count_domain": {
+          "type": "string",
+          "const": "evidence_category_counts"
+        },
+        "total_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["category", "count"],
+            "properties": {
+              "category": {
+                "type": "string",
+                "enum": [
+                  "metadata",
+                  "dependencies",
+                  "scanner_findings",
+                  "raw_snippets",
+                  "targeted_files",
+                  "derived_artifacts",
+                  "never_collected_items"
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "approved_vs_received_comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["comparison_state", "rows"],
+      "properties": {
+        "comparison_state": {
+          "type": "string",
+          "const": "matched"
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "allOf": [
+            {
+              "contains": {
+                "properties": { "field": { "const": "manifest_id" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": { "field": { "const": "evidence_bundle_id" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": { "field": { "const": "selected_commit" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": { "field": { "const": "repository_identity_hash" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": { "field": { "const": "coverage_mode" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": { "field": { "const": "artifact_count_summary" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            },
+            {
+              "contains": {
+                "properties": { "field": { "const": "disclosure_policy_summary" } },
+                "required": ["field"]
+              },
+              "minContains": 1,
+              "maxContains": 1
+            }
+          ],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "approved_value", "received_value", "result"],
+            "properties": {
+              "field": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              },
+              "approved_value": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              },
+              "received_value": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              },
+              "result": {
+                "type": "string",
+                "const": "matched"
+              }
+            }
+          }
+        }
+      }
+    },
+    "receipt_signature": {
+      "$ref": "urn:codeattest:protocol:v0:signature-envelope"
+    },
+    "public_verification_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version",
+        "algorithm_profile",
+        "canonicalization",
+        "key_id",
+        "key_version",
+        "public_key_reference",
+        "signing_time",
+        "signed_identity_type",
+        "signed_identity",
+        "signing_mode",
+        "signing_limitations"
+      ],
+      "properties": {
+        "protocol_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+        },
+        "algorithm_profile": {
+          "type": "string",
+          "const": "ml_dsa_65"
+        },
+        "canonicalization": {
+          "type": "string",
+          "const": "rfc8785"
+        },
+        "key_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "key_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "public_key_reference": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "signing_time": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+        },
+        "signed_identity_type": {
+          "type": "string",
+          "const": "vendor_receipt"
+        },
+        "signed_identity": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "signing_mode": {
+          "type": "string",
+          "enum": ["managed_key", "enrolled_runner_key"]
+        },
+        "signing_limitations": {
+          "type": "array",
+          "maxItems": 100,
+          "minItems": 1,
+          "items": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+          }
+        }
+      }
+    },
+    "key_rotation_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["historical_key_id", "historical_key_version", "event_append_hint"],
+      "properties": {
+        "historical_key_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "historical_key_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "event_append_hint": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    }
+  }
+}

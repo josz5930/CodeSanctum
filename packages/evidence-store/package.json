@@ -1,0 +1,19 @@
+{
+  "name": "@onevps/evidence-store",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@onevps/protocol-ts": "0.0.0",
+    "pg": "8.23.0"
+  },
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/canonical-row.test.mjs && node test/review-chain.test.mjs && node test/checkpoint.test.mjs && node test/memory-adapters.test.mjs && node test/postgres-grants.test.mjs && node test/postgres-adapters.test.mjs && node test/postgres-pool.test.mjs && node test/postgres-pool-controls.test.mjs && node test/digest-roundtrip.test.mjs && node test/promotion.test.mjs && node test/collect-readiness-evidence.test.mjs && node test/envelope-encryption.test.mjs && node test/retention-expiry.test.mjs && node test/transparency-publication.test.mjs"
+  }
+}

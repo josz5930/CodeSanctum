@@ -1,0 +1,17 @@
+{
+  "protocol_version": "codeattest.v0",
+  "event_id": "evidence_event:ret-0002",
+  "review_id": "review:synthetic-demo-001",
+  "sequence_number": 10,
+  "idempotency_key": "SYNTHETIC_DEMO_DATA-ret-0002",
+  "event_type": "retention_status_changed",
+  "actor": {
+    "actor_type": "vendor_service",
+    "actor_id": "SYNTHETIC_DEMO_DATA-retention-worker"
+  },
+  "event_timestamp": "2026-07-19T00:00:00Z",
+  "artifact_refs": [
+    "artifact_ref:opt_in_snippet_002"
+  ],
+  "retention_record_ref": "retention_record:opt-in-0002"
+}

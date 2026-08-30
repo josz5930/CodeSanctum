@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:evidence-minimization-projection",
+  "title": "Evidence Minimization Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "entries"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": { "properties": { "minimization_category": { "const": "deleted_transient" } }, "required": ["minimization_category"] },
+            "then": { "required": ["deletion_evidence_ref"], "properties": { "source_derived_class": { "const": "transient_source_derived" } } }
+          },
+          {
+            "if": { "properties": { "minimization_category": { "const": "retained_customer_opt_in_snippet" } }, "required": ["minimization_category"] },
+            "then": { "properties": { "source_derived_class": { "const": "customer_opt_in_retained_source" } } }
+          },
+          {
+            "if": { "properties": { "minimization_category": { "const": "never_collected" } }, "required": ["minimization_category"] },
+            "then": { "properties": { "source_derived_class": { "const": "never_collected" } } }
+          },
+          {
+            "if": { "properties": { "minimization_category": { "enum": ["retained_finding", "retained_metadata", "retained_attestation"] } }, "required": ["minimization_category"] },
+            "then": { "properties": { "source_derived_class": { "const": "retained_review_artifact" } } }
+          }
+        ],
+        "required": [
+          "artifact_ref",
+          "minimization_category",
+          "source_derived_class"
+        ],
+        "properties": {
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "minimization_category": {
+            "type": "string",
+            "enum": [
+              "retained_finding",
+              "retained_metadata",
+              "retained_attestation",
+              "retained_customer_opt_in_snippet",
+              "deleted_transient",
+              "never_collected"
+            ]
+          },
+          "source_derived_class": {
+            "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+          },
+          "deletion_evidence_ref": {
+            "type": "string",
+            "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+          }
+        }
+      }
+    }
+  }
+}

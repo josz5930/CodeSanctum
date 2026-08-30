@@ -1,0 +1,13 @@
+{
+  "name": "synthetic-scope-app",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "description": "SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE fixture for Story 1.4 scope capture tests",
+  "dependencies": {
+    "next": "16.2.10",
+    "react": "19.2.7"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3"
+  }
+}

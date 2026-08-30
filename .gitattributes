@@ -1,0 +1,15 @@
+# Normalize line endings: store everything as LF in the repo, regardless of
+# the OS the working tree is checked out on. Prevents spurious CRLF-only diffs
+# when editing on Windows.
+* text=auto eol=lf
+
+# Explicit binaries (never touch their bytes).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.wasm binary

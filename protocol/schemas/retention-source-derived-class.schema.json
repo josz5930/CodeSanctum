@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:retention-source-derived-class",
+  "title": "Retention and Source-Derived Class",
+  "type": "string",
+  "enum": [
+    "never_collected",
+    "transient_source_derived",
+    "retained_review_artifact",
+    "customer_opt_in_retained_source"
+  ]
+}

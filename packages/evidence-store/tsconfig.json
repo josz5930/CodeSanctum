@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "../..",
+    "tsBuildInfoFile": "../../node_modules/.cache/tsbuildinfo/evidence-store.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../packages/protocol-ts/src/**/*.ts"
+  ]
+}

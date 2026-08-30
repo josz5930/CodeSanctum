@@ -1,0 +1,37 @@
+{
+  "protocol_version": "codeattest.v0",
+  "supporting_evidence_mapping_id": "supporting_evidence_mapping:synthetic_unsafe_001",
+  "mapping_version": 1,
+  "review_id": "review:synthetic-demo-001",
+  "attestation_ref": "attestation:987a340458c986b9d1e85320160e893d25ec9d37e9da58075ca9670757c958e4",
+  "mapping_profile": "soc_2_supporting_evidence",
+  "approval_state": "approved",
+  "approved_at": "2026-08-01T12:05:00Z",
+  "approved_by": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "decision_authority": "SYNTHETIC_DEMO_DATA Evidence consumer. NOT_CUSTOMER_SOURCE.",
+  "acceptance_disclaimer": "SYNTHETIC_DEMO_DATA SOC 2 accepted by the auditor. NOT_CUSTOMER_SOURCE.",
+  "entries": [
+    {
+      "mapping_entry_id": "mapping_entry:unsafe",
+      "topic": "SYNTHETIC_DEMO_DATA Unsafe mapping. NOT_CUSTOMER_SOURCE.",
+      "supporting_evidence_role": "SYNTHETIC_DEMO_DATA Supporting evidence. NOT_CUSTOMER_SOURCE.",
+      "scope_summary": "SYNTHETIC_DEMO_DATA Selected scope. NOT_CUSTOMER_SOURCE.",
+      "method_summary": "SYNTHETIC_DEMO_DATA Bounded method. NOT_CUSTOMER_SOURCE.",
+      "receipt_context": "SYNTHETIC_DEMO_DATA Receipt context. NOT_CUSTOMER_SOURCE.",
+      "evidence_refs": [
+        "artifact_ref:review_scope"
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Bounded context. NOT_CUSTOMER_SOURCE."
+      ]
+    }
+  ],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA Unapproved claim fixture. NOT_CUSTOMER_SOURCE."
+  ],
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact"
+}

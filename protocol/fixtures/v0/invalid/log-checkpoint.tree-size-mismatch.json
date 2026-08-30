@@ -1,0 +1,13 @@
+{
+  "protocol_version": "codeattest.v0",
+  "checkpoint_id": "sha256:d7c5b5ffabca207e2141ef2ddd81d2c87e8dcba0cb94eee3f085bf3e945ca0df",
+  "deployment_identity": "demo",
+  "checkpoint_timestamp": "2026-08-20T00:00:00Z",
+  "merkle_root": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tree_size": 1,
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "checkpoint_id"
+  ]
+}

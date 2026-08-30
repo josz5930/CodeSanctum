@@ -1,0 +1,157 @@
+{
+  "protocol_version": "codeattest.v0",
+  "static_bundle_id": "static_bundle:synthetic_001",
+  "manifest_version": 1,
+  "package_state": "generated",
+  "review_id": "review:synthetic-demo-001",
+  "created_at": "2026-08-01T12:15:00Z",
+  "attestation_ref": "attestation:987a340458c986b9d1e85320160e893d25ec9d37e9da58075ca9670757c958e4",
+  "vendor_receipt_ref": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "evidence_bundle_representation": {
+    "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+    "bundle_manifest_ref": "artifact_ref:bundle_manifest",
+    "signature_ref": "artifact_ref:bundle_signature",
+    "identity_ref": "artifact_ref:bundle_identity",
+    "retained_export_approved_payload_refs": [
+      "artifact_ref:scanner_finding_set"
+    ]
+  },
+  "portal_projection_ref": "static_portal_projection:synthetic_001",
+  "files": [
+    {
+      "relative_path": "attestation.json",
+      "artifact_ref": "artifact_ref:security_review_attestation",
+      "media_type": "application/json",
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 2048,
+      "artifact_role": "attestation",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Canonical Attestation projection. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "evidence/bundle-identity.json",
+      "artifact_ref": "artifact_ref:bundle_identity",
+      "media_type": "application/json",
+      "digest": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+      "size_bytes": 256,
+      "artifact_role": "supporting_evidence",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Evidence Bundle canonical identity input. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "evidence/bundle-manifest.json",
+      "artifact_ref": "artifact_ref:bundle_manifest",
+      "media_type": "application/json",
+      "digest": "sha256:a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2",
+      "size_bytes": 4096,
+      "artifact_role": "supporting_evidence",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Evidence Bundle manifest representation. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "evidence/bundle-signature.json",
+      "artifact_ref": "artifact_ref:bundle_signature",
+      "media_type": "application/json",
+      "digest": "sha256:a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3",
+      "size_bytes": 512,
+      "artifact_role": "supporting_evidence",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Evidence Bundle signature metadata. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "evidence/scanner-finding-set.json",
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "media_type": "application/json",
+      "digest": "sha256:a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4",
+      "size_bytes": 1024,
+      "artifact_role": "supporting_evidence",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Retained export-approved scanner finding metadata. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "evidence-bundle-representation.json",
+      "artifact_ref": "artifact_ref:evidence_bundle_representation",
+      "media_type": "application/json",
+      "digest": "sha256:a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+      "size_bytes": 1024,
+      "artifact_role": "evidence_bundle_representation",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Recorded Evidence Bundle representation. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "portal/index.html",
+      "artifact_ref": "artifact_ref:portal_html",
+      "media_type": "text/html",
+      "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "size_bytes": 2048,
+      "artifact_role": "portal",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Offline readable portal HTML. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "portal/portal.js",
+      "artifact_ref": "artifact_ref:portal_js",
+      "media_type": "text/javascript",
+      "digest": "sha256:c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+      "size_bytes": 1536,
+      "artifact_role": "portal_asset",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Offline search, copy, and navigation script. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "portal/styles.css",
+      "artifact_ref": "artifact_ref:portal_css",
+      "media_type": "text/css",
+      "digest": "sha256:c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2",
+      "size_bytes": 1024,
+      "artifact_role": "portal_asset",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Offline portal print, phone, and accessibility styles. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "relative_path": "vendor-receipt.json",
+      "artifact_ref": "artifact_ref:vendor_receipt",
+      "media_type": "application/json",
+      "digest": "sha256:e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1",
+      "size_bytes": 2048,
+      "artifact_role": "vendor_receipt",
+      "source_derived_class": "retained_review_artifact",
+      "inclusion_reason": "SYNTHETIC_DEMO_DATA Recorded receipt artifact representation. NOT_CUSTOMER_SOURCE."
+    }
+  ],
+  "minimization_disposition": {
+    "included_retained_refs": [
+      "artifact_ref:security_review_attestation",
+      "artifact_ref:bundle_identity",
+      "artifact_ref:bundle_manifest",
+      "artifact_ref:bundle_signature",
+      "artifact_ref:scanner_finding_set",
+      "artifact_ref:evidence_bundle_representation",
+      "artifact_ref:portal_html",
+      "artifact_ref:portal_js",
+      "artifact_ref:portal_css",
+      "artifact_ref:vendor_receipt"
+    ],
+    "excluded_refs": [
+      "artifact_ref:internal_pilot_feedback"
+    ],
+    "deleted_refs": [
+      "deletion_evidence:del-ev-0001"
+    ],
+    "never_collected_refs": [
+      "artifact_ref:unapproved_source_bytes"
+    ]
+  },
+  "verification_metadata": {
+    "manifest_signature_ref": "artifact_ref:static_bundle_signature",
+    "signing_input_ref": "artifact_ref:static_bundle_signing_input",
+    "verification_instructions_path": "VERIFY.txt",
+    "offline_verification_supported": true,
+    "all_file_digests_verified": true
+  },
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "static_bundle_manifest_id"
+  ]
+}

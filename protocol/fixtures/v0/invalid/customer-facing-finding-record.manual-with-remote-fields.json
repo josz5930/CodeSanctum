@@ -1,0 +1,63 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_facing_finding_record_id": "customer_facing_finding:synthetic_validation_invalid_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "expert_classification": {
+    "classification": "requires_customer_side_validation",
+    "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+    "rationale_summary": "SYNTHETIC_DEMO_DATA reviewer requires customer-side runtime validation. NOT_CUSTOMER_SOURCE.",
+    "criteria_summary": "SYNTHETIC_DEMO_DATA validation criteria stay bounded to future customer evidence. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA submitted evidence is not sufficient to verify runtime behavior. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "evidence_basis": {
+    "evidence_refs": [
+      "artifact_ref:synthetic_raw_snippet"
+    ],
+    "source_reference_state": "retained_review_artifact",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA evidence remains bounded. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "reviewer_remediation_guidance": {
+    "guidance_status": "limited_guidance_requires_validation",
+    "insufficient_evidence_reason": "SYNTHETIC_DEMO_DATA runtime behavior is not present in submitted evidence. NOT_CUSTOMER_SOURCE.",
+    "validation_path_ref": "validation_path:synthetic_script_001",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA guidance requires customer-side validation. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "customer_remediation_status": {
+    "latest_status": "not_started",
+    "customer_notes_visible": false
+  },
+  "verification_state": {
+    "status": "not_verified",
+    "summary": "SYNTHETIC_DEMO_DATA validation path and script do not prove verification complete. NOT_CUSTOMER_SOURCE."
+  },
+  "future_outcome_visibility": {
+    "accepted_risk_visible": false,
+    "false_positive_visible": false
+  },
+  "evidence_consumer_export": "include",
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact",
+  "validation_paths": [
+    {
+      "validation_path_ref": "validation_path:synthetic_manual_001",
+      "path_type": "manual_steps",
+      "required_evidence": "SYNTHETIC_DEMO_DATA collect manual review evidence. NOT_CUSTOMER_SOURCE.",
+      "steps": "SYNTHETIC_DEMO_DATA complete manual validation steps. NOT_CUSTOMER_SOURCE.",
+      "expected_result": "SYNTHETIC_DEMO_DATA manual evidence supports later review. NOT_CUSTOMER_SOURCE.",
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA manual validation is not verification by itself. NOT_CUSTOMER_SOURCE."
+      ],
+      "included_pass_verifiability": "customer_provided_evidence_required",
+      "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach manual output for Epic 4 review. NOT_CUSTOMER_SOURCE.",
+      "target": "SYNTHETIC_DEMO_DATA remote-only target on manual path. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

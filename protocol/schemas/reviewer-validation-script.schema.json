@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:reviewer-validation-script",
+  "title": "Reviewer Validation Script",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "validation_script_id",
+    "validation_path_ref",
+    "classification_record_ref",
+    "script_package_status",
+    "purpose",
+    "prerequisites",
+    "execution_steps",
+    "expected_output",
+    "safety_notes",
+    "output_attachment_instructions",
+    "script_content",
+    "authored_at",
+    "actor",
+    "source_derived_class",
+    "visibility"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "validation_script_id": {
+      "type": "string",
+      "pattern": "^validation_script:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "validation_path_ref": {
+      "type": "string",
+      "pattern": "^validation_path:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "classification_record_ref": {
+      "type": "string",
+      "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "remediation_guidance_ref": {
+      "type": "string",
+      "pattern": "^remediation_guidance:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "script_package_status": {
+      "type": "string",
+      "enum": ["included_base_package", "additional_script_candidate_pricing_tbd"]
+    },
+    "included_script_slot": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "purpose": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "prerequisites": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "execution_steps": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "expected_output": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "safety_notes": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "output_attachment_instructions": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "script_content": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "authored_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": {
+          "type": "string",
+          "const": "reviewer"
+        },
+        "actor_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["customer_facing", "internal_only"]
+    }
+  }
+}

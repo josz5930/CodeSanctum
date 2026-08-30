@@ -1,0 +1,53 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "accepted_risk_record_id": "accepted_risk:synthetic_customer_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "transient_source_derived"
+    }
+  ],
+  "evidence_basis": [
+    "scanner_output",
+    "finding_context_snippet",
+    "retained_review_artifact"
+  ],
+  "customer_rationale": "SYNTHETIC_DEMO_DATA customer accepted residual risk for the synthetic demo scope while remediation planning remains separate. NOT_CUSTOMER_SOURCE.",
+  "customer_actor_ref": "customer:synthetic-maya",
+  "risk_owner": "SYNTHETIC_DEMO_DATA platform owner NOT_CUSTOMER_SOURCE",
+  "scope_of_acceptance": "SYNTHETIC_DEMO_DATA customer says this finding is fixed and verified. NOT_CUSTOMER_SOURCE.",
+  "review_by_date": "2026-09-30",
+  "recorded_at": "2026-07-28T02:05:00Z",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA accepted risk is not remediation, verification, audit acceptance, or control satisfaction. NOT_CUSTOMER_SOURCE."
+  ],
+  "source_reference_state": "retained_review_artifact",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "field_export_policy": {
+    "customer_rationale": "include",
+    "risk_owner": "exclude",
+    "scope_of_acceptance": "include",
+    "limitations": "include",
+    "evidence_consumer_export": "include",
+    "customer_signoff_summary": "exclude",
+    "evidence_basis": "exclude"
+  }
+}

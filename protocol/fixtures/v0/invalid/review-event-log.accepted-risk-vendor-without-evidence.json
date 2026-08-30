@@ -1,0 +1,29 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "event_timestamp": "2026-07-28T02:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_customer_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "idempotency_key": "accepted_risk:review:synthetic-demo-001:accepted_risk:synthetic_customer_001",
+      "event_type": "customer_accepted_risk_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:synthetic-amelia"
+      },
+      "reason": "Accepted risk recorded without explicit customer evidence.",
+      "event_id": "sha256:5c4d5055c9b7d563e0b0ebea7267fa3aedba58d438dcef1c6ddc5be8f0747d5e"
+    }
+  ]
+}

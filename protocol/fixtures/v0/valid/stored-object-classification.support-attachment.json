@@ -1,0 +1,7 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic_enum_support_attachment",
+  "object_kind": "support_attachment",
+  "source_derived_class": "never_collected",
+  "environment_profile": "synthetic_demo"
+}

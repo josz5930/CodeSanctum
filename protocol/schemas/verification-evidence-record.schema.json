@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:verification-evidence-record",
+  "title": "Verification Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "verification_evidence_record_id",
+    "record_version",
+    "verification_pass_id",
+    "verification_pass_ref",
+    "scope_version",
+    "review_finding_draft_ref",
+    "classification_record_ref",
+    "requested_verification_type",
+    "intake_state",
+    "state_reason",
+    "actor",
+    "recorded_at",
+    "access_scope",
+    "environment_profile",
+    "disclosure_state",
+    "limitations",
+    "source_derived_class",
+    "visibility"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "requested_verification_type": { "const": "follow_up_commit" } } },
+      "then": { "required": ["follow_up_commit"] }
+    },
+    {
+      "if": { "properties": { "requested_verification_type": { "enum": ["customer_validation_evidence", "reviewer_authored_script_output", "manual_validation_record", "remote_dynamic_testing_evidence"] } } },
+      "then": { "required": ["validation_path_ref", "validation_artifacts"] }
+    },
+    {
+      "if": { "properties": { "requested_verification_type": { "const": "reviewer_authored_script_output" } } },
+      "then": { "required": ["reviewer_validation_script_ref"] }
+    }
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "verification_evidence_record_id": { "type": "string", "pattern": "^verification_evidence:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "record_version": { "type": "integer", "minimum": 1 },
+    "verification_pass_id": { "type": "string", "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "verification_pass_ref": { "type": "string", "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "scope_version": { "type": "integer", "minimum": 1 },
+    "review_finding_draft_ref": { "type": "string", "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "classification_record_ref": { "type": "string", "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "requested_verification_type": { "type": "string", "enum": ["follow_up_commit", "customer_validation_evidence", "reviewer_authored_script_output", "manual_validation_record", "remote_dynamic_testing_evidence"] },
+    "intake_state": { "type": "string", "enum": ["accepted_for_review", "verification_pending", "broader_context_required"] },
+    "state_reason": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "next_step_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "enum": ["customer_user", "vendor_service"] },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "customer_actor_ref": { "type": "string", "pattern": "^customer:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "follow_up_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["original_selected_commit", "follow_up_commit", "original_repository_identity", "follow_up_repository_identity", "relationship_to_selected_commit", "relationship_basis"],
+      "properties": {
+        "original_selected_commit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit_sha", "source_control_system"],
+          "properties": {
+            "commit_sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "source_control_system": { "type": "string", "const": "git" }
+          }
+        },
+        "follow_up_commit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit_sha", "source_control_system"],
+          "properties": {
+            "commit_sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "source_control_system": { "type": "string", "const": "git" }
+          }
+        },
+        "original_repository_identity": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "follow_up_repository_identity": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "relationship_to_selected_commit": { "type": "string", "enum": ["customer_declared_related", "customer_declared_descendant", "relationship_unverified", "same_commit_submitted", "repository_mismatch"] },
+        "relationship_basis": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "validation_path_ref": { "type": "string", "pattern": "^validation_path:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "reviewer_validation_script_ref": { "type": "string", "pattern": "^validation_script:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "validation_artifacts": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_ref", "digest", "size_bytes", "media_type", "source_derived_class"],
+        "properties": {
+          "artifact_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "digest": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/artifact_digest" },
+          "size_bytes": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+          "media_type": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "source_derived_class": { "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class" },
+          "retention_record_ref": { "type": "string", "pattern": "^retention_record:[a-z0-9][a-z0-9_-]{2,63}$" }
+        }
+      }
+    },
+    "recorded_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "access_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tenant_id", "review_scope"],
+      "properties": {
+        "tenant_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+        "review_scope": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" }
+      }
+    },
+    "environment_profile": { "type": "string", "enum": ["synthetic_demo", "partner_pilot_candidate", "partner_pilot_real_snippet_ready"] },
+    "disclosure_state": { "type": "string", "const": "metadata_only" },
+    "limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" },
+    "visibility": { "type": "string", "enum": ["customer_facing", "internal_only"] }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "normalization_run_id": "normalization_run:synthetic-demo-finding-context",
+  "normalization_status": "drafts_created",
+  "created_at": "2026-07-21T00:02:00Z",
+  "vendor_receipt_ref": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "source_scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage_mode": "finding_context_snippets",
+  "review_finding_drafts": [
+    {
+      "review_finding_draft_id": "review_finding_draft:demo_finding_context",
+      "candidate_finding_refs": [
+        "candidate_finding:demo_semgrep_001"
+      ],
+      "group_key": "semgrep|demo.semgrep.insecure-random|src/app.ts:4:7",
+      "sources": [
+        "semgrep"
+      ],
+      "affected_area": "src/app.ts:4:7",
+      "evidence_refs": [
+        {
+          "artifact_ref": "artifact_ref:scanner_finding_set",
+          "availability_state": "retained_review_artifact",
+          "available_for_review": true,
+          "display_state": "available_reference",
+          "source_derived_class": "retained_review_artifact"
+        },
+        {
+          "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+          "availability_state": "retained_review_artifact",
+          "available_for_review": true,
+          "display_state": "available_reference",
+          "source_derived_class": "transient_source_derived"
+        }
+      ],
+      "severity": "warning",
+      "confidence": "medium",
+      "scanner_rule_ids": [
+        "demo.semgrep.insecure-random"
+      ],
+      "status": "draft",
+      "review_lifecycle_state": "under_review",
+      "coverage_mode": "finding_context_snippets",
+      "evidence_basis": [
+        "scanner_output",
+        "finding_context_snippet",
+        "retained_review_artifact"
+      ],
+      "threshold_gaps": [
+        "Snippet context is bounded and may not include broader runtime or architectural context needed for confirmation."
+      ],
+      "source_reference_state": "retained_review_artifact",
+      "source_derived_class": "retained_review_artifact"
+    }
+  ],
+  "normalization_limitations": [
+    "Finding-context snippets are bounded evidence for review and do not establish expert classification."
+  ],
+  "source_derived_class": "retained_review_artifact"
+}

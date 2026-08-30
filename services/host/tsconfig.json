@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "rootDir": "../..",
+    "tsBuildInfoFile": "../../node_modules/.cache/tsbuildinfo/host.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../apps/control-plane/src/**/*.ts",
+    "../../packages/evidence-store/src/**/*.ts",
+    "../../packages/identity-store/src/**/*.ts",
+    "../../packages/protocol-ts/src/**/*.ts",
+    "../../packages/signing/src/**/*.ts",
+    "../../packages/ui/src/**/*.ts",
+    "../../services/intake/src/**/*.ts"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "protocol_version": "codeattest.v0",
+  "scanner_finding_set_id": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "generated_at": "2026-07-08T00:05:00Z",
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0-story-1.5-fixture"
+  },
+  "source_derived_class": "retained_review_artifact",
+  "scanner_runs": [
+    {
+      "scanner_name": "regex",
+      "scanner_version": "0.0.0-story-1.5-fixture",
+      "ruleset_identifier": "local:demo-regex-rules",
+      "executed_at": "2026-07-08T00:05:00Z",
+      "status": "no_findings",
+      "covered_file_group": "python",
+      "scanned_files": [
+        "src/app.py"
+      ],
+      "rerun_possible": true,
+      "source_derived_class": "retained_review_artifact"
+    }
+  ],
+  "candidate_findings": [],
+  "coverage_limitations": [
+    "No findings were produced by configured inputs; this does not imply absence of vulnerabilities."
+  ],
+  "artifact_references": []
+}

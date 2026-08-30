@@ -1,0 +1,54 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "verification_record_id": "verification_record:synthetic_pending",
+  "record_version": 1,
+  "verification_pass_id": "verification_pass:synthetic_pass_requires_validation_001",
+  "verification_pass_ref": "verification_pass:synthetic_pass_requires_validation_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "verification_evidence_record_refs": [
+    "verification_evidence:synthetic_validation_evidence"
+  ],
+  "verification_status": "verification_pending",
+  "recorded_at": "2026-07-31T12:00:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "before_state": {
+    "classification": "requires_customer_side_validation",
+    "review_finding_draft_evidence_refs": [
+      "artifact_ref:scanner_finding_set",
+      "artifact_ref:metadata_only_source_context"
+    ],
+    "evidence_basis": [
+      "scanner_output",
+      "metadata_only",
+      "not_submitted_by_policy_reference"
+    ],
+    "source_reference_state": "not_submitted_by_policy",
+    "confirmation_criteria": [
+      "SYNTHETIC_DEMO_DATA script output shows whether the synthetic runtime condition is present. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "after_state": {
+    "summary": "SYNTHETIC_DEMO_DATA reviewer evaluated bounded validation metadata. NOT_CUSTOMER_SOURCE.",
+    "criteria_results": [
+      {
+        "criterion": "SYNTHETIC_DEMO_DATA script output shows whether the synthetic runtime condition is present. NOT_CUSTOMER_SOURCE.",
+        "result": "not_evaluated"
+      }
+    ],
+    "evidence_refs": [
+      "artifact_ref:synthetic_validation_output"
+    ]
+  },
+  "rationale": "SYNTHETIC_DEMO_DATA reviewer keeps the bounded outcome pending. NOT_CUSTOMER_SOURCE.",
+  "remaining_limitations": [
+    "SYNTHETIC_DEMO_DATA outcome remains limited to this finding and criterion. NOT_CUSTOMER_SOURCE."
+  ],
+  "next_step_summary": "SYNTHETIC_DEMO_DATA submit bounded customer evidence for reviewer evaluation. NOT_CUSTOMER_SOURCE.",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

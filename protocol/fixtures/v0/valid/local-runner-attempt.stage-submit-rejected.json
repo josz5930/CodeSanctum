@@ -1,0 +1,54 @@
+{
+  "protocol_version": "codeattest.v0",
+  "attempt_id": "runner_attempt:submit-synthetic-0001",
+  "stage": "submit",
+  "outcome": "failed",
+  "review_state": "signed_bundle_not_submitted",
+  "approval_state": "approved",
+  "bundle_state": "ready_not_submitted",
+  "remote_state": "rejected_no_receipt",
+  "occurred_at": "2026-08-16T12:00:00Z",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0"
+  },
+  "runner_trust": {
+    "runner_name": "codeattest-local-runner",
+    "runner_version": "0.0.0",
+    "build_identifier": "SYNTHETIC_DEMO_DATA local build",
+    "release_identifier": "NOT_CUSTOMER_SOURCE unreleased",
+    "release_signature_status": "unsigned_local_build",
+    "bundle_signing_mode": "enrolled_runner_key",
+    "trust_label": "demo_only_unsigned",
+    "evidence_boundary": "synthetic-demo-only",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA demo runner. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "identities": {
+    "selected_commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "repository_identity": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "manifest_id": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "approval_id": "approval:synthetic-demo-0001",
+    "evidence_bundle_id": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "bundle_instance_id": "bundle_instance:synthetic-demo-0001",
+    "submission_attempt_id": "submission_attempt:synthetic-demo-0001",
+    "submission_outcome_id": "submission_outcome:synthetic-demo-0001"
+  },
+  "approval_metadata": {
+    "decision": "approved",
+    "decided_at": "2026-08-16T11:00:00Z"
+  },
+  "diagnostics": {
+    "message": "SYNTHETIC_DEMO_DATA transport completed. NOT_CUSTOMER_SOURCE.",
+    "retryable": true,
+    "sensitive_detail_omitted": true,
+    "raw_snippets_printed": false,
+    "support_summary": "Verify the returned receipt locally.",
+    "failure_code": "submission_rejected_no_receipt"
+  },
+  "next_actions": [
+    "review the returned reason codes",
+    "rerun submit"
+  ]
+}

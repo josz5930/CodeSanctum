@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/control-plane" },
+    { "path": "./services/intake" },
+    { "path": "./services/worker" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/protocol-ts" },
+    { "path": "./packages/static-bundle" }
+  ]
+}

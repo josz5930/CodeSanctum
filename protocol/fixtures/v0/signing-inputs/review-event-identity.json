@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "review_event_identity",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "review_event",
+  "signed_identity": "sha256:f5176c0cd3858f0e2da4308cb52a17e61ff65d37cf392caf39f3274c124e6ab4",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/review-event.identity-input.json"
+}

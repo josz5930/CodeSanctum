@@ -1,0 +1,47 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "validation_path_id": "validation_path:synthetic_remote_001",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:metadata_only_source_context",
+      "availability_state": "not_submitted_by_policy",
+      "available_for_review": false,
+      "display_state": "not_submitted",
+      "source_derived_class": "never_collected"
+    }
+  ],
+  "remediation_guidance_ref": "remediation_guidance:synthetic_requires_path_only_001",
+  "path_type": "remote_dynamic_testing",
+  "required_evidence": "SYNTHETIC_DEMO_DATA collect bounded runtime response evidence from an authorized synthetic target. NOT_CUSTOMER_SOURCE.",
+  "steps": "SYNTHETIC_DEMO_DATA run the documented remote check from the reviewer workbench. NOT_CUSTOMER_SOURCE.",
+  "expected_result": "SYNTHETIC_DEMO_DATA the target rejects the unsafe synthetic behavior and emits retained evidence. NOT_CUSTOMER_SOURCE.",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA validation path remains bounded to the recorded evidence criteria. NOT_CUSTOMER_SOURCE."
+  ],
+  "included_pass_verifiability": "verifiable_within_included_pass",
+  "target": "SYNTHETIC_DEMO_DATA authorized demo endpoint https://example.invalid/health. NOT_CUSTOMER_SOURCE.",
+  "authorization_assumption": "SYNTHETIC_DEMO_DATA customer authorizes this bounded remote check before execution. NOT_CUSTOMER_SOURCE.",
+  "method": "SYNTHETIC_DEMO_DATA send a safe non-destructive request and capture status plus headers. NOT_CUSTOMER_SOURCE.",
+  "safety_constraints": "SYNTHETIC_DEMO_DATA do not fuzz, brute force, scan broadly, or exceed one synthetic request. NOT_CUSTOMER_SOURCE.",
+  "evidence_artifacts_to_collect": [
+    "artifact_ref:synthetic_remote_validation_output"
+  ],
+  "authored_at": "2026-07-28T00:00:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "source_reference_state": "not_submitted_by_policy",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

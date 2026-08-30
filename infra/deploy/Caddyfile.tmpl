@@ -1,0 +1,25 @@
+{$CODEATTEST_DEMO_HOSTNAME} {
+	encode zstd gzip
+
+	@demo_host path /healthz /readyz /v0/* /web/*
+	handle @demo_host {
+		reverse_proxy 127.0.0.1:8080
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3000
+	}
+}
+
+{$CODEATTEST_PILOT_HOSTNAME} {
+	encode zstd gzip
+
+	@pilot_host path /healthz /readyz /v0/* /web/*
+	handle @pilot_host {
+		reverse_proxy 127.0.0.1:8081
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:3001
+	}
+}

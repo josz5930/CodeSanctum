@@ -1,0 +1,23 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "validation_script_id": "validation_script:invalid_additional_slot_001",
+  "validation_path_ref": "validation_path:synthetic_script_001",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "script_package_status": "additional_script_candidate_pricing_tbd",
+  "included_script_slot": 2,
+  "purpose": "SYNTHETIC_DEMO_DATA additional script candidate with pricing TBD should not include a slot. NOT_CUSTOMER_SOURCE.",
+  "prerequisites": "SYNTHETIC_DEMO_DATA prerequisites mention pricing TBD candidate. NOT_CUSTOMER_SOURCE.",
+  "execution_steps": "SYNTHETIC_DEMO_DATA execute only after separate pricing TBD agreement. NOT_CUSTOMER_SOURCE.",
+  "expected_output": "SYNTHETIC_DEMO_DATA expected output. NOT_CUSTOMER_SOURCE.",
+  "safety_notes": "SYNTHETIC_DEMO_DATA safety notes. NOT_CUSTOMER_SOURCE.",
+  "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach output only after approval. NOT_CUSTOMER_SOURCE.",
+  "script_content": "#!/usr/bin/env node\nconsole.log('SYNTHETIC_DEMO_DATA additional slot NOT_CUSTOMER_SOURCE');",
+  "authored_at": "2026-07-28T00:06:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

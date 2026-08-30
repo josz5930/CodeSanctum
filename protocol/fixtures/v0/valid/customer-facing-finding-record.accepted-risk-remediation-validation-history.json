@@ -1,0 +1,89 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_facing_finding_record_id": "customer_facing_finding:synthetic_demo_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+  "customer_status_record_refs": [
+    "customer_status:synthetic_status_owner_due_001"
+  ],
+  "expert_classification": {
+    "classification": "likely",
+    "classification_record_ref": "classification_record:synthetic_likely_001",
+    "rationale_summary": "SYNTHETIC_DEMO_DATA expert rationale remains distinct from customer remediation metadata. NOT_CUSTOMER_SOURCE.",
+    "criteria_summary": "SYNTHETIC_DEMO_DATA likely criteria are bounded to submitted evidence. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA no verification evidence has been recorded yet. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "evidence_basis": {
+    "evidence_refs": [
+      "artifact_ref:synthetic_raw_snippet"
+    ],
+    "source_reference_state": "retained_review_artifact",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA retained evidence is synthetic and bounded. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "reviewer_remediation_guidance": {
+    "guidance_status": "actionable_guidance_provided",
+    "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+    "exploitability_rationale_summary": "SYNTHETIC_DEMO_DATA submitted evidence supports bounded exploitability commentary without broader claims. NOT_CUSTOMER_SOURCE.",
+    "suggested_remediation_summary": "SYNTHETIC_DEMO_DATA apply the bounded configuration fix and record retained evidence. NOT_CUSTOMER_SOURCE.",
+    "validation_step_summary": "SYNTHETIC_DEMO_DATA rerun scoped validation and preserve retained evidence. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA guidance does not imply audit approval. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "customer_remediation_status": {
+    "latest_status": "planned",
+    "latest_status_record_ref": "customer_status:synthetic_status_owner_due_001",
+    "due_date": "2026-08-31",
+    "customer_notes_visible": false
+  },
+  "verification_state": {
+    "status": "not_verified",
+    "summary": "SYNTHETIC_DEMO_DATA Epic 4 verification evidence has not been recorded. NOT_CUSTOMER_SOURCE."
+  },
+  "future_outcome_visibility": {
+    "accepted_risk_visible": true,
+    "accepted_risk_record_ref": "accepted_risk:synthetic_customer_001",
+    "false_positive_visible": false
+  },
+  "evidence_consumer_export": "include",
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact",
+  "accepted_risk_record_ref": "accepted_risk:synthetic_customer_001",
+  "accepted_risk_outcome": {
+    "accepted_risk_record_ref": "accepted_risk:synthetic_customer_001",
+    "actor_category": "customer_user",
+    "evidence_basis_summary": "SYNTHETIC_DEMO_DATA customer accepted residual risk with evidence basis preserved separately from verification. NOT_CUSTOMER_SOURCE.",
+    "evidence_refs": [
+      "artifact_ref:scanner_finding_set",
+      "artifact_ref:synthetic_raw_snippet"
+    ],
+    "customer_acceptance_summary": "SYNTHETIC_DEMO_DATA customer accepted residual risk for the synthetic demo scope while remediation planning remains separate. NOT_CUSTOMER_SOURCE.",
+    "scope_of_acceptance": "SYNTHETIC_DEMO_DATA acceptance applies only to the synthetic demo finding and current bounded review package. NOT_CUSTOMER_SOURCE.",
+    "review_by_date": "2026-09-30",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA accepted risk is not remediation, verification, audit approval, or control satisfaction. NOT_CUSTOMER_SOURCE."
+    ],
+    "source_reference_state": "retained_review_artifact",
+    "evidence_consumer_export": "include"
+  },
+  "validation_paths": [
+    {
+      "validation_path_ref": "validation_path:synthetic_manual_001",
+      "path_type": "manual_steps",
+      "required_evidence": "SYNTHETIC_DEMO_DATA capture screenshots or command output for the manual synthetic check. NOT_CUSTOMER_SOURCE.",
+      "steps": "SYNTHETIC_DEMO_DATA follow the bounded manual validation checklist in the selected app environment. NOT_CUSTOMER_SOURCE.",
+      "expected_result": "SYNTHETIC_DEMO_DATA manual evidence records the customer-observed result without changing expert classification. NOT_CUSTOMER_SOURCE.",
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA manual steps are not reviewer-authored scripts and do not imply verification complete. NOT_CUSTOMER_SOURCE."
+      ],
+      "included_pass_verifiability": "customer_provided_evidence_required",
+      "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach manual evidence as customer-provided validation evidence for Epic 4. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

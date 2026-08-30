@@ -1,0 +1,17 @@
+{
+  "name": "@onevps/worker-service",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "dependencies": {
+    "@onevps/protocol-ts": "0.0.0"
+  },
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/finding-normalization.test.mjs"
+  }
+}

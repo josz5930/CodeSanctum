@@ -1,0 +1,51 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_facing_finding_record_id": "customer_facing_finding:synthetic_claim_unsafe_path_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+  "customer_status_record_refs": [],
+  "expert_classification": {
+    "classification": "likely",
+    "classification_record_ref": "classification_record:synthetic_likely_001",
+    "rationale_summary": "SYNTHETIC_DEMO_DATA expert rationale remains bounded to submitted evidence. NOT_CUSTOMER_SOURCE.",
+    "criteria_summary": "SYNTHETIC_DEMO_DATA likely criteria remain visible to the customer. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA no verification evidence has been recorded yet. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "evidence_basis": {
+    "evidence_refs": [
+      "artifact_ref:synthetic_raw_snippet"
+    ],
+    "source_reference_state": "retained_review_artifact",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA retained evidence is synthetic and bounded. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "reviewer_remediation_guidance": {
+    "guidance_status": "limited_guidance_requires_validation",
+    "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+    "validation_path_summary": "SYNTHETIC_DEMO_DATA this path implies SOC 2 accepted status. NOT_CUSTOMER_SOURCE.",
+    "insufficient_evidence_reason": "SYNTHETIC_DEMO_DATA runtime evidence remains unavailable. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA guidance remains bounded to submitted evidence. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "customer_remediation_status": {
+    "latest_status": "not_started",
+    "customer_notes_visible": false
+  },
+  "verification_state": {
+    "status": "not_verified",
+    "summary": "SYNTHETIC_DEMO_DATA Epic 4 verification evidence has not been recorded. NOT_CUSTOMER_SOURCE."
+  },
+  "future_outcome_visibility": {
+    "accepted_risk_visible": false,
+    "false_positive_visible": false
+  },
+  "evidence_consumer_export": "exclude",
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact"
+}

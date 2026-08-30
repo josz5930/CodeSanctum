@@ -1,0 +1,7 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic_enum_queue_payload",
+  "object_kind": "queue_payload",
+  "source_derived_class": "transient_source_derived",
+  "environment_profile": "synthetic_demo"
+}

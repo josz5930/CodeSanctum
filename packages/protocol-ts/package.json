@@ -1,0 +1,16 @@
+{
+  "name": "@onevps/protocol-ts",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "types": "./src/index.ts",
+  "scripts": {
+    "generate": "node ../../scripts/generate-protocol-types.mjs --write",
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/vendor-receipt-protocol.test.mjs && node test/review-event-protocol.test.mjs && node test/evidence-storage-protocol.test.mjs && node test/environment-readiness-protocol.test.mjs && node test/submission-outcome-protocol.test.mjs && node test/finding-classification-record-protocol.test.mjs && node test/remediation-guidance-protocol.test.mjs && node test/validation-path-protocol.test.mjs && node test/outcome-record-protocol.test.mjs && node test/verification-pass-scope-protocol.test.mjs && node test/verification-completion-protocol.test.mjs && node test/epic-5-protocol.test.mjs && node test/prototype-pollution-guard.test.mjs && node test/protocol-check-coverage.test.mjs && node test/claim-safety.test.mjs && node test/artifact-reference-protocol.test.mjs && node test/canonical-identity.test.mjs && node test/timestamp-convergence.test.mjs && node test/schema-parity.test.mjs && node test/epic-5-semantics-convergence.test.mjs && node test/submitted-artifact-semantics-convergence.test.mjs && node test/customer-facing-finding-semantics-convergence.test.mjs && node test/json-snapshot.test.mjs && node test/c7-gate-infrastructure.test.mjs && node test/generated-types-contract.test.mjs && node test/c7-protocol-utils-hardening.test.mjs && node test/ml-dsa-signing-protocol.test.mjs && node test/vendor-receipt-outcome.test.mjs && node test/transparency-verify.test.mjs && node test/events-unchanged-by-transparency.test.mjs && node test/fixture-regeneration.test.mjs && node test/no-synthetic-signing.test.mjs"
+  }
+}

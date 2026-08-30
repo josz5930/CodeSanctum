@@ -1,0 +1,47 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "classification_record_id": "classification_record:synthetic_confirmed_metadata_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "classification": "confirmed",
+  "classified_at": "2026-07-22T00:02:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "evidence_basis": [
+    "scanner_output",
+    "metadata_only",
+    "not_submitted_by_policy_reference"
+  ],
+  "confirmation_criteria": [
+    "SYNTHETIC_DEMO_DATA reviewer used protocol-approved metadata criterion for this synthetic finding class. NOT_CUSTOMER_SOURCE."
+  ],
+  "defensible_confirmation_criteria": "SYNTHETIC_DEMO_DATA explicit reviewer justification explains why metadata evidence crosses the confirmed threshold for this synthetic scenario. NOT_CUSTOMER_SOURCE.",
+  "threshold_gaps": [
+    "SYNTHETIC_DEMO_DATA no approved source content is present, so the confirmation threshold explanation is mandatory. NOT_CUSTOMER_SOURCE."
+  ],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA metadata-only confirmation remains bounded to reviewer-stated criteria. NOT_CUSTOMER_SOURCE."
+  ],
+  "rationale": "SYNTHETIC_DEMO_DATA reviewer records confirmed classification with explicit defensible criteria, not silent scanner conversion. NOT_CUSTOMER_SOURCE.",
+  "source_reference_state": "not_submitted_by_policy",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "internal_only",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:metadata_only_source_context",
+      "availability_state": "not_submitted_by_policy",
+      "available_for_review": false,
+      "display_state": "not_submitted",
+      "source_derived_class": "never_collected"
+    }
+  ]
+}

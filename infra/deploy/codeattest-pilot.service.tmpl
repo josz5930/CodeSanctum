@@ -1,0 +1,25 @@
+[Unit]
+Description=CodeAttest pilot host
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=codeattest-pilot
+Group=codeattest-pilot
+WorkingDirectory=/opt/codeattest/pilot/current
+Environment=CREDENTIALS_DIRECTORY=%d
+LoadCredential=pilot-totp-key:/etc/codeattest/pilot/totp-key
+LoadCredentialEncrypted=pilot-signing-key:/etc/codeattest/pilot/signing-key.cred
+ExecStart=/usr/bin/node /opt/codeattest/pilot/current/services/host/dist/services/host/src/main.js /etc/codeattest/pilot-host.json
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=15s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/codeattest/pilot
+
+[Install]
+WantedBy=multi-user.target

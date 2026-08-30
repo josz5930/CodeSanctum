@@ -1,0 +1,79 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_facing_finding_record_id": "customer_facing_finding:synthetic_validation_invalid_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "expert_classification": {
+    "classification": "requires_customer_side_validation",
+    "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+    "rationale_summary": "SYNTHETIC_DEMO_DATA reviewer requires customer-side runtime validation. NOT_CUSTOMER_SOURCE.",
+    "criteria_summary": "SYNTHETIC_DEMO_DATA validation criteria stay bounded to future customer evidence. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA submitted evidence is not sufficient to verify runtime behavior. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "evidence_basis": {
+    "evidence_refs": [
+      "artifact_ref:synthetic_raw_snippet"
+    ],
+    "source_reference_state": "retained_review_artifact",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA evidence remains bounded. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "reviewer_remediation_guidance": {
+    "guidance_status": "limited_guidance_requires_validation",
+    "insufficient_evidence_reason": "SYNTHETIC_DEMO_DATA runtime behavior is not present in submitted evidence. NOT_CUSTOMER_SOURCE.",
+    "validation_path_ref": "validation_path:synthetic_script_001",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA guidance requires customer-side validation. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "customer_remediation_status": {
+    "latest_status": "not_started",
+    "customer_notes_visible": false
+  },
+  "verification_state": {
+    "status": "not_verified",
+    "summary": "SYNTHETIC_DEMO_DATA validation path and script do not prove verification complete. NOT_CUSTOMER_SOURCE."
+  },
+  "future_outcome_visibility": {
+    "accepted_risk_visible": false,
+    "false_positive_visible": false
+  },
+  "evidence_consumer_export": "include",
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact",
+  "validation_paths": [
+    {
+      "validation_path_ref": "validation_path:synthetic_script_001",
+      "path_type": "customer_run_script",
+      "required_evidence": "SYNTHETIC_DEMO_DATA collect customer-run script output with retained artifact references. NOT_CUSTOMER_SOURCE.",
+      "steps": "SYNTHETIC_DEMO_DATA run the reviewer-authored script in the customer environment. NOT_CUSTOMER_SOURCE.",
+      "expected_result": "SYNTHETIC_DEMO_DATA script output shows bounded validation evidence. NOT_CUSTOMER_SOURCE.",
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA customer-run script output is not verification by itself. NOT_CUSTOMER_SOURCE."
+      ],
+      "included_pass_verifiability": "customer_provided_evidence_required",
+      "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach command output as retained review artifact. NOT_CUSTOMER_SOURCE.",
+      "reviewer_validation_script_refs": [
+        "validation_script:synthetic_additional_004"
+      ]
+    }
+  ],
+  "reviewer_validation_scripts": [
+    {
+      "validation_script_ref": "validation_script:synthetic_additional_004",
+      "validation_path_ref": "validation_path:synthetic_script_001",
+      "script_package_status": "additional_script_candidate_pricing_tbd",
+      "purpose": "SYNTHETIC_DEMO_DATA confirm bounded synthetic runtime condition. NOT_CUSTOMER_SOURCE.",
+      "prerequisites": "SYNTHETIC_DEMO_DATA run from selected application test shell. NOT_CUSTOMER_SOURCE.",
+      "execution_steps": "SYNTHETIC_DEMO_DATA execute node ./scripts/synthetic-validation.mjs. NOT_CUSTOMER_SOURCE.",
+      "expected_output": "SYNTHETIC_DEMO_DATA command prints validation evidence reference. NOT_CUSTOMER_SOURCE.",
+      "safety_notes": "SYNTHETIC_DEMO_DATA script is read-only and uses fixture data. NOT_CUSTOMER_SOURCE.",
+      "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach output as customer-provided validation evidence. NOT_CUSTOMER_SOURCE.",
+      "script_content": "#!/usr/bin/env node\nconsole.log('SYNTHETIC_DEMO_DATA validation output NOT_CUSTOMER_SOURCE');"
+    }
+  ]
+}

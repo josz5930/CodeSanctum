@@ -1,0 +1,27 @@
+{
+  "name": "@onevps/host",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "dependencies": {
+    "@onevps/control-plane": "0.0.0",
+    "@onevps/evidence-store": "0.0.0",
+    "@onevps/identity-store": "0.0.0",
+    "@onevps/intake-service": "0.0.0",
+    "@onevps/protocol-ts": "0.0.0",
+    "@onevps/signing": "0.0.0",
+    "@onevps/ui": "0.0.0",
+    "canonicalize": "3.0.0",
+    "fastify": "5.12.0"
+  },
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "build:run": "tsc -p tsconfig.json --outDir dist",
+    "start": "node dist/services/host/src/main.js",
+    "test": "node test/scaffold.test.mjs && node test/config.test.mjs && node test/cookie.test.mjs && node test/migration-check.test.mjs && node test/gate-binding.test.mjs && node test/object-store-check.test.mjs && node test/grant-self-test.test.mjs && node test/boot.test.mjs && node test/server.test.mjs && node test/main.test.mjs && node test/budget-meter.test.mjs && node test/budget-guardrail.test.mjs && node test/observability.test.mjs && node test/observability-check.test.mjs && node test/boot-integration.test.mjs && node test/signing-key-check.test.mjs && node test/key-service.test.mjs && node test/receipt-signing-seam.test.mjs && node test/submission-credential-store.test.mjs && node test/assemble-intake-request.test.mjs && node test/submissions-route.test.mjs && node test/submissions-postgres.test.mjs && node test/auth-route.test.mjs && node test/web-routes.test.mjs && node test/seed-record-store.test.mjs && node test/require-evidence-access.test.mjs && node test/routes-do-not-call-enforce-scoped-access.test.mjs && node test/no-secret-in-logs.test.mjs"
+  }
+}

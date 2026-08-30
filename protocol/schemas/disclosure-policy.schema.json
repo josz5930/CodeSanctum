@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:disclosure-policy",
+  "title": "Disclosure Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "include_scanner_findings": { "const": true } },
+        "required": ["include_scanner_findings"]
+      },
+      "then": { "required": ["scanner_finding_set_ref"] }
+    },
+    {
+      "if": {
+        "properties": { "coverage_mode": { "const": "metadata_only" } },
+        "required": ["coverage_mode"]
+      },
+      "then": {
+        "properties": {
+          "snippet_policy": {
+            "properties": {
+              "allow_raw_snippets": { "const": false },
+              "max_snippet_chars": { "const": 0 },
+              "context_lines": { "const": 0 },
+              "selection_behavior": { "const": "none" },
+              "selected_files_or_areas": { "maxItems": 0 }
+            }
+          },
+          "evidence_categories": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "properties": {
+                  "category": { "enum": ["raw_snippets", "targeted_files"] },
+                  "included": { "const": true }
+                },
+                "required": ["category", "included"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "coverage_mode": { "const": "finding_context_snippets" } },
+        "required": ["coverage_mode"]
+      },
+      "then": {
+        "properties": {
+          "snippet_policy": {
+            "properties": {
+              "allow_raw_snippets": { "const": true },
+              "max_snippet_chars": { "minimum": 1 },
+              "selection_behavior": { "const": "finding_context" },
+              "selected_files_or_areas": { "maxItems": 0 }
+            }
+          },
+          "evidence_categories": {
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "category": { "const": "raw_snippets" },
+                    "included": { "const": true }
+                  },
+                  "required": ["category", "included"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "category": { "const": "targeted_files" },
+                    "included": { "const": false }
+                  },
+                  "required": ["category", "included"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "coverage_mode": { "const": "extended_approved_snippets_or_targeted_files" } },
+        "required": ["coverage_mode"]
+      },
+      "then": {
+        "properties": {
+          "snippet_policy": {
+            "properties": {
+              "allow_raw_snippets": { "const": true },
+              "selection_behavior": { "const": "extended_selected_files_or_areas" },
+              "selected_files_or_areas": { "minItems": 1 }
+            }
+          },
+          "evidence_categories": {
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "category": { "const": "raw_snippets" },
+                    "included": { "const": true }
+                  },
+                  "required": ["category", "included"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "category": { "const": "targeted_files" },
+                    "included": { "const": true }
+                  },
+                  "required": ["category", "included"]
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "disclosure_policy_id",
+    "created_at",
+    "review_scope_ref",
+    "coverage_mode",
+    "include_metadata",
+    "include_dependency_information",
+    "include_scanner_findings",
+    "evidence_categories",
+    "snippet_policy",
+    "redaction_policy",
+    "retention_policy",
+    "warnings",
+    "limitations"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "disclosure_policy_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "created_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "review_scope_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "scanner_finding_set_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "coverage_mode": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+    },
+    "include_metadata": {
+      "type": "boolean"
+    },
+    "include_dependency_information": {
+      "type": "boolean"
+    },
+    "include_scanner_findings": {
+      "type": "boolean"
+    },
+    "evidence_categories": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category", "included", "source_derived_class", "retention_handling"],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "metadata",
+              "dependencies",
+              "scanner_findings",
+              "raw_snippets",
+              "targeted_files",
+              "derived_artifacts",
+              "never_collected_items"
+            ]
+          },
+          "included": {
+            "type": "boolean"
+          },
+          "source_derived_class": {
+            "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+          },
+          "retention_handling": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "limitation": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          }
+        }
+      }
+    },
+    "snippet_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allow_raw_snippets",
+        "max_snippet_chars",
+        "context_lines",
+        "redaction_profile",
+        "raw_snippet_default_class",
+        "selection_behavior",
+        "selected_files_or_areas"
+      ],
+      "properties": {
+        "allow_raw_snippets": {
+          "type": "boolean"
+        },
+        "max_snippet_chars": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        "context_lines": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "redaction_profile": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "raw_snippet_default_class": {
+          "type": "string",
+          "const": "transient_source_derived"
+        },
+        "selection_behavior": {
+          "type": "string",
+          "enum": ["none", "finding_context", "extended_selected_files_or_areas"]
+        },
+        "selected_files_or_areas": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          }
+        }
+      }
+    },
+    "redaction_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "profile", "configuration_version", "limitation"],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "profile": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "configuration_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "limitation": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "retention_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_snippet_class",
+        "targeted_file_class",
+        "retain_source_opt_in",
+        "retention_period"
+      ],
+      "properties": {
+        "raw_snippet_class": {
+          "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+        },
+        "targeted_file_class": {
+          "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+        },
+        "retain_source_opt_in": {
+          "type": "boolean"
+        },
+        "retention_period": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "synthetic_fixture_markers": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "string",
+        "enum": ["SYNTHETIC_DEMO_DATA", "NOT_CUSTOMER_SOURCE"]
+      }
+    }
+  }
+}

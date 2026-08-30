@@ -1,0 +1,51 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:9123761686df3977fbcf11a1105ad1042ea256b315cbc22418306b2bb822e7de",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "receipt-0000",
+      "event_type": "receipt_issued",
+      "actor": {
+        "actor_type": "vendor_service",
+        "actor_id": "SYNTHETIC_DEMO_DATA-intake-service"
+      },
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:vendor_receipt_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ]
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:f80afc1fb200d78a87c16c8317478ac0930d485eb32239c33089fb56c4359f55",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 1,
+      "idempotency_key": "validation_path:review:synthetic-demo-001:validation_path:synthetic_supersedes_unknown_001",
+      "event_type": "validation_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:synthetic-amelia"
+      },
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_supersedes_unknown_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "supersedes_event_id": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ]
+}

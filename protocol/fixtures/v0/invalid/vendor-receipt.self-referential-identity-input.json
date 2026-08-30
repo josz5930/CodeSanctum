@@ -1,0 +1,177 @@
+{
+  "vendor_receipt_id": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "protocol_version": "codeattest.v0",
+  "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "receipt_timestamp": "2026-07-10T00:20:00Z",
+  "receiving_environment": {
+    "environment_profile": "synthetic_demo",
+    "evidence_boundary": "synthetic-demo-only"
+  },
+  "verification_state": "received_with_receipt",
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "vendor_receipt_id",
+    "receipt_signature",
+    "public_verification_metadata.signed_identity"
+  ],
+  "source_derived_class": "retained_review_artifact",
+  "approved_outbound_manifest_ref": "artifact_ref:outbound_manifest",
+  "bundle_instance_id": "bundle_instance:synthetic_demo_001",
+  "submission_attempt_id": "submission_attempt:synthetic_demo_001",
+  "selected_application": {
+    "application_id": "synthetic-demo-app",
+    "display_name": "Synthetic Demo Application"
+  },
+  "selected_commit": {
+    "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+    "source_control_system": "git"
+  },
+  "repository_identity_hash": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+  "coverage_mode": "finding_context_snippets",
+  "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+  "disclosure_policy_summary": {
+    "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+    "coverage_mode": "finding_context_snippets",
+    "redaction_profile": "synthetic-demo-redaction",
+    "redaction_configuration_version": "synthetic-demo-redaction-v0",
+    "retention_period": "not_applicable"
+  },
+  "approved_artifact_count_summary": {
+    "count_domain": "evidence_category_counts",
+    "total_count": 16,
+    "categories": [
+      {
+        "category": "metadata",
+        "count": 1
+      },
+      {
+        "category": "dependencies",
+        "count": 2
+      },
+      {
+        "category": "scanner_findings",
+        "count": 2
+      },
+      {
+        "category": "raw_snippets",
+        "count": 2
+      },
+      {
+        "category": "targeted_files",
+        "count": 0
+      },
+      {
+        "category": "derived_artifacts",
+        "count": 4
+      },
+      {
+        "category": "never_collected_items",
+        "count": 5
+      }
+    ]
+  },
+  "received_artifact_count_summary": {
+    "count_domain": "evidence_category_counts",
+    "total_count": 16,
+    "categories": [
+      {
+        "category": "metadata",
+        "count": 1
+      },
+      {
+        "category": "dependencies",
+        "count": 2
+      },
+      {
+        "category": "scanner_findings",
+        "count": 2
+      },
+      {
+        "category": "raw_snippets",
+        "count": 2
+      },
+      {
+        "category": "targeted_files",
+        "count": 0
+      },
+      {
+        "category": "derived_artifacts",
+        "count": 4
+      },
+      {
+        "category": "never_collected_items",
+        "count": 5
+      }
+    ]
+  },
+  "approved_vs_received_comparison": {
+    "comparison_state": "matched",
+    "rows": [
+      {
+        "field": "manifest_id",
+        "approved_value": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+        "received_value": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+        "result": "matched"
+      },
+      {
+        "field": "evidence_bundle_id",
+        "approved_value": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+        "received_value": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+        "result": "matched"
+      },
+      {
+        "field": "selected_commit",
+        "approved_value": "0123456789abcdef0123456789abcdef01234567",
+        "received_value": "0123456789abcdef0123456789abcdef01234567",
+        "result": "matched"
+      },
+      {
+        "field": "repository_identity_hash",
+        "approved_value": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+        "received_value": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+        "result": "matched"
+      },
+      {
+        "field": "coverage_mode",
+        "approved_value": "finding_context_snippets",
+        "received_value": "finding_context_snippets",
+        "result": "matched"
+      },
+      {
+        "field": "artifact_count_summary",
+        "approved_value": "evidence_category_counts:16",
+        "received_value": "evidence_category_counts:16",
+        "result": "matched"
+      },
+      {
+        "field": "disclosure_policy_summary",
+        "approved_value": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8:finding_context_snippets:synthetic-demo-redaction-v0",
+        "received_value": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8:finding_context_snippets:synthetic-demo-redaction-v0",
+        "result": "matched"
+      }
+    ]
+  },
+  "public_verification_metadata": {
+    "protocol_version": "codeattest.v0",
+    "algorithm_profile": "ml_dsa_65",
+    "canonicalization": "rfc8785",
+    "key_id": "codeattest-vendor-receipt-demo-key",
+    "key_version": "story-2.3-synthetic-demo",
+    "public_key_reference": "fixture:vendor-receipt-synthetic-demo-public-key",
+    "signing_time": "2026-07-10T00:20:00Z",
+    "signed_identity_type": "vendor_receipt",
+    "signing_mode": "managed_key",
+    "signing_limitations": [
+      "SYNTHETIC_DEMO_DATA This signature covers synthetic fixture data. NOT_CUSTOMER_SOURCE.",
+      "Key custody is self-hosted software custody in a non-validated cryptographic module, not a hardware security module.",
+      "A valid signature shows which deployment key produced this artifact and says nothing about the completeness or quality of any review."
+    ]
+  },
+  "key_rotation_readiness": {
+    "historical_key_id": "codeattest-vendor-receipt-demo-key",
+    "historical_key_version": "story-2.3-synthetic-demo",
+    "event_append_hint": "future_story_2_4_append_key_rotation_event_without_rewriting_receipt"
+  }
+}

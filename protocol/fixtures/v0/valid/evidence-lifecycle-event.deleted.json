@@ -1,0 +1,18 @@
+{
+  "protocol_version": "codeattest.v0",
+  "event_id": "evidence_event:del-0001",
+  "review_id": "review:synthetic-demo-001",
+  "sequence_number": 7,
+  "idempotency_key": "SYNTHETIC_DEMO_DATA-del-0001",
+  "event_type": "evidence_deleted",
+  "actor": {
+    "actor_type": "vendor_service",
+    "actor_id": "SYNTHETIC_DEMO_DATA-retention-worker"
+  },
+  "event_timestamp": "2026-07-19T00:00:00Z",
+  "artifact_refs": [
+    "artifact_ref:raw_snippet_001"
+  ],
+  "source_derived_class": "transient_source_derived",
+  "deletion_evidence_ref": "deletion_evidence:del-ev-0001"
+}

@@ -1,0 +1,5 @@
+SYNTHETIC_DEMO_DATA
+NOT_CUSTOMER_SOURCE
+
+This is synthetic Raw Snippet-like demo content for Story 1.2 fixture-safety checks.
+It is not customer source, not production code, and not evidence collected from a customer environment.

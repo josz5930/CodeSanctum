@@ -1,0 +1,8 @@
+{
+  "protocol_version": "codeattest.v0",
+  "fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "deletion_timestamp": "2027-02-29T00:00:00Z"
+}

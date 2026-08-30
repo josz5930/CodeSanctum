@@ -1,0 +1,63 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "normalization_run_id": "normalization_run:synthetic-demo-metadata-only",
+  "normalization_status": "drafts_created",
+  "created_at": "2026-07-21T00:01:00Z",
+  "vendor_receipt_ref": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "source_scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage_mode": "metadata_only",
+  "review_finding_drafts": [
+    {
+      "review_finding_draft_id": "review_finding_draft:demo_metadata_only",
+      "candidate_finding_refs": [
+        "candidate_finding:demo_regex_001"
+      ],
+      "group_key": "regex|demo.regex.eval|src/app.ts:2:18",
+      "sources": [
+        "regex"
+      ],
+      "affected_area": "src/app.ts:2:18",
+      "evidence_refs": [
+        {
+          "artifact_ref": "artifact_ref:scanner_finding_set",
+          "availability_state": "retained_review_artifact",
+          "available_for_review": true,
+          "display_state": "available_reference",
+          "source_derived_class": "retained_review_artifact"
+        },
+        {
+          "artifact_ref": "artifact_ref:metadata_only_source_context",
+          "availability_state": "not_submitted_by_policy",
+          "available_for_review": false,
+          "display_state": "not_submitted",
+          "source_derived_class": "never_collected"
+        }
+      ],
+      "severity": "warning",
+      "confidence": "medium",
+      "scanner_rule_ids": [
+        "demo.regex.eval"
+      ],
+      "status": "draft",
+      "review_lifecycle_state": "under_review",
+      "coverage_mode": "metadata_only",
+      "evidence_basis": [
+        "scanner_output",
+        "metadata_only",
+        "not_submitted_by_policy_reference"
+      ],
+      "threshold_gaps": [
+        "Source context was not submitted by policy, so reviewer confirmation requires additional customer-approved evidence."
+      ],
+      "source_reference_state": "not_submitted_by_policy",
+      "source_derived_class": "retained_review_artifact"
+    }
+  ],
+  "normalization_limitations": [
+    "Metadata-only normalization preserves scanner provenance but cannot confirm findings without customer-approved context."
+  ],
+  "source_derived_class": "retained_review_artifact"
+}

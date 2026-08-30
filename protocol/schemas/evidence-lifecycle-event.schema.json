@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+  "title": "Evidence Lifecycle Event",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "event_type": { "const": "evidence_deleted" } }, "required": ["event_type"] },
+      "then": { "required": ["deletion_evidence_ref", "source_derived_class"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "evidence_accessed" } }, "required": ["event_type"] },
+      "then": { "required": ["access_scope", "source_derived_class"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "retention_status_changed" } }, "required": ["event_type"] },
+      "then": { "required": ["source_derived_class"] }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "event_id",
+    "review_id",
+    "sequence_number",
+    "idempotency_key",
+    "event_type",
+    "actor",
+    "event_timestamp",
+    "artifact_refs"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "event_id": {
+      "type": "string",
+      "pattern": "^evidence_event:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "sequence_number": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "idempotency_key": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "evidence_accessed",
+        "evidence_deleted",
+        "retention_status_changed"
+      ]
+    },
+    "actor": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/actor_reference"
+    },
+    "event_timestamp": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+      }
+    },
+    "source_derived_class": {
+      "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+    },
+    "purpose": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "access_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tenant_id",
+        "review_scope"
+      ],
+      "properties": {
+        "tenant_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "review_scope": {
+          "type": "string",
+          "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+        }
+      }
+    },
+    "deletion_evidence_ref": {
+      "type": "string",
+      "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "retention_record_ref": {
+      "type": "string",
+      "pattern": "^retention_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "supersedes_event_id": {
+      "type": "string",
+      "pattern": "^evidence_event:[a-z0-9][a-z0-9_-]{2,63}$"
+    }
+  }
+}

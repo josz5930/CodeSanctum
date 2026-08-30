@@ -1,0 +1,7 @@
+SYNTHETIC_DEMO_DATA
+NOT_CUSTOMER_SOURCE
+
+This is synthetic Raw Snippet-like demo content used to prove the C8-06
+content-leak scan rejects forbidden text even when both synthetic markers
+are present: secret=demo, Authorization Bearer demo, scanner stdout,
+eval('1 + 1'), and alice@example.com.

@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:verification-record",
+  "title": "Verification Record",
+  "type": "object",
+  "additionalProperties": false,
+  "x-typescript-conditional-required": true,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "verification_record_id",
+    "record_version",
+    "verification_pass_id",
+    "verification_pass_ref",
+    "review_finding_draft_ref",
+    "classification_record_ref",
+    "verification_evidence_record_refs",
+    "verification_status",
+    "recorded_at",
+    "actor",
+    "before_state",
+    "after_state",
+    "rationale",
+    "remaining_limitations",
+    "source_derived_class",
+    "visibility"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "verification_status": { "enum": ["verification_pending", "not_verified", "requires_customer_side_validation"] } } },
+      "then": { "required": ["next_step_summary"] }
+    },
+    {
+      "if": {
+        "properties": { "verification_status": { "const": "verification_complete" } },
+        "required": ["verification_status"]
+      },
+      "then": {
+        "properties": {
+          "after_state": {
+            "properties": {
+              "criteria_results": {
+                "items": {
+                  "properties": { "result": { "const": "satisfied" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "verification_status": { "const": "verification_pending" } },
+        "required": ["verification_status"]
+      },
+      "then": {
+        "properties": {
+          "after_state": {
+            "properties": {
+              "criteria_results": {
+                "contains": {
+                  "properties": { "result": { "const": "not_evaluated" } },
+                  "required": ["result"]
+                },
+                "minContains": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "verification_status": { "const": "not_verified" } },
+        "required": ["verification_status"]
+      },
+      "then": {
+        "properties": {
+          "after_state": {
+            "properties": {
+              "criteria_results": {
+                "contains": {
+                  "properties": { "result": { "const": "not_satisfied" } },
+                  "required": ["result"]
+                },
+                "minContains": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "verification_status": { "const": "requires_customer_side_validation" } },
+        "required": ["verification_status"]
+      },
+      "then": {
+        "properties": {
+          "after_state": {
+            "properties": {
+              "criteria_results": {
+                "contains": {
+                  "properties": { "result": { "const": "customer_validation_required" } },
+                  "required": ["result"]
+                },
+                "minContains": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "verification_record_id": { "type": "string", "pattern": "^verification_record:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "record_version": { "type": "integer", "minimum": 1 },
+    "verification_pass_id": { "type": "string", "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "verification_pass_ref": { "type": "string", "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "review_finding_draft_ref": { "type": "string", "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "classification_record_ref": { "type": "string", "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "verification_evidence_record_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^verification_evidence:[a-z0-9][a-z0-9_-]{2,63}$" }
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": ["verification_complete", "verification_pending", "not_verified", "requires_customer_side_validation"]
+    },
+    "recorded_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "const": "reviewer" },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "before_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "review_finding_draft_evidence_refs", "evidence_basis", "source_reference_state", "confirmation_criteria"],
+      "properties": {
+        "classification": { "type": "string", "enum": ["likely", "confirmed", "inconclusive", "requires_customer_side_validation"] },
+        "review_finding_draft_evidence_refs": {
+          "type": "array",
+          "maxItems": 10000,
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" }
+        },
+        "evidence_basis": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+        "source_reference_state": { "type": "string", "enum": ["retained_review_artifact", "deleted_under_policy", "never_collected", "not_submitted_by_policy", "unresolved_reference"] },
+        "confirmation_criteria": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } }
+      }
+    },
+    "after_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "criteria_results", "evidence_refs"],
+      "properties": {
+        "summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+        "criteria_results": {
+          "type": "array",
+          "maxItems": 10000,
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["criterion", "result"],
+            "properties": {
+              "criterion": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+              "result": { "type": "string", "enum": ["satisfied", "not_satisfied", "not_evaluated", "customer_validation_required"] }
+            }
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "maxItems": 10000,
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" }
+        }
+      }
+    },
+    "rationale": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "remaining_limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "next_step_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" },
+    "visibility": { "type": "string", "enum": ["customer_facing", "internal_only"] }
+  }
+}

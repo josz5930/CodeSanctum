@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:artifact-reference",
+  "title": "Artifact Reference",
+  "type": "object",
+  "additionalProperties": false,
+  "dependentRequired": {
+    "content_path": ["content_path_anchor"]
+  },
+  "required": [
+    "protocol_version",
+    "artifact_ref",
+    "artifact_type",
+    "digest",
+    "size_bytes",
+    "source_derived_class",
+    "manifest_entry_ref"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "review_scope",
+        "disclosure_policy",
+        "dependency_manifest",
+        "scanner_finding_set",
+        "scanner_raw_output",
+        "raw_snippet",
+        "targeted_file",
+        "outbound_manifest",
+        "customer_approval",
+        "bundle_manifest",
+        "signature_envelope"
+      ]
+    },
+    "digest": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/artifact_digest"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "source_derived_class": {
+      "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+    },
+    "manifest_entry_ref": {
+      "type": "string",
+      "pattern": "^manifest_entry:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "media_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*//)(?!.*(?:^|/)\\.\\.?(?:/|$))[a-zA-Z0-9._/-]+$"
+    },
+    "content_path_anchor": {
+      "type": "string",
+      "enum": [
+        "manifest_artifacts",
+        "bundle_artifacts",
+        "bundle_source_derived_artifacts",
+        "fixture_root"
+      ]
+    },
+    "synthetic_markers": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": ["SYNTHETIC_DEMO_DATA", "NOT_CUSTOMER_SOURCE"]
+      }
+    }
+  }
+}

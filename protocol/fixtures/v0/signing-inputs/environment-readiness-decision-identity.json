@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "environment_readiness_decision_identity",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "environment_readiness_decision",
+  "signed_identity": "sha256:8aa3c2ec6cf635126083b9b643d51e12f405ef4ec8e993e6e1c7b95c092c31ce",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/environment-readiness-decision.identity-input.json"
+}

@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "attestation_package_finalization_identity",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "attestation_package_finalization",
+  "signed_identity": "sha256:efce00703010680d92479fac1a268417bb0d5487bcf38169070de509fb3ac1f8",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/attestation-package-finalization.identity-input.json"
+}

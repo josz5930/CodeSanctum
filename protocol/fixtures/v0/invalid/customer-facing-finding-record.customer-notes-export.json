@@ -1,0 +1,59 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_facing_finding_record_id": "customer_facing_finding:synthetic_demo_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+  "customer_status_record_refs": [
+    "customer_status:synthetic_status_owner_due_001"
+  ],
+  "expert_classification": {
+    "classification": "likely",
+    "classification_record_ref": "classification_record:synthetic_likely_001",
+    "rationale_summary": "SYNTHETIC_DEMO_DATA expert rationale remains distinct from customer remediation metadata. NOT_CUSTOMER_SOURCE.",
+    "criteria_summary": "SYNTHETIC_DEMO_DATA likely criteria are bounded to submitted evidence. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA no verification evidence has been recorded yet. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "evidence_basis": {
+    "evidence_refs": [
+      "artifact_ref:synthetic_raw_snippet"
+    ],
+    "source_reference_state": "retained_review_artifact",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA retained evidence is synthetic and bounded. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "reviewer_remediation_guidance": {
+    "guidance_status": "actionable_guidance_provided",
+    "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+    "suggested_remediation_summary": "SYNTHETIC_DEMO_DATA apply the bounded configuration fix and record retained evidence. NOT_CUSTOMER_SOURCE.",
+    "validation_step_summary": "SYNTHETIC_DEMO_DATA rerun scoped validation and preserve retained evidence. NOT_CUSTOMER_SOURCE.",
+    "limitations": [
+      "SYNTHETIC_DEMO_DATA guidance does not imply audit acceptance. NOT_CUSTOMER_SOURCE."
+    ],
+    "exploitability_rationale_summary": "SYNTHETIC_DEMO_DATA customer-facing rationale remains bounded to submitted evidence. NOT_CUSTOMER_SOURCE."
+  },
+  "customer_remediation_status": {
+    "latest_status": "planned",
+    "latest_status_record_ref": "customer_status:synthetic_status_owner_due_001",
+    "owner": "SYNTHETIC_DEMO_DATA platform owner NOT_CUSTOMER_SOURCE",
+    "due_date": "2026-08-31",
+    "target_state": "SYNTHETIC_DEMO_DATA customer validation pending NOT_CUSTOMER_SOURCE",
+    "customer_notes_visible": false,
+    "customer_notes_summary": "SYNTHETIC_DEMO_DATA hidden notes must not be exported. NOT_CUSTOMER_SOURCE."
+  },
+  "verification_state": {
+    "status": "not_verified",
+    "summary": "SYNTHETIC_DEMO_DATA Epic 4 verification evidence has not been recorded. NOT_CUSTOMER_SOURCE."
+  },
+  "future_outcome_visibility": {
+    "accepted_risk_visible": false,
+    "false_positive_visible": false
+  },
+  "evidence_consumer_export": "include",
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact"
+}

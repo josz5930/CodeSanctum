@@ -1,0 +1,15 @@
+{
+  "regex_rules": [
+    {
+      "scanner_name": "regex",
+      "rule_id": "demo.regex.eval",
+      "pattern": "eval\\(",
+      "ruleset_identifier": "local:demo-regex",
+      "severity": "warning",
+      "confidence": "medium",
+      "target_file_group": "typescript_javascript",
+      "target_include_patterns": ["src/*.ts"],
+      "retain_raw_output_locally": false
+    }
+  ]
+}

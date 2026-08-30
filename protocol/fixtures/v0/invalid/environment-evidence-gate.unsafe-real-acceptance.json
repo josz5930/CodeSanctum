@@ -1,0 +1,25 @@
+{
+  "protocol_version": "codeattest.v0",
+  "environment_profile": "partner_pilot_real_snippet_ready",
+  "allowed_source_derived_classes": [
+    "never_collected",
+    "retained_review_artifact",
+    "transient_source_derived",
+    "customer_opt_in_retained_source"
+  ],
+  "real_raw_snippet_acceptance": true,
+  "real_targeted_file_acceptance": true,
+  "access_control_ready": true,
+  "access_logging_ready": true,
+  "encryption_at_rest_ready": true,
+  "retention_defaults_ready": true,
+  "deletion_controls_ready": true,
+  "demo_budget_gate_ready": true,
+  "signing_release_trust_ready": true,
+  "retention_period_required": true,
+  "evidence_boundary": "partner-pilot-real-snippet-ready",
+  "readiness_decision_ref": "sha256:14d8b35ce1f5190974ed131ee2000489827151fe30c6ec1c241b5c225013ef78",
+  "notes": [
+    "SYNTHETIC_DEMO_DATA fixture attempts promotion under a declined decision. NOT_CUSTOMER_SOURCE."
+  ]
+}

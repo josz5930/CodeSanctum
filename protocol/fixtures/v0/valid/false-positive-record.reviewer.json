@@ -1,0 +1,50 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "false_positive_record_id": "false_positive:synthetic_reviewer_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "candidate_finding_refs": [
+    "candidate_finding:synthetic_semgrep_001"
+  ],
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "transient_source_derived"
+    }
+  ],
+  "evidence_basis": [
+    "scanner_output",
+    "finding_context_snippet",
+    "retained_review_artifact"
+  ],
+  "rationale": "SYNTHETIC_DEMO_DATA reviewer determined the scanner signal is a false positive because the bounded evidence shows the guarded demo path is not reachable as reported. NOT_CUSTOMER_SOURCE.",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA false-positive rationale is bounded to submitted evidence and keeps the finding visible. NOT_CUSTOMER_SOURCE."
+  ],
+  "recorded_at": "2026-07-28T02:00:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "source_reference_state": "retained_review_artifact",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "field_export_policy": {
+    "rationale": "include",
+    "limitations": "include",
+    "evidence_basis": "include",
+    "candidate_finding_refs": "include",
+    "evidence_consumer_export": "include"
+  }
+}

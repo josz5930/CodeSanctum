@@ -1,0 +1,57 @@
+{
+  "protocol_version": "codeattest.v0",
+  "verification_addendum_id": "verification_addendum:synthetic_complete",
+  "review_id": "review:synthetic-demo-001",
+  "verification_pass_id": "verification_pass:synthetic_pass_requires_validation_001",
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "verification_pass_ref": "verification_pass:synthetic_pass_requires_validation_001",
+  "selected_commit": {
+    "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+    "source_control_system": "git"
+  },
+  "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+  "generated_at": "2026-08-01T12:00:00Z",
+  "findings": [
+    {
+      "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+      "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+      "current_classification": "requires_customer_side_validation",
+      "verification_status": "verification_complete",
+      "reviewer_actor_category": "reviewer",
+      "verification_record_ref": "verification_record:synthetic_complete",
+      "verification_evidence_record_refs": [
+        "verification_evidence:synthetic_validation_evidence"
+      ],
+      "validation_path_ref": "validation_path:synthetic_script_001",
+      "timestamp": "2026-07-31T12:00:00Z",
+      "summary": "SYNTHETIC_DEMO_DATA reviewer records bounded completion for this finding and criterion only. NOT_CUSTOMER_SOURCE.",
+      "remaining_limitations": [
+        "SYNTHETIC_DEMO_DATA outcome remains limited to this finding and criterion. NOT_CUSTOMER_SOURCE."
+      ],
+      "remediation_guidance_ref": "remediation_guidance:synthetic_requires_path_only_001"
+    }
+  ],
+  "retained_evidence": [
+    {
+      "artifact_ref": "artifact_ref:synthetic_validation_evidence",
+      "source_derived_class": "retained_review_artifact",
+      "recorded_at": "2026-07-30T12:00:00Z"
+    },
+    {
+      "artifact_ref": "artifact_ref:synthetic_validation_output",
+      "source_derived_class": "retained_review_artifact",
+      "recorded_at": "2026-07-30T12:00:00Z"
+    }
+  ],
+  "deleted_evidence": [],
+  "history_refs": [
+    "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+  ],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA addendum remains bounded to recorded scope and limitations. NOT_CUSTOMER_SOURCE."
+  ],
+  "finalization_state": "finalized",
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact"
+}

@@ -1,0 +1,12 @@
+{
+  "protocol_version": "codeattest.v0",
+  "deletion_evidence_id": "deletion_evidence:del-ev-9002",
+  "deleted_artifact_digests": [],
+  "deletion_method": "crypto_erase",
+  "deletion_timestamp": "2026-07-19T00:00:00Z",
+  "actor": {
+    "actor_type": "vendor_service",
+    "actor_id": "SYNTHETIC_DEMO_DATA-retention-worker"
+  },
+  "verification_status": "verified"
+}

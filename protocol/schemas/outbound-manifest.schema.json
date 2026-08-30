@@ -1,0 +1,317 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:outbound-manifest",
+  "title": "Outbound Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "manifest_id",
+    "generated_at",
+    "review_scope_ref",
+    "disclosure_policy_ref",
+    "selected_scope_summary",
+    "runner",
+    "coverage_mode",
+    "disclosure_policy_summary",
+    "evidence_categories",
+    "artifact_references",
+    "package_preview_state",
+    "approval",
+    "warnings",
+    "limitations"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "manifest_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "generated_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "review_scope_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "disclosure_policy_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "scanner_finding_set_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "selected_scope_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_application",
+        "selected_commit",
+        "repository_identity",
+        "dependency_manifest_total_count",
+        "dependency_manifest_detected_count"
+      ],
+      "properties": {
+        "selected_application": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["application_id", "display_name"],
+          "properties": {
+            "application_id": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            },
+            "display_name": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            }
+          }
+        },
+        "selected_commit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit_sha", "source_control_system"],
+          "properties": {
+            "commit_sha": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "source_control_system": {
+              "type": "string",
+              "enum": ["git"]
+            }
+          }
+        },
+        "repository_identity": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "dependency_manifest_total_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dependency_manifest_detected_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "codeattest-local-runner"
+        },
+        "version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "coverage_mode": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+    },
+    "disclosure_policy_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "disclosure_policy_ref",
+        "coverage_mode",
+        "redaction_profile",
+        "redaction_configuration_version",
+        "retention_period"
+      ],
+      "properties": {
+        "disclosure_policy_ref": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "coverage_mode": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+        },
+        "redaction_profile": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "redaction_configuration_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "retention_period": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "evidence_categories": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "category",
+          "included",
+          "inclusion_state",
+          "count",
+          "reference",
+          "source_derived_class",
+          "source_code_disclosure",
+          "redaction_state",
+          "redaction_configuration_version",
+          "retention_handling",
+          "limitation",
+          "details"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "metadata",
+              "dependencies",
+              "scanner_findings",
+              "raw_snippets",
+              "targeted_files",
+              "derived_artifacts",
+              "never_collected_items"
+            ]
+          },
+          "included": {
+            "type": "boolean"
+          },
+          "inclusion_state": {
+            "type": "string",
+            "enum": ["included", "excluded_by_policy", "never_collected"]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "reference": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "source_derived_class": {
+            "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+          },
+          "source_code_disclosure": {
+            "type": "boolean"
+          },
+          "redaction_state": {
+            "type": "string",
+            "enum": [
+              "not_applicable",
+              "redaction_not_configured",
+              "redaction_configured"
+            ]
+          },
+          "redaction_configuration_version": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "retention_handling": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "limitation": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "details": {
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "items": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+            }
+          },
+          "snippet_controls": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "max_snippet_chars",
+              "context_lines",
+              "redaction_profile",
+              "redaction_configuration_version",
+              "retention_class",
+              "selected_files_or_areas"
+            ],
+            "properties": {
+              "max_snippet_chars": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2000
+              },
+              "context_lines": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10
+              },
+              "redaction_profile": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              },
+              "redaction_configuration_version": {
+                "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+              },
+              "retention_class": {
+                "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+              },
+              "selected_files_or_areas": {
+                "type": "array",
+                "maxItems": 10000,
+                "items": {
+                  "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "artifact_references": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:artifact-reference"
+      }
+    },
+    "package_preview_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "send_ready", "local_only"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["preview_generated"]
+        },
+        "send_ready": {
+          "type": "boolean",
+          "const": false
+        },
+        "local_only": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approval_state"],
+      "properties": {
+        "approval_state": {
+          "type": "string",
+          "enum": ["not_requested"]
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    }
+  }
+}

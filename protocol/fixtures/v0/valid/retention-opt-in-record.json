@@ -1,0 +1,16 @@
+{
+  "protocol_version": "codeattest.v0",
+  "retention_record_id": "retention_record:opt-in-0001",
+  "source_derived_class": "customer_opt_in_retained_source",
+  "customer_approval_ref": "approval:synthetic-demo-opt-in-0001",
+  "retention_period": {
+    "start_timestamp": "2026-07-19T00:00:00Z",
+    "end_timestamp": "2026-10-19T00:00:00Z"
+  },
+  "retained_artifact_refs": [
+    "artifact_ref:opt_in_snippet_001"
+  ],
+  "retention_status_event_ids": [
+    "evidence_event:ret-0001"
+  ]
+}

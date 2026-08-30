@@ -1,0 +1,34 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "validation_path_id": "validation_path:invalid_evidence_unbound_001",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:synthetic_deleted_without_proof",
+      "availability_state": "deleted_under_policy",
+      "available_for_review": false,
+      "display_state": "deleted",
+      "source_derived_class": "transient_source_derived"
+    }
+  ],
+  "remediation_guidance_ref": "remediation_guidance:synthetic_requires_path_only_001",
+  "path_type": "manual_steps",
+  "required_evidence": "SYNTHETIC_DEMO_DATA capture screenshots or command output for the manual synthetic check. NOT_CUSTOMER_SOURCE.",
+  "steps": "SYNTHETIC_DEMO_DATA follow the bounded manual validation checklist in the selected app environment. NOT_CUSTOMER_SOURCE.",
+  "expected_result": "SYNTHETIC_DEMO_DATA manual evidence records the customer-observed result without changing expert classification. NOT_CUSTOMER_SOURCE.",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA manual steps are not reviewer-authored scripts and do not imply verification complete. NOT_CUSTOMER_SOURCE."
+  ],
+  "included_pass_verifiability": "customer_provided_evidence_required",
+  "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach manual evidence as customer-provided validation evidence for Epic 4. NOT_CUSTOMER_SOURCE.",
+  "authored_at": "2026-07-28T00:02:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "source_reference_state": "deleted_under_policy",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

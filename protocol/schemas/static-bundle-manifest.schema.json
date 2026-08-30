@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:static-bundle-manifest",
+  "title": "Static Bundle Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "static_bundle_id",
+    "static_bundle_manifest_id",
+    "manifest_version",
+    "package_state",
+    "review_id",
+    "created_at",
+    "attestation_ref",
+    "vendor_receipt_ref",
+    "evidence_bundle_representation",
+    "portal_projection_ref",
+    "files",
+    "minimization_disposition",
+    "verification_metadata",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "static_bundle_id": { "type": "string", "pattern": "^static_bundle:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "static_bundle_manifest_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "manifest_version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "package_state": { "type": "string", "enum": ["generated", "finalized"] },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "created_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "supersedes_static_bundle_manifest_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "attestation_ref": { "type": "string", "pattern": "^attestation:[a-f0-9]{64}$" },
+    "vendor_receipt_ref": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "evidence_bundle_representation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_bundle_id", "bundle_manifest_ref", "signature_ref", "identity_ref", "retained_export_approved_payload_refs"],
+      "properties": {
+        "evidence_bundle_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "bundle_manifest_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+        "signature_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+        "identity_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+        "retained_export_approved_payload_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } }
+      }
+    },
+    "portal_projection_ref": { "type": "string", "pattern": "^static_portal_projection:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "files": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relative_path", "artifact_ref", "media_type", "digest", "size_bytes", "artifact_role", "source_derived_class", "inclusion_reason"],
+        "properties": {
+          "relative_path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[a-zA-Z0-9._/-]+$" },
+          "artifact_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "media_type": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "digest": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/artifact_digest" },
+          "size_bytes": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+          "artifact_role": { "type": "string", "enum": ["attestation", "vendor_receipt", "evidence_bundle_representation", "supporting_evidence", "portal", "portal_asset", "verification_metadata"] },
+          "source_derived_class": { "type": "string", "enum": ["never_collected", "retained_review_artifact", "customer_opt_in_retained_source"] },
+          "inclusion_reason": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+        }
+      }
+    },
+    "minimization_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included_retained_refs", "excluded_refs", "deleted_refs", "never_collected_refs"],
+      "properties": {
+        "included_retained_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } },
+        "excluded_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } },
+        "deleted_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$" } },
+        "never_collected_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } }
+      }
+    },
+    "verification_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_signature_ref", "signing_input_ref", "verification_instructions_path", "offline_verification_supported", "all_file_digests_verified"],
+      "properties": {
+        "manifest_signature_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+        "signing_input_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+        "verification_instructions_path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[a-zA-Z0-9._/-]+$" },
+        "offline_verification_supported": { "type": "boolean", "const": true },
+        "all_file_digests_verified": { "type": "boolean", "const": true }
+      }
+    },
+    "canonicalization": { "type": "string", "const": "rfc8785" },
+    "identity_hash_algorithm": { "type": "string", "const": "sha256" },
+    "identity_input_excludes": { "type": "array", "minItems": 1, "maxItems": 1, "uniqueItems": true, "items": { "type": "string", "const": "static_bundle_manifest_id" } }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "protocol_version": "codeattest.v0",
+  "pilot_metric_record_id": "pilot_metric:synthetic_001",
+  "record_version": 1,
+  "review_id": "review:synthetic-demo-001",
+  "recorded_at": "2026-08-01T12:25:00Z",
+  "recorded_by": {
+    "actor_type": "vendor_service",
+    "actor_id": "vendor_service:synthetic-pilot-metrics"
+  },
+  "measurement_window": {
+    "start_timestamp": "2026-07-01T00:00:00Z",
+    "end_timestamp": "2026-08-01T00:00:00Z"
+  },
+  "metrics": {
+    "candidate_finding_count": 8,
+    "classified_finding_count": 5,
+    "actionable_classification_count": 3,
+    "review_hours": 6.5,
+    "validation_hours": 2,
+    "turnaround_hours": 72,
+    "disclosure_mode": "finding_context_snippets",
+    "submission_rejection_count": 1,
+    "repeat_intent_signal": "yes",
+    "pay_intent_signal": "unsure"
+  },
+  "caveats": [
+    "SYNTHETIC_DEMO_DATA Internal pilot metric from one synthetic review; not a customer-facing outcome. NOT_CUSTOMER_SOURCE."
+  ],
+  "content_free": true,
+  "pii_free": true,
+  "visibility": "internal_only",
+  "source_derived_class": "retained_review_artifact"
+}

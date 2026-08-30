@@ -1,0 +1,23 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "validation_script_id": "validation_script:synthetic_additional_003",
+  "validation_path_ref": "validation_path:synthetic_script_001",
+  "classification_record_ref": "classification_record:synthetic_requires_validation_001",
+  "remediation_guidance_ref": "remediation_guidance:synthetic_requires_path_only_001",
+  "script_package_status": "additional_script_candidate_pricing_tbd",
+  "purpose": "SYNTHETIC_DEMO_DATA additional script candidate pending separate customer review. NOT_CUSTOMER_SOURCE.",
+  "prerequisites": "SYNTHETIC_DEMO_DATA run only after separate agreement applies. NOT_CUSTOMER_SOURCE.",
+  "execution_steps": "SYNTHETIC_DEMO_DATA execute the additional candidate script only after customer approval. NOT_CUSTOMER_SOURCE.",
+  "expected_output": "SYNTHETIC_DEMO_DATA output would become customer-provided validation evidence if approved. NOT_CUSTOMER_SOURCE.",
+  "safety_notes": "SYNTHETIC_DEMO_DATA additional script is not included in the base package. NOT_CUSTOMER_SOURCE.",
+  "output_attachment_instructions": "SYNTHETIC_DEMO_DATA attach output only if separately approved. NOT_CUSTOMER_SOURCE.",
+  "script_content": "#!/usr/bin/env node\nconsole.log('SYNTHETIC_DEMO_DATA additional validation output pricing TBD NOT_CUSTOMER_SOURCE');",
+  "authored_at": "2026-07-28T00:11:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:customer-approval",
+  "title": "Customer Approval Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "approval_id",
+    "manifest_id",
+    "decision",
+    "decided_at",
+    "displayed_context",
+    "warnings_acknowledged"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "approval_id": {
+      "type": "string",
+      "pattern": "^approval:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "manifest_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["approved", "declined"]
+    },
+    "decided_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "approving_actor": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/actor_reference"
+    },
+    "displayed_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_id",
+        "selected_application",
+        "selected_commit",
+        "repository_identity",
+        "coverage_mode",
+        "disclosure_policy_ref",
+        "disclosure_warnings",
+        "bundle_preview_summary"
+      ],
+      "properties": {
+        "manifest_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "selected_application": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["application_id", "display_name"],
+          "properties": {
+            "application_id": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            },
+            "display_name": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            }
+          }
+        },
+        "selected_commit": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit_sha", "source_control_system"],
+          "properties": {
+            "commit_sha": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            "source_control_system": {
+              "type": "string",
+              "enum": ["git"]
+            }
+          }
+        },
+        "repository_identity": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "coverage_mode": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+        },
+        "disclosure_policy_ref": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "scanner_finding_set_ref": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "disclosure_warnings": {
+          "type": "array",
+          "maxItems": 100,
+          "minItems": 1,
+          "items": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+          }
+        },
+        "bundle_preview_summary": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "warnings_acknowledged": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "not_submitted_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "evidence_bundle_created", "evidence_sent", "next_actions"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "const": "not_submitted"
+        },
+        "evidence_bundle_created": {
+          "type": "boolean",
+          "const": false
+        },
+        "evidence_sent": {
+          "type": "boolean",
+          "const": false
+        },
+        "next_actions": {
+          "type": "array",
+          "maxItems": 10000,
+          "minItems": 4,
+          "items": {
+            "type": "string",
+            "enum": ["revise policy", "rerun scan", "export manifest", "exit"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "remediation_guidance_id": "remediation_guidance:synthetic_inconclusive_actionable_001",
+  "classification_record_ref": "classification_record:synthetic_inconclusive_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:metadata_only_source_context",
+      "availability_state": "not_submitted_by_policy",
+      "available_for_review": false,
+      "display_state": "not_submitted",
+      "source_derived_class": "never_collected"
+    },
+    {
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "transient_source_derived"
+    }
+  ],
+  "guidance_status": "actionable_guidance_provided",
+  "authored_at": "2026-07-23T00:00:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "classification_context": {
+    "classification": "inconclusive",
+    "confirmation_criteria": [],
+    "evidence_basis": [
+      "scanner_output",
+      "metadata_only",
+      "not_submitted_by_policy_reference"
+    ],
+    "source_reference_state": "not_submitted_by_policy"
+  },
+  "exploitability_rationale": "SYNTHETIC_DEMO_DATA submitted evidence supports bounded exploitability commentary without broader claims. NOT_CUSTOMER_SOURCE.",
+  "suggested_remediation": "SYNTHETIC_DEMO_DATA update the demo configuration guard and document the retained evidence reference. NOT_CUSTOMER_SOURCE.",
+  "validation_steps": "SYNTHETIC_DEMO_DATA rerun the scoped check and preserve validation evidence for later verification. NOT_CUSTOMER_SOURCE.",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA guidance is limited to submitted retained evidence and does not imply audit acceptance. NOT_CUSTOMER_SOURCE."
+  ],
+  "evidence_refs": [
+    "artifact_ref:synthetic_raw_snippet"
+  ],
+  "source_reference_state": "not_submitted_by_policy",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

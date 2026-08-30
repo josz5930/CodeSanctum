@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:supporting-evidence-mapping",
+  "title": "Supporting Evidence Mapping",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "supporting_evidence_mapping_id",
+    "mapping_version",
+    "review_id",
+    "attestation_ref",
+    "mapping_profile",
+    "approval_state",
+    "approved_at",
+    "approved_by",
+    "decision_authority",
+    "acceptance_disclaimer",
+    "entries",
+    "limitations",
+    "visibility",
+    "source_derived_class"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "supporting_evidence_mapping_id": { "type": "string", "pattern": "^supporting_evidence_mapping:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "mapping_version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "attestation_ref": { "type": "string", "pattern": "^attestation:[a-f0-9]{64}$" },
+    "mapping_profile": { "type": "string", "enum": ["soc_2_supporting_evidence", "generic_technology_risk", "customer_security_review"] },
+    "approval_state": { "type": "string", "const": "approved" },
+    "approved_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "approved_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "const": "reviewer" },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "decision_authority": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "acceptance_disclaimer": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "entries": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mapping_entry_id", "topic", "supporting_evidence_role", "scope_summary", "method_summary", "receipt_context", "evidence_refs", "limitations"],
+        "properties": {
+          "mapping_entry_id": { "type": "string", "pattern": "^mapping_entry:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "topic": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "supporting_evidence_role": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "scope_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "method_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "receipt_context": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "evidence_refs": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } },
+          "limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } }
+        }
+      }
+    },
+    "limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "visibility": { "type": "string", "const": "customer_facing" },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" }
+  }
+}

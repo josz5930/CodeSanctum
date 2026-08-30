@@ -1,0 +1,39 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "classification_record_id": "classification_record:invalid_missing_limitations_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification": "likely",
+  "classified_at": "2026-07-22T00:16:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "evidence_basis": [
+    "scanner_output"
+  ],
+  "confirmation_criteria": [],
+  "threshold_gaps": [
+    "SYNTHETIC_DEMO_DATA missing limitations. NOT_CUSTOMER_SOURCE."
+  ],
+  "rationale": "SYNTHETIC_DEMO_DATA limitations missing. NOT_CUSTOMER_SOURCE.",
+  "source_reference_state": "retained_review_artifact",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "transient_source_derived"
+    }
+  ]
+}

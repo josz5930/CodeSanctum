@@ -1,0 +1,29 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:703d09005abac004602e057420fadc0c7ef22e91d03fe918cc0670a9e7aeb11b",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "verification_scope:review:synthetic-demo-001:verification_pass:synthetic_pass_requires_validation_001:scope_version:1",
+      "event_type": "verification_scope_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-29T12:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_pass_requires_validation_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "SYNTHETIC_DEMO_DATA this issue is fixed. It was not verified. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

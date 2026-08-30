@@ -1,0 +1,127 @@
+{
+  "protocol_version": "codeattest.v0",
+  "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+  "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+  "customer_approval_ref": "approval:synthetic_demo_approval",
+  "customer_approval_decision": "approved",
+  "bundle_state": "not_submitted",
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "disclosure_policy_ref": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+  "scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage_mode": "finding_context_snippets",
+  "bundle_instance_id": "bundle_instance:synthetic_demo_001",
+  "submission_attempt_id": "submission_attempt:synthetic_demo_001",
+  "created_at": "2026-07-10T00:15:00Z",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0-story-1.8-fixture"
+  },
+  "tool_versions": [
+    {
+      "tool_name": "typescript",
+      "tool_version": "6.0.3"
+    },
+    {
+      "tool_name": "local-runner-scaffold",
+      "tool_version": "0.0.0-story-1.8-fixture"
+    }
+  ],
+  "artifact_references": [
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:review_scope",
+      "artifact_type": "review_scope",
+      "digest": "sha256:e145a4ac1a8129b6fe96ee90bdfeb26cfd576eb1fe2e781b882e5db6bf0bb730",
+      "size_bytes": 2157,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:metadata",
+      "media_type": "application/json",
+      "content_path": "v0/valid/review-scope.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "artifact_type": "scanner_finding_set",
+      "digest": "sha256:d0efb693f6d8469b41d65de561e73a52caca0391debaab8d23396e95ccd7261f",
+      "size_bytes": 2329,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:scanner_findings",
+      "media_type": "application/json",
+      "content_path": "v0/valid/scanner-finding-set.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:disclosure_policy",
+      "artifact_type": "disclosure_policy",
+      "digest": "sha256:dae73c45f4e5f1624044b0e8d7619b83c11b5e527ba427935bc3810ca9f2fea4",
+      "size_bytes": 3265,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:derived_artifacts",
+      "media_type": "application/json",
+      "content_path": "v0/valid/disclosure-policy.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:outbound_manifest",
+      "artifact_type": "outbound_manifest",
+      "digest": "sha256:69a3a95212eed0ab17407e72bbdd3a403fd19767160cd8854f4fe915f86112db",
+      "size_bytes": 9258,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:derived_artifacts",
+      "media_type": "application/json",
+      "content_path": "v0/valid/outbound-manifest.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:customer_approval",
+      "artifact_type": "customer_approval",
+      "digest": "sha256:6bfcf1d4530bfe533f7ad3ac4e19c0b533639d1b16f87eb5de0efd2a22862007",
+      "size_bytes": 2028,
+      "source_derived_class": "retained_review_artifact",
+      "manifest_entry_ref": "manifest_entry:derived_artifacts",
+      "media_type": "application/json",
+      "content_path": "v0/invalid/malformed-referenced-customer-approval.json",
+      "content_path_anchor": "fixture_root"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "artifact_type": "raw_snippet",
+      "digest": "sha256:a14e3f0d1c34bfb20fb76d991dfa832ae452cd72c7dcc9888551aab39b396c4f",
+      "size_bytes": 230,
+      "source_derived_class": "transient_source_derived",
+      "manifest_entry_ref": "manifest_entry:raw_snippets",
+      "media_type": "text/plain",
+      "content_path": "demo-raw-snippet.synthetic.txt",
+      "synthetic_markers": [
+        "SYNTHETIC_DEMO_DATA",
+        "NOT_CUSTOMER_SOURCE"
+      ],
+      "content_path_anchor": "fixture_root"
+    }
+  ],
+  "verification_metadata": {
+    "identity_canonicalization": "rfc8785",
+    "identity_hash_algorithm": "sha256",
+    "identity_input_excludes": [
+      "evidence_bundle_id"
+    ],
+    "signed_identity_type": "evidence_bundle",
+    "approved_manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+    "signature_envelope_path": "v0/valid/signature-envelope.bundle.json",
+    "bundle_signing_mode": "enrolled_runner_key"
+  },
+  "local_cleanup_intent": [
+    {
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "source_derived_class": "transient_source_derived",
+      "cleanup_state": "pending_local_cleanup",
+      "cleanup_required": true,
+      "deletion_evidence_state": "pending"
+    }
+  ]
+}

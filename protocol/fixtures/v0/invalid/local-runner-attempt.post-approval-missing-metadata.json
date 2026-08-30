@@ -1,0 +1,44 @@
+{
+  "protocol_version": "codeattest.v0",
+  "attempt_id": "runner_attempt:invalid_post_approval_missing_metadata",
+  "stage": "bundle_packaging",
+  "outcome": "failed",
+  "review_state": "approved_no_signed_bundle",
+  "approval_state": "approved",
+  "bundle_state": "failed_before_ready",
+  "remote_state": "not_submitted",
+  "occurred_at": "2026-07-10T00:26:00Z",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0"
+  },
+  "runner_trust": {
+    "runner_name": "codeattest-local-runner",
+    "runner_version": "0.0.0",
+    "build_identifier": "local-dev-build",
+    "release_identifier": "unreleased-local",
+    "release_signature_status": "unsigned_local_build",
+    "bundle_signing_mode": "enrolled_runner_key",
+    "trust_label": "demo_only_unsigned",
+    "evidence_boundary": "synthetic-demo-only",
+    "limitations": [
+      "This unsigned local build is for SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE workflows only."
+    ]
+  },
+  "identities": {
+    "selected_commit": "0123456789abcdef0123456789abcdef01234567",
+    "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8"
+  },
+  "diagnostics": {
+    "stage_failed": "bundle_packaging",
+    "failure_code": "source_derived_artifact_missing",
+    "message": "Approved packaging failed for this SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE fixture; no signed Evidence Bundle is ready.",
+    "retryable": true,
+    "sensitive_detail_omitted": true,
+    "raw_snippets_printed": false,
+    "support_summary": "Approval metadata should have been preserved."
+  },
+  "next_actions": [
+    "rerun with explicit approval reuse"
+  ]
+}

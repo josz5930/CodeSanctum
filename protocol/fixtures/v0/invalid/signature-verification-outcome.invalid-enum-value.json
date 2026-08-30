@@ -1,0 +1,11 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signed_identity_type": "vendor_receipt",
+  "signed_identity": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "algorithm_profile": "ml_dsa_65",
+  "key_id": "codeattest-demo-signing-key",
+  "key_version": "v1",
+  "key_directory_version": 1,
+  "verified_at": "2026-08-16T00:00:00Z",
+  "result": "probably_fine"
+}

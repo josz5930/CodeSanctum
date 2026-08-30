@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:security-review-attestation",
+  "title": "Security Review Attestation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "attestation_id",
+    "attestation_version",
+    "review_id",
+    "generated_at",
+    "generated_by",
+    "review_scope_ref",
+    "selected_commit",
+    "repository_identity",
+    "method",
+    "receipt_chain",
+    "sections",
+    "verification_addendum_refs",
+    "evidence_minimization_ref",
+    "deletion_evidence_refs",
+    "limitations",
+    "supporting_artifact_refs",
+    "customer_safe_projection",
+    "source_derived_class",
+    "visibility",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "attestation_id": { "type": "string", "pattern": "^attestation:[a-f0-9]{64}$" },
+    "attestation_version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "generated_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "generated_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "enum": ["reviewer", "vendor_service"] },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "review_scope_ref": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "selected_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_sha", "source_control_system"],
+      "properties": {
+        "commit_sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "source_control_system": { "type": "string", "const": "git" }
+      }
+    },
+    "repository_identity": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coverage_mode", "scanner_versions", "tooling_summary", "disclosure_summary", "method_limitations"],
+      "properties": {
+        "coverage_mode": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode" },
+        "scanner_versions": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" } },
+        "tooling_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+        "disclosure_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+        "method_limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } }
+      }
+    },
+    "receipt_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_id", "evidence_bundle_id", "vendor_receipt_id", "receipt_timestamp", "verification_state"],
+      "properties": {
+        "manifest_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "evidence_bundle_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "vendor_receipt_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+        "receipt_timestamp": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+        "verification_state": { "type": "string", "const": "received_with_receipt" }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "allOf": [
+        { "contains": { "properties": { "section_type": { "const": "scope" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "method" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "receipt_chain" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "findings_and_classification" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "remediation_and_validation" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "verification_outcomes" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "evidence_lifecycle" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 },
+        { "contains": { "properties": { "section_type": { "const": "limitations" } }, "required": ["section_type"] }, "minContains": 1, "maxContains": 1 }
+      ],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["section_id", "section_type", "title", "summary", "scope", "evidence_basis", "limitations", "supporting_artifact_refs"],
+        "properties": {
+          "section_id": { "type": "string", "pattern": "^attestation_section:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "section_type": { "type": "string", "enum": ["scope", "method", "receipt_chain", "findings_and_classification", "remediation_and_validation", "verification_outcomes", "evidence_lifecycle", "limitations"] },
+          "title": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "scope": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "evidence_basis": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+          "limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+          "supporting_artifact_refs": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } }
+        }
+      }
+    },
+    "verification_addendum_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^verification_addendum:[a-z0-9][a-z0-9_-]{2,63}$" } },
+    "evidence_minimization_ref": { "type": "string", "pattern": "^evidence_minimization:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "deletion_evidence_refs": { "type": "array", "maxItems": 10000, "uniqueItems": true, "items": { "type": "string", "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$" } },
+    "supporting_evidence_mapping_ref": { "type": "string", "pattern": "^supporting_evidence_mapping:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "supporting_artifact_refs": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" } },
+    "customer_safe_projection": { "type": "boolean", "const": true },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" },
+    "visibility": { "type": "string", "const": "customer_facing" },
+    "canonicalization": { "type": "string", "const": "rfc8785" },
+    "identity_hash_algorithm": { "type": "string", "const": "sha256" },
+    "identity_input_excludes": { "type": "array", "minItems": 1, "maxItems": 1, "uniqueItems": true, "items": { "type": "string", "const": "attestation_id" } }
+  }
+}

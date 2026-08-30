@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:signature-envelope",
+  "title": "Signature Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "algorithm_profile",
+    "key_id",
+    "key_version",
+    "signing_time",
+    "signed_identity_type",
+    "signed_identity",
+    "canonicalization",
+    "signing_mode",
+    "signing_limitations",
+    "signature_bytes"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "algorithm_profile": {
+      "type": "string",
+      "const": "ml_dsa_65"
+    },
+    "key_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "key_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "signing_time": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "signed_identity_type": {
+      "type": "string",
+      "enum": ["outbound_manifest", "evidence_bundle", "vendor_receipt", "static_bundle_manifest", "attestation_package_finalization", "disclosure_policy", "review_event", "security_review_attestation", "signing_key_directory", "runner_release", "environment_readiness_decision"]
+    },
+    "signed_identity": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "canonicalization": {
+      "type": "string",
+      "const": "rfc8785"
+    },
+    "signing_mode": {
+      "type": "string",
+      "enum": ["managed_key", "enrolled_runner_key"]
+    },
+    "signing_limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "signature_bytes": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/ml_dsa_65_signature"
+    }
+  }
+}

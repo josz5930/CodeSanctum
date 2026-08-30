@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:bundle-manifest",
+  "title": "Evidence Bundle Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "evidence_bundle_id",
+    "manifest_id",
+    "customer_approval_ref",
+    "customer_approval_decision",
+    "bundle_state",
+    "review_scope_ref",
+    "disclosure_policy_ref",
+    "coverage_mode",
+    "bundle_instance_id",
+    "submission_attempt_id",
+    "created_at",
+    "runner",
+    "tool_versions",
+    "artifact_references",
+    "verification_metadata",
+    "local_cleanup_intent"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "evidence_bundle_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "manifest_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "customer_approval_ref": {
+      "type": "string",
+      "pattern": "^approval:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "customer_approval_decision": {
+      "type": "string",
+      "const": "approved"
+    },
+    "bundle_state": {
+      "type": "string",
+      "const": "not_submitted"
+    },
+    "review_scope_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "disclosure_policy_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "scanner_finding_set_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "coverage_mode": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+    },
+    "bundle_instance_id": {
+      "type": "string",
+      "pattern": "^bundle_instance:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "submission_attempt_id": {
+      "type": "string",
+      "pattern": "^submission_attempt:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "created_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "codeattest-local-runner"
+        },
+        "version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "tool_versions": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tool_name", "tool_version"],
+        "properties": {
+          "tool_name": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "tool_version": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          }
+        }
+      }
+    },
+    "artifact_references": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 4,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:artifact-reference"
+      }
+    },
+    "verification_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_canonicalization",
+        "identity_hash_algorithm",
+        "identity_input_excludes",
+        "signed_identity_type",
+        "approved_manifest_id",
+        "signature_envelope_path",
+        "bundle_signing_mode"
+      ],
+      "properties": {
+        "identity_canonicalization": {
+          "type": "string",
+          "const": "rfc8785"
+        },
+        "identity_hash_algorithm": {
+          "type": "string",
+          "const": "sha256"
+        },
+        "identity_input_excludes": {
+          "type": "array",
+          "maxItems": 10000,
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["evidence_bundle_id"]
+          }
+        },
+        "signed_identity_type": {
+          "type": "string",
+          "const": "evidence_bundle"
+        },
+        "approved_manifest_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "signature_envelope_path": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "bundle_signing_mode": {
+          "type": "string",
+          "enum": ["managed_key", "enrolled_runner_key"]
+        }
+      }
+    },
+    "local_cleanup_intent": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_ref",
+          "source_derived_class",
+          "cleanup_state",
+          "cleanup_required",
+          "deletion_evidence_state"
+        ],
+        "properties": {
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "source_derived_class": {
+            "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+          },
+          "cleanup_state": {
+            "type": "string",
+            "enum": ["pending_local_cleanup", "not_applicable"]
+          },
+          "cleanup_required": {
+            "type": "boolean"
+          },
+          "deletion_evidence_state": {
+            "type": "string",
+            "enum": ["pending", "not_applicable"]
+          }
+        }
+      }
+    }
+  }
+}

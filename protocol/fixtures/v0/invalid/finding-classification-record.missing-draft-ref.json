@@ -1,0 +1,25 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "classification_record_id": "classification_record:invalid_missing_draft_001",
+  "classification": "likely",
+  "classified_at": "2026-07-22T00:11:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "evidence_basis": [
+    "scanner_output"
+  ],
+  "confirmation_criteria": [],
+  "threshold_gaps": [
+    "SYNTHETIC_DEMO_DATA missing draft reference. NOT_CUSTOMER_SOURCE."
+  ],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA limitation remains visible. NOT_CUSTOMER_SOURCE."
+  ],
+  "rationale": "SYNTHETIC_DEMO_DATA missing finding reference. NOT_CUSTOMER_SOURCE.",
+  "source_reference_state": "retained_review_artifact",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

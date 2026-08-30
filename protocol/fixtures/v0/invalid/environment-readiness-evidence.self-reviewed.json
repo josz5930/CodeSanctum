@@ -1,0 +1,34 @@
+{
+  "protocol_version": "codeattest.v0",
+  "readiness_evidence_id": "sha256:90c0b4f33166278a7562ebd7eda8260acba92a52c3f1df8bcd4ee5e86ec64d4b",
+  "control": "access_control_ready",
+  "deployment_identity": "pilot",
+  "release_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "deployment_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "observed_at": "2026-08-22T10:00:00Z",
+  "evidence_attachments": [
+    {
+      "check_id": "self-reviewed-access-observation",
+      "attachment_digest": "sha256:cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb",
+      "collected_at": "2026-08-22T09:55:00Z"
+    }
+  ],
+  "result": "passed",
+  "evidence_producer": {
+    "actor_type": "reviewer",
+    "actor_id": "same-evidence-actor"
+  },
+  "independent_reviewer": {
+    "actor_type": "reviewer",
+    "actor_id": "same-evidence-actor"
+  },
+  "reviewed_at": "2026-08-22T12:00:00Z",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA fixture intentionally violates independent review. NOT_CUSTOMER_SOURCE."
+  ],
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "readiness_evidence_id"
+  ]
+}

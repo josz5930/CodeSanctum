@@ -1,0 +1,38 @@
+{
+  "protocol_version": "codeattest.v0",
+  "supporting_evidence_mapping_id": "supporting_evidence_mapping:synthetic_soc2_001",
+  "mapping_version": 1,
+  "review_id": "review:synthetic-demo-001",
+  "attestation_ref": "attestation:987a340458c986b9d1e85320160e893d25ec9d37e9da58075ca9670757c958e4",
+  "mapping_profile": "soc_2_supporting_evidence",
+  "approval_state": "approved",
+  "approved_at": "2026-08-01T12:05:00Z",
+  "approved_by": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "decision_authority": "SYNTHETIC_DEMO_DATA The evidence consumer retains decision authority for its review context. NOT_CUSTOMER_SOURCE.",
+  "acceptance_disclaimer": "SYNTHETIC_DEMO_DATA This mapping identifies supporting evidence only and does not determine acceptance or control satisfaction. NOT_CUSTOMER_SOURCE.",
+  "entries": [
+    {
+      "mapping_entry_id": "mapping_entry:scope_and_method",
+      "topic": "SYNTHETIC_DEMO_DATA Scope, method, and receipt context. NOT_CUSTOMER_SOURCE.",
+      "supporting_evidence_role": "SYNTHETIC_DEMO_DATA Links bounded security-review evidence for consumer evaluation. NOT_CUSTOMER_SOURCE.",
+      "scope_summary": "SYNTHETIC_DEMO_DATA One application and selected commit. NOT_CUSTOMER_SOURCE.",
+      "method_summary": "SYNTHETIC_DEMO_DATA Configured inputs plus bounded expert review. NOT_CUSTOMER_SOURCE.",
+      "receipt_context": "SYNTHETIC_DEMO_DATA Manifest, bundle, and receipt identities are linked. NOT_CUSTOMER_SOURCE.",
+      "evidence_refs": [
+        "artifact_ref:review_scope",
+        "artifact_ref:vendor_receipt"
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA No framework conclusion or consumer acceptance is implied. NOT_CUSTOMER_SOURCE."
+      ]
+    }
+  ],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA Regional and unapproved regulatory mappings are omitted. NOT_CUSTOMER_SOURCE."
+  ],
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact"
+}

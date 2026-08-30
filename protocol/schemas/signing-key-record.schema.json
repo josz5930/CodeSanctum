@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:signing-key-record",
+  "title": "Signing Key Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "key_id",
+    "key_version",
+    "algorithm_profile",
+    "public_key",
+    "custody_mode",
+    "valid_from",
+    "status",
+    "limitations"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "key_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "key_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "algorithm_profile": {
+      "type": "string",
+      "const": "ml_dsa_65"
+    },
+    "public_key": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/ml_dsa_65_public_key"
+    },
+    "custody_mode": {
+      "type": "string",
+      "enum": ["offline_trust_anchor", "self_hosted_software", "customer_held_runner"]
+    },
+    "valid_from": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "valid_until": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "retired", "revoked"]
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+[Unit]
+Description=CodeAttest pilot web application
+After=codeattest-pilot.service
+Requires=codeattest-pilot.service
+
+[Service]
+Type=simple
+User=codeattest-pilot
+Group=codeattest-pilot
+WorkingDirectory=/opt/codeattest/pilot/web
+Environment=NODE_ENV=production
+Environment=CODEATTEST_HOST_BASE_URL=http://127.0.0.1:8081
+ExecStart=/usr/bin/node /opt/codeattest/pilot/current/node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3001
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=15s
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

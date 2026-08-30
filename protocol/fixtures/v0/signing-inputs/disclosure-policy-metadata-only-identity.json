@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "disclosure_policy_identity",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "disclosure_policy",
+  "signed_identity": "sha256:1979f6602994f40988f9f8e0b38b6c1cdb7a61478daabbfb71fcf65298d7275c",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/disclosure-policy.metadata-only.identity-input.json"
+}

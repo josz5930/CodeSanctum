@@ -1,0 +1,24 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "customer_status_record_id": "customer_status:synthetic_status_target_notes_001",
+  "finding_ref": "review_finding_draft:demo_finding_context",
+  "classification_record_ref": "classification_record:synthetic_likely_001",
+  "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+  "customer_remediation_status": "in_progress",
+  "customer_notes": "SYNTHETIC_DEMO_DATA customer note stays record-only and separate from expert rationale. NOT_CUSTOMER_SOURCE.",
+  "recorded_at": "2026-07-23T01:00:00Z",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "field_export_policy": {
+    "owner": "exclude",
+    "due_date": "exclude",
+    "target_state": "include",
+    "customer_notes": "exclude"
+  },
+  "visibility": "customer_facing",
+  "source_derived_class": "retained_review_artifact",
+  "target_state": "SYNTHETIC_DEMO_DATA customer target state is ready for validation handoff. NOT_CUSTOMER_SOURCE."
+}

@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:local-runner-attempt",
+  "title": "Local Runner Attempt or Status Record",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "bundle_state": { "const": "ready_not_submitted" } },
+        "required": ["bundle_state"]
+      },
+      "then": {
+        "properties": {
+          "identities": {
+            "required": ["evidence_bundle_id", "bundle_instance_id", "submission_attempt_id"]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "identities": {
+            "not": {
+              "anyOf": [
+                { "required": ["evidence_bundle_id"] },
+                { "required": ["bundle_instance_id"] },
+                { "required": ["submission_attempt_id"] }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "properties": { "approval_state": { "const": "approved" } },
+            "required": ["approval_state"]
+          },
+          {
+            "properties": { "review_state": { "const": "approved_no_signed_bundle" } },
+            "required": ["review_state"]
+          }
+        ]
+      },
+      "then": {
+        "required": ["approval_metadata"],
+        "properties": {
+          "identities": { "required": ["manifest_id", "approval_id"] },
+          "approval_metadata": {
+            "properties": { "decision": { "const": "approved" } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runner_trust": {
+            "properties": { "trust_label": { "const": "trusted_release" } },
+            "required": ["trust_label"]
+          }
+        },
+        "required": ["runner_trust"]
+      },
+      "then": {
+        "properties": {
+          "runner_trust": {
+            "required": ["release_verification_artifact"],
+            "properties": {
+              "release_signature_status": { "const": "verified_release_signature" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": { "remote_state": { "const": "not_submitted" } },
+          "required": ["remote_state"]
+        }
+      },
+      "then": {
+        "properties": { "stage": { "const": "submit" } },
+        "required": ["stage"]
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": { "remote_state": { "const": "received_with_receipt" } },
+          "required": ["remote_state"]
+        }
+      },
+      "then": {
+        "properties": {
+          "identities": { "not": { "required": ["vendor_receipt_id"] } }
+        }
+      }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "attempt_id",
+    "stage",
+    "outcome",
+    "review_state",
+    "approval_state",
+    "bundle_state",
+    "remote_state",
+    "occurred_at",
+    "runner",
+    "runner_trust",
+    "identities",
+    "diagnostics",
+    "next_actions"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "attempt_id": {
+      "type": "string",
+      "pattern": "^runner_attempt:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "scope_init",
+        "scan_run",
+        "disclosure_configure",
+        "manifest_preview",
+        "approval",
+        "bundle_packaging",
+        "bundle_signing",
+        "bundle_prepare",
+        "status_inspect",
+        "runner_trust",
+        "submit"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["succeeded", "failed", "declined", "blocked"]
+    },
+    "review_state": {
+      "type": "string",
+      "enum": [
+        "unapproved_not_submitted",
+        "approved_no_signed_bundle",
+        "signed_bundle_not_submitted"
+      ]
+    },
+    "approval_state": {
+      "type": "string",
+      "enum": ["not_requested", "approved", "declined", "not_applicable"]
+    },
+    "bundle_state": {
+      "type": "string",
+      "enum": ["not_created", "failed_before_ready", "ready_not_submitted"]
+    },
+    "remote_state": {
+      "type": "string",
+      "enum": [
+        "not_submitted",
+        "submit_attempted",
+        "received_with_receipt",
+        "rejected_no_receipt",
+        "quarantined_no_receipt"
+      ]
+    },
+    "occurred_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "codeattest-local-runner"
+        },
+        "version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "runner_trust": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runner_name",
+        "runner_version",
+        "build_identifier",
+        "release_identifier",
+        "release_signature_status",
+        "bundle_signing_mode",
+        "trust_label",
+        "evidence_boundary",
+        "limitations"
+      ],
+      "properties": {
+        "runner_name": {
+          "type": "string",
+          "const": "codeattest-local-runner"
+        },
+        "runner_version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "build_identifier": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "release_identifier": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "release_signature_status": {
+          "type": "string",
+          "enum": [
+            "unsigned_local_build",
+            "untrusted_local_build",
+            "verified_release_signature"
+          ]
+        },
+        "bundle_signing_mode": {
+          "type": "string",
+          "enum": ["managed_key", "enrolled_runner_key"]
+        },
+        "trust_label": {
+          "type": "string",
+          "enum": [
+            "demo_only_unsigned",
+            "untrusted_local_dev",
+            "trusted_release"
+          ]
+        },
+        "evidence_boundary": {
+          "type": "string",
+          "const": "synthetic-demo-only"
+        },
+        "release_verification_artifact": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "limitations": {
+          "type": "array",
+          "maxItems": 100,
+          "minItems": 1,
+          "items": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+          }
+        }
+      }
+    },
+    "identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selected_commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "repository_identity": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "manifest_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "approval_id": {
+          "type": "string",
+          "pattern": "^approval:[a-z0-9][a-z0-9_-]{2,63}$"
+        },
+        "evidence_bundle_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "bundle_instance_id": {
+          "type": "string",
+          "pattern": "^bundle_instance:[a-z0-9][a-z0-9_-]{2,63}$"
+        },
+        "submission_attempt_id": {
+          "type": "string",
+          "pattern": "^submission_attempt:[a-z0-9][a-z0-9_-]{2,63}$"
+        },
+        "vendor_receipt_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+        },
+        "submission_outcome_id": {
+          "type": "string",
+          "pattern": "^submission_outcome:[a-z0-9][a-z0-9_-]{2,63}$"
+        }
+      }
+    },
+    "approval_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "decided_at"],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["approved", "declined"]
+        },
+        "decided_at": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+        },
+        "approving_actor": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/actor_reference"
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message",
+        "retryable",
+        "sensitive_detail_omitted",
+        "raw_snippets_printed",
+        "support_summary"
+      ],
+      "properties": {
+        "stage_failed": {
+          "type": "string",
+          "enum": [
+            "scope_init",
+            "scan_run",
+            "disclosure_configure",
+            "manifest_preview",
+            "approval",
+            "bundle_packaging",
+            "bundle_signing",
+            "bundle_prepare",
+            "status_inspect",
+            "runner_trust",
+            "submit"
+          ]
+        },
+        "failure_code": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,63}$"
+        },
+        "message": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "sensitive_detail_omitted": {
+          "type": "boolean"
+        },
+        "raw_snippets_printed": {
+          "type": "boolean",
+          "const": false
+        },
+        "support_summary": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "local_artifact_paths": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          }
+        }
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    }
+  }
+}

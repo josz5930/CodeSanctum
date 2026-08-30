@@ -1,0 +1,53 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:f5176c0cd3858f0e2da4308cb52a17e61ff65d37cf392caf39f3274c124e6ab4",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 1,
+      "idempotency_key": "classification:review:synthetic-demo-001:classification_record:finding_001",
+      "event_type": "classification_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "SYNTHETIC_DEMO_DATA-reviewer-1"
+      },
+      "event_timestamp": "2026-07-19T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:finding_001"
+      ],
+      "visibility": "internal_only",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "internal_note": "NOT_CUSTOMER_SOURCE reviewer classification rationale"
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:ef028df6b1e1fb49d58080d9ed1fce686d8fecd75d0aee9a3504f9f52b7637e0",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 2,
+      "idempotency_key": "customer_remediation:review:synthetic-demo-001:customer_status:synthetic_status_owner_due_001",
+      "event_type": "customer_remediation_recorded",
+      "actor": {
+        "actor_type": "customer_user",
+        "actor_id": "customer:synthetic-maya"
+      },
+      "event_timestamp": "2026-07-23T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_status_owner_due_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "supersedes_classification_record_ref": "classification_record:finding_001",
+      "reason": "SYNTHETIC_DEMO_DATA customer event cannot directly reference superseded expert classification. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

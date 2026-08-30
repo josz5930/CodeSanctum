@@ -1,0 +1,6 @@
+{
+  "marker": "SYNTHETIC_DEMO_DATA",
+  "source": "NOT_CUSTOMER_SOURCE",
+  "scenario": "forced-access-log-write-failure",
+  "expected_outcome": "no_bytes_returned"
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:identity-signing-input",
+  "title": "Identity Signing Input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "signing_input_type",
+    "algorithm_profile",
+    "signed_identity_type",
+    "signed_identity",
+    "canonicalization",
+    "identity_input_path"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "signing_input_type": {
+      "type": "string",
+      "enum": ["outbound_manifest_identity", "bundle_manifest_identity", "vendor_receipt_identity", "static_bundle_manifest_identity", "attestation_package_finalization_identity", "disclosure_policy_identity", "review_event_identity", "security_review_attestation_identity", "signing_key_directory_identity", "evidence_bundle_identity", "runner_release_identity", "environment_readiness_decision_identity"]
+    },
+    "algorithm_profile": {
+      "type": "string",
+      "const": "ml_dsa_65"
+    },
+    "signed_identity_type": {
+      "type": "string",
+      "enum": ["outbound_manifest", "evidence_bundle", "vendor_receipt", "static_bundle_manifest", "attestation_package_finalization", "disclosure_policy", "review_event", "security_review_attestation", "signing_key_directory", "runner_release", "environment_readiness_decision"]
+    },
+    "signed_identity": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "canonicalization": {
+      "type": "string",
+      "const": "rfc8785"
+    },
+    "identity_input_path": {
+      "type": "string",
+      "pattern": "^v0/valid/[a-z0-9][a-z0-9._-]*\\.json$"
+    }
+  }
+}

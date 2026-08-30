@@ -1,0 +1,12 @@
+{
+  "protocol_version": "codeattest.v0",
+  "fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "signature_attachment": {
+    "signature_envelope": {
+      "signed_identity_type": "invalid_enum_value"
+    }
+  }
+}

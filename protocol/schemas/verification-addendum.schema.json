@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:verification-addendum",
+  "title": "Verification Addendum",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "findings": {
+            "contains": {
+              "properties": {
+                "verification_status": {
+                  "enum": ["verification_pending", "requires_customer_side_validation"]
+                }
+              },
+              "required": ["verification_status"]
+            }
+          }
+        },
+        "required": ["findings"]
+      },
+      "then": {
+        "required": ["next_step_summary"],
+        "properties": { "finalization_state": { "const": "not_finalized" } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "finalization_state": { "const": "not_finalized" } },
+        "required": ["finalization_state"]
+      },
+      "then": { "required": ["next_step_summary"] }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "verification_addendum_id",
+    "review_id",
+    "verification_pass_id",
+    "review_scope_ref",
+    "verification_pass_ref",
+    "selected_commit",
+    "repository_identity",
+    "generated_at",
+    "findings",
+    "retained_evidence",
+    "deleted_evidence",
+    "history_refs",
+    "limitations",
+    "finalization_state",
+    "visibility",
+    "source_derived_class"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "verification_addendum_id": { "type": "string", "pattern": "^verification_addendum:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "verification_pass_id": { "type": "string", "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "review_scope_ref": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "verification_pass_ref": { "type": "string", "pattern": "^verification_pass:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "selected_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_sha", "source_control_system"],
+      "properties": {
+        "commit_sha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "source_control_system": { "type": "string", "const": "git" }
+      }
+    },
+    "repository_identity": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" },
+    "generated_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "findings": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": { "verification_status": { "const": "verification_complete" } },
+              "required": ["verification_status"]
+            },
+            "else": { "required": ["next_step_summary"] }
+          }
+        ],
+        "required": [
+          "review_finding_draft_ref",
+          "classification_record_ref",
+          "current_classification",
+          "verification_status",
+          "reviewer_actor_category",
+          "verification_record_ref",
+          "verification_evidence_record_refs",
+          "timestamp",
+          "summary",
+          "remaining_limitations"
+        ],
+        "properties": {
+          "review_finding_draft_ref": { "type": "string", "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "classification_record_ref": { "type": "string", "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "current_classification": { "type": "string", "enum": ["likely", "confirmed", "inconclusive", "requires_customer_side_validation"] },
+          "verification_status": { "type": "string", "enum": ["verification_complete", "verification_pending", "not_verified", "requires_customer_side_validation"] },
+          "reviewer_actor_category": { "type": "string", "const": "reviewer" },
+          "verification_record_ref": { "type": "string", "pattern": "^verification_record:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "verification_evidence_record_refs": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^verification_evidence:[a-z0-9][a-z0-9_-]{2,63}$" } },
+          "remediation_guidance_ref": { "type": "string", "pattern": "^remediation_guidance:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "validation_path_ref": { "type": "string", "pattern": "^validation_path:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "accepted_risk_record_ref": { "type": "string", "pattern": "^accepted_risk:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "false_positive_record_ref": { "type": "string", "pattern": "^false_positive:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "timestamp": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+          "summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+          "remaining_limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+          "next_step_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+        }
+      }
+    },
+    "retained_evidence": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_ref", "source_derived_class", "recorded_at"],
+        "properties": {
+          "artifact_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "source_derived_class": { "type": "string", "enum": ["retained_review_artifact", "customer_opt_in_retained_source"] },
+          "recorded_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" }
+        }
+      }
+    },
+    "deleted_evidence": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_ref", "deletion_evidence_ref", "deletion_timestamp", "deletion_verification_status"],
+        "properties": {
+          "artifact_ref": { "type": "string", "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "deletion_evidence_ref": { "type": "string", "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$" },
+          "deletion_timestamp": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+          "deletion_verification_status": { "type": "string", "enum": ["verified", "pending", "unavailable"] }
+        }
+      }
+    },
+    "history_refs": { "type": "array", "maxItems": 10000, "minItems": 1, "uniqueItems": true, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id" } },
+    "limitations": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "next_step_summary": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" },
+    "finalization_state": { "type": "string", "enum": ["finalized", "not_finalized"] },
+    "visibility": { "type": "string", "const": "customer_facing" },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" }
+  }
+}

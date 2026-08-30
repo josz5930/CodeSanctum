@@ -1,0 +1,17 @@
+{
+  "protocol_version": "codeattest.v0",
+  "event_id": "evidence_event:acc-0002",
+  "review_id": "review:synthetic-demo-001",
+  "sequence_number": 9,
+  "idempotency_key": "SYNTHETIC_DEMO_DATA-acc-0002",
+  "event_type": "evidence_accessed",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "SYNTHETIC_DEMO_DATA-reviewer-1"
+  },
+  "event_timestamp": "2026-07-19T00:00:00Z",
+  "artifact_refs": [
+    "artifact_ref:raw_snippet_002"
+  ],
+  "purpose": "NOT_CUSTOMER_SOURCE expert classification of a synthetic finding"
+}

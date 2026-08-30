@@ -1,0 +1,3808 @@
+{
+  "schemaVersion": 1,
+  "protocol_version": "codeattest.v0",
+  "canonicalization_authority": "RFC 8785 JSON Canonicalization Scheme",
+  "valid_fixtures": [
+    {
+      "path": "v0/valid/review-scope.json",
+      "schema": "urn:codeattest:protocol:v0:review-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/disclosure-policy.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/disclosure-policy.metadata-only.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/disclosure-policy.extended.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/artifact-reference.raw-snippet.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/outbound-manifest.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-approval.approved.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-approval.declined.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/bundle-manifest.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.manifest.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.bundle.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/scanner-finding-set.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/scanner-finding-set.no-findings.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.pre-approval-failure.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.post-approval-packaging-failure.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.successful-rerun.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.declined-approval.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.runner-trust.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-evidence-gate.synthetic-demo.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-evidence-gate.real-snippet-ready.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/outbound-manifest-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/bundle-manifest-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/vendor-receipt.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.receipt.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/vendor-receipt-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/log-checkpoint.empty.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/log-checkpoint.single-review.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/log-checkpoint.multi-review.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.submission-failures.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-customer-projection.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "companion_log_path": "v0/valid/review-event-log.json"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.evidence-artifact.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.log-trace.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.opt-in-pilot.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/evidence-lifecycle-event.accessed.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/evidence-lifecycle-event.deleted.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/evidence-lifecycle-event.retention-status-changed.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/deletion-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/deletion-evidence.unverified-attempt.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/deletion-evidence.verified-superseding.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/retention-opt-in-record.json",
+      "schema": "urn:codeattest:protocol:v0:retention-opt-in-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/evidence-minimization-projection.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-minimization-projection",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/submission-outcome.received-with-receipt.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/submission-outcome.rejected-no-receipt.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/submission-outcome.quarantined-no-receipt.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/submission-outcome.rejected-contact-support.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-finding-draft-set.grouped.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-finding-draft-set.metadata-only.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-finding-draft-set.finding-context.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-finding-draft-set.extended.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-finding-draft-set.deleted-under-policy.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-finding-draft-set.no-findings.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-classification-record.likely.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-classification-record.other-context.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-classification-record.confirmed-submitted-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-classification-record.confirmed-metadata-defensible.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-classification-record.inconclusive.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-classification-record.requires-validation.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-remediation-guidance.likely-actionable.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-remediation-guidance.confirmed-actionable.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-remediation-guidance.requires-validation-limited.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-remediation-guidance.requires-validation-path-only.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-remediation-guidance.unavailable-insufficient-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-remediation-status-record.owner-due-date.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-remediation-status-record.target-notes.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-facing-finding-record.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-validation-path.remote-dynamic-testing.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-validation-path.customer-run-script.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-validation-path.manual-steps.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/reviewer-validation-script.included-slot-1.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/reviewer-validation-script.included-slot-3.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/reviewer-validation-script.additional-pricing-tbd.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/reviewer-validation-script.additional-pricing-tbd-in-script-content-only.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/false-positive-record.reviewer.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/accepted-risk-record.customer-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/accepted-risk-record.vendor-signoff.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-facing-finding-record.false-positive-outcome.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-facing-finding-record.accepted-risk-outcome.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/customer-facing-finding-record.accepted-risk-remediation-validation-history.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/reviewer-validation-script.included-slot-2.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.eligible-guidance.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.requires-validation-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.three-included-scripts.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.additional-script-pricing-tbd.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.outcome-visible-out-of-scope.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.outcome-eligible-with-formal-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.customer-facing-projection.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.reviewer-customer-actor-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.negated-disclaimer.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event.verification-scope-recorded.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.verification-scope.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.verification-scope-correction.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-validation-path.additional-agreement-required.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/finding-validation-path.outcome-formal-manual.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-evidence-record.follow-up-commit.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-evidence-record.customer-validation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-evidence-record.manual-validation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-record.pending.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-record.not-verified.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-record.complete.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-record.requires-customer-side.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-addendum.pending.json",
+      "schema": "urn:codeattest:protocol:v0:verification-addendum",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-addendum.finalized.json",
+      "schema": "urn:codeattest:protocol:v0:verification-addendum",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event.verification-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event.verification-record.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.verification-record-correction.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.verification-completion.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-customer-projection.verification-completion.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "companion_log_path": "v0/valid/review-event-log.verification-completion.json"
+    },
+    {
+      "path": "v0/valid/security-review-attestation.json",
+      "schema": "urn:codeattest:protocol:v0:security-review-attestation",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/supporting-evidence-mapping.soc2.json",
+      "schema": "urn:codeattest:protocol:v0:supporting-evidence-mapping",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/static-portal-projection.json",
+      "schema": "urn:codeattest:protocol:v0:static-portal-projection",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/static-bundle-manifest.generated.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-manifest",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/attestation-package-finalization.json",
+      "schema": "urn:codeattest:protocol:v0:attestation-package-finalization",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/attestation-package-finalization.exported.json",
+      "schema": "urn:codeattest:protocol:v0:attestation-package-finalization",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/pilot-metric-record.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-metric-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/pilot-feedback-record.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-feedback-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.static-bundle.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.attestation-finalization.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/static-bundle-manifest-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/attestation-package-finalization-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/static-bundle-manifest.finalized.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-manifest",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.static-bundle-finalized.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/static-bundle-manifest-finalized-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/disclosure-policy-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/disclosure-policy-extended-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/disclosure-policy-metadata-only-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/review-event-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/security-review-attestation-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/static-bundle-verification-package.generated.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-verification-package",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/static-bundle-verification-package.finalized.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-verification-package",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-scope-init.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-scan-run.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-disclosure-configure.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-bundle-signing.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-status-inspect.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.queue-payload.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.worker-scratch.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.generated-export.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.support-attachment.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.analytics-record.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/stored-object-classification.crash-report.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-evidence-gate.partner-pilot-candidate.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/review-event-log.enum-live-values.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.customer-validation-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-evidence-record.customer-validation-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-pass-scope.remote-dynamic-testing-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/verification-evidence-record.remote-dynamic-testing-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signing-key-record.active.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signing-key-record.retired.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signing-key-directory.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-directory",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/runner-key-enrollment-record.json",
+      "schema": "urn:codeattest:protocol:v0:runner-key-enrollment-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-verification-outcome.verified.json",
+      "schema": "urn:codeattest:protocol:v0:signature-verification-outcome",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-verification-outcome.key-revoked.json",
+      "schema": "urn:codeattest:protocol:v0:signature-verification-outcome",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.ml-dsa-65.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/runner-release-record.json",
+      "schema": "urn:codeattest:protocol:v0:runner-release-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/runner-release-record.identity-input.json",
+      "schema": "urn:codeattest:protocol:v0:runner-release-record",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/signature-envelope.runner-release.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-submit-received.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/local-runner-attempt.stage-submit-rejected.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.access-control.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.access-logging.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.encryption-at-rest.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.retention-defaults.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.deletion-controls.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.demo-budget-gate.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.signing-release-trust.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.failed-encryption.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.stale-access-control.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-evidence.wrong-release-access-control.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-decision.approved.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/valid/environment-readiness-decision.declined.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/signing-inputs/environment-readiness-decision-identity.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer"
+    }
+  ],
+  "negative_fixtures": [
+    {
+      "path": "v0/invalid/camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.duplicate-categories.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "outbound_manifest_duplicate_evidence_category"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.missing-category.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "outbound_manifest_missing_evidence_category"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.coverage-mode-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "outbound_manifest_policy_coverage_mode_mismatch"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.metadata-only-with-snippets.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "metadata_only_must_not_include_snippets"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.source-code-disclosure-missing-controls.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "source_code_disclosure_label_required"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.redaction-without-limitation.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "redaction_limitation_required"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.malformed-id.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "malformed_algorithm_prefixed_digest"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.identity-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "outbound_manifest_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.policy-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "outbound_manifest_policy_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.redaction-without-version.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "redaction_limitation_required"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.preview-package-state-violation.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "preview_safe_package_state_required"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.preview-send-ready-violation.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "preview_safe_package_state_required"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.preview-local-only-violation.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "preview_safe_package_state_required"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.self-referential-identity-input.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "self_referential_identity"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.preview-state-violation.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "preview_safe_approval_state_required"
+    },
+    {
+      "path": "v0/invalid/customer-approval.missing-context.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "approval_displayed_context_required"
+    },
+    {
+      "path": "v0/invalid/customer-approval.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/customer-approval.warning-ack-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "approval_warnings_acknowledgement_mismatch"
+    },
+    {
+      "path": "v0/invalid/malformed-referenced-customer-approval.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "malformed_json"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.declined-approval.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "bundle_requires_approved_customer_approval"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.manifest-id-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "bundle_manifest_id_mismatch"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.self-referential-identity-input.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "self_referential_identity"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.artifact-missing-retention-class.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "missing_retention_source_derived_class"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.source-derived-missing-cleanup-intent.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "source_derived_cleanup_intent_required"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.malformed-referenced-approval.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "bundle_referenced_artifact_parse_failed"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/signature-envelope.signed-identity-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "signature_signed_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/missing-retention-class.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "missing_retention_source_derived_class"
+    },
+    {
+      "path": "v0/invalid/invalid-coverage-mode.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_coverage_mode"
+    },
+    {
+      "path": "v0/invalid/obsolete-coverage-mode-targeted-snippets.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_coverage_mode"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.metadata-only-with-snippets.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "metadata_only_must_not_include_snippets"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.finding-context-without-caps-redaction.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_context_requires_caps_redaction"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.extended-without-selected-files.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "extended_requires_selected_files_or_areas"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.retained-source-without-opt-in.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "retained_source_requires_opt_in_and_period"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.raw-snippet-retained-by-default.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "raw_snippet_wrong_source_class"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.redaction-without-limitation.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "redaction_limitation_required"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.invalid-leap-day.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/malformed-digest.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "malformed_algorithm_prefixed_digest"
+    },
+    {
+      "path": "v0/invalid/raw-snippet-missing-markers.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "raw_snippet_missing_synthetic_markers"
+    },
+    {
+      "path": "v0/invalid/raw-snippet-forbidden-source-text.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "raw_snippet_forbidden_source_text"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set-missing-retention-class.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "missing_scanner_retention_source_derived_class"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set-reviewer-classification.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "reviewer_classification_in_candidate_finding"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set-missing-rule-id.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "missing_scanner_rule_id"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set-malformed-id.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "malformed_scanner_finding_set_id"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set-camel-case.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.pre-approval-with-bundle-id.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_bundle_identity_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.post-approval-missing-metadata.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_approval_metadata_required"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.remote-received-language.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_remote_claim_language"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.unlabeled-untrusted-runner.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_runner_trust_label_required"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.raw-snippet-diagnostic.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_sensitive_diagnostic"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.raw-snippets-printed-true.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_sensitive_diagnostic"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/environment-evidence-gate.demo-allows-real-snippets.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "environment_gate_real_evidence_not_allowed"
+    },
+    {
+      "path": "v0/invalid/environment-evidence-gate.real-snippet-missing-readiness.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "environment_gate_readiness_required"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.absolute-posix-content-path.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "artifact_content_path_portable_required"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.windows-drive-content-path.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "artifact_content_path_portable_required"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.backslash-content-path.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "artifact_content_path_portable_required"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.traversal-content-path.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "artifact_content_path_portable_required"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.null-byte-content-path.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "artifact_content_path_portable_required"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.missing-content-path-anchor.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "artifact_content_path_anchor_required"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.self-referential-identity-input.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "self_referential_identity"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.invalid-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.missing-key-metadata.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "receipt_key_metadata_required"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.signature-wrong-identity-type.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "vendor_receipt_signature_identity_type"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.signature-identity-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "signature_signed_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.approved-received-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "receipt_approved_received_mismatch"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.rejected-no-receipt-misuse.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "vendor_receipt_no_failed_receipt"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.quarantined-no-receipt-misuse.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "vendor_receipt_no_failed_receipt"
+    },
+    {
+      "path": "v0/invalid/review-event-log.non-monotonic-sequence.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_log_sequence_not_monotonic"
+    },
+    {
+      "path": "v0/invalid/review-event-log.duplicate-event-id.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_log_duplicate_event_id"
+    },
+    {
+      "path": "v0/invalid/review-event-log.duplicate-idempotency-key.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_log_duplicate_idempotency_key"
+    },
+    {
+      "path": "v0/invalid/review-event-log.identity-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-log.review-id-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_log_review_id_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-log.supersedes-unknown-event.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_log_supersedes_unknown_event"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-supersedes-classification.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_event_cannot_supersede_classification"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-classification-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_classification_reviewer_actor_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-facing-internal-note.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_internal_note_requires_internal_only"
+    },
+    {
+      "path": "v0/invalid/review-event-log.missing-source-derived-class.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_missing_source_derived_class"
+    },
+    {
+      "path": "v0/invalid/review-event-log.identity-excludes-invalid.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_identity_excludes_invalid"
+    },
+    {
+      "path": "v0/invalid/review-event-log.typed-artifact-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_typed_artifact_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-customer-projection.internal-only-entry.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_projection_internal_only_entry"
+    },
+    {
+      "path": "v0/invalid/review-event-customer-projection.duplicate-event-id.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_projection_duplicate_event_id"
+    },
+    {
+      "path": "v0/invalid/review-event-customer-projection.truncated-history.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "companion_log_path": "v0/valid/review-event-log.json",
+      "expected_failure": "customer_projection_missing_event"
+    },
+    {
+      "path": "v0/invalid/review-event-customer-projection.fabricated-entry.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "companion_log_path": "v0/valid/review-event-log.json",
+      "expected_failure": "customer_projection_unknown_event"
+    },
+    {
+      "path": "v0/invalid/review-event.unknown-local-offset.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "unknown_local_utc_offset"
+    },
+    {
+      "path": "v0/invalid/stored-object-classification.log-transient-source.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "stored_object_forbidden_source_class"
+    },
+    {
+      "path": "v0/invalid/stored-object-classification.opt-in-outside-pilot.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "stored_object_opt_in_not_allowed"
+    },
+    {
+      "path": "v0/invalid/evidence-lifecycle-event.deletion-without-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "deletion_event_missing_deletion_evidence"
+    },
+    {
+      "path": "v0/invalid/evidence-lifecycle-event.access-without-scope.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "access_event_missing_scope"
+    },
+    {
+      "path": "v0/invalid/evidence-lifecycle-event.access-scope-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "access_event_scope_mismatch"
+    },
+    {
+      "path": "v0/invalid/evidence-lifecycle-event.retention-status-without-class.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "evidence_event_missing_source_derived_class"
+    },
+    {
+      "path": "v0/invalid/retention-opt-in-record.period-inverted.json",
+      "schema": "urn:codeattest:protocol:v0:retention-opt-in-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "retention_period_invalid"
+    },
+    {
+      "path": "v0/invalid/retention-opt-in-record.missing-period.json",
+      "schema": "urn:codeattest:protocol:v0:retention-opt-in-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "required"
+    },
+    {
+      "path": "v0/invalid/retention-opt-in-record.wrong-source-class.json",
+      "schema": "urn:codeattest:protocol:v0:retention-opt-in-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "retention_opt_in_class_required"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.missing-digests.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "required"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.empty-digests.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "min_items"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.unknown-method.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "enum"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.duplicate-digests.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "unique_items"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.self-supersede.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "deletion_evidence_self_supersede"
+    },
+    {
+      "path": "v0/invalid/evidence-minimization-projection.category-class-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-minimization-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "minimization_category_class_mismatch"
+    },
+    {
+      "path": "v0/invalid/evidence-minimization-projection.deleted-without-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-minimization-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "minimization_deleted_without_evidence"
+    },
+    {
+      "path": "v0/invalid/evidence-minimization-projection.artifact-category-conflict.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-minimization-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "minimization_artifact_category_conflict"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.failure-with-receipt-ref.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_outcome_failure_must_not_reference_receipt"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.failure-without-reason-codes.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_outcome_failure_requires_reason_codes"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.received-with-reason-codes.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_outcome_received_must_not_carry_reason_codes"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.failure-next-path-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_outcome_next_path_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.next-path-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_outcome_next_path_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.summary-implies-review.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_outcome_summary_implies_review"
+    },
+    {
+      "path": "v0/invalid/review-event.submission-received-outcome.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_event_state_not_a_failure"
+    },
+    {
+      "path": "v0/invalid/review-event.submission-type-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_event_type_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event.submission-missing-outcome-ref.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_event_missing_outcome_ref"
+    },
+    {
+      "path": "v0/invalid/review-event.submission-idempotency-not-derived.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "submission_event_idempotency_key_not_derived"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.expert-classification.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_expert_field_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.missing-vendor-receipt-ref.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_receipt_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.bundle-id-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_receipt_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.manifest-id-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_receipt_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.deleted-evidence-available.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_deleted_evidence_shown_available"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.missing-threshold-gaps.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_threshold_gaps_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.unsafe-no-findings.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_no_findings_statement_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.duplicate-draft-id.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_duplicate_id"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.source-class-required.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_source_class_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.unknown-receipt.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_unknown_receipt"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.receipt-not-received.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_receipt_not_received"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.no-findings-has-drafts.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_no_findings_has_drafts"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.drafts-required.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_set_drafts_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.text-first-state.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_text_first_state_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.coverage-mode-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_coverage_mode_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.candidate-refs-required.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_candidate_refs_required"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.source-reference-state.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_source_reference_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.deleted-evidence-missing-proof.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_finding_draft_deleted_evidence_missing_proof"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.disallowed-classification.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_allowed_taxonomy_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.missing-draft-ref.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_draft_ref_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.confirmed-without-criteria.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_confirmed_criteria_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.confirmed-scanner-only-without-defensible.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_confirmed_defensible_criteria_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.validation-required-without-path.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_validation_path_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.missing-evidence-basis.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_evidence_basis_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.missing-limitations.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_limitations_required"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.scanner-execution-field.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_forbidden_field"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.attestation-copy-field.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_forbidden_field"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.raw-source-in-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.claim-unsafe-validation-path-ref.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.evidence-basis-unbound.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_evidence_basis_not_bound_to_draft"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.source-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_source_reference_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.customer-authored.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_reviewer_actor_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.missing-classification-ref.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_classification_ref_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.inconclusive-actionable.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_inconclusive_not_actionable"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.actionable-missing-evidence-ref.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_evidence_ref_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.evidence-ref-unbound.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_evidence_ref_unbound"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.limited-missing-insufficient-reason.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_insufficient_evidence_reason_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.limited-missing-next-step.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_next_step_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.raw-source-text.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.claim-unsafe-copy.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.remediation-field.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "finding_classification_forbidden_field"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.rewrites-classification.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_remediation_status_rewrite_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.supersedes-guidance-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_remediation_status_rewrite_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.raw-source-text.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_remediation_status_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.claim-unsafe-copy.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_remediation_status_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.collapsed-status.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_status_separation_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.customer-notes-export.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_customer_notes_export_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.future-state-without-record.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_future_outcome_reference_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.future-reference-hidden.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_future_outcome_reference_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.claim-unsafe-validation-path.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.claim-unsafe-validation-path-ref.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-supersedes-remediation-guidance.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_event_cannot_supersede_expert_record"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-supersedes-classification-through-guidance.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_event_cannot_supersede_classification"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.actionable-missing-details.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_actionable_details_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.missing-exploitability-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_exploitability_rationale_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.confirmed-missing-criteria-context.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_confirmed_criteria_context_required"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.source-reference-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "remediation_guidance_source_reference_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.missing-finding-ref.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_remediation_status_finding_ref_required"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.invalid-due-date.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_remediation_status_due_date_invalid"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.internal-only-visibility.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_visibility_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.verification-state-collapse.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_verification_reference_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.invalid-due-date.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_due_date_invalid"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.reference-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.latest-status-ref-missing.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.actionable-missing-guidance-details.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_guidance_actionable_details_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.actionable-empty-evidence-refs.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_evidence_ref_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.limited-missing-insufficient-reason.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_guidance_insufficient_evidence_reason_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.limited-missing-next-step.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_guidance_next_step_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.verification-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.accepted-risk-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.false-positive-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.false-positive-visible-without-record.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_future_outcome_reference_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.false-positive-reference-hidden.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_future_outcome_reference_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.claim-unsafe-remote-evidence-artifact.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.claim-unsafe-validation-script-content.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.manual-with-script-ref.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.manual-with-remote-fields.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.script-not-listed-by-path.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.script-backref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.script-path-missing-script-ref.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.additional-script-missing-pricing-tbd.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_script_pricing_tbd_required"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.remote-missing-authorization.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_remote_authorization_required"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.script-missing-script-ref.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_script_ref_required"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.manual-missing-attachment.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_manual_attachment_instructions_required"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.evidence-ref-unbound.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_evidence_ref_unbound"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.source-reference-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_source_reference_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.raw-source-text.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.claim-unsafe-copy.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.manual-with-script-ref.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_branch_field_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.script-with-remote-fields.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_branch_field_forbidden"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.manual-with-remote-fields.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_path_branch_field_forbidden"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.included-missing-slot.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_script_included_slot_required"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.additional-has-slot.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_script_additional_slot_forbidden"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.duplicate-included-slot.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_script_included_cap_exceeded"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.additional-pricing-only-outside-script-content.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_script_pricing_tbd_required"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.raw-source-text.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_script_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.claim-unsafe-copy.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "validation_script_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-remediation-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_customer_remediation_actor_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.remediation-guidance-customer-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_remediation_guidance_reviewer_actor_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-facing-reason-raw-source.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_reason_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-facing-reason-claim-unsafe.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_reason_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-direct-classification-ref.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_event_cannot_supersede_classification"
+    },
+    {
+      "path": "v0/invalid/review-event-log.supersedes-classification-ref-unknown.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_log_supersedes_unknown_event"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.non-reviewer-actor.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_reviewer_actor_required"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.missing-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_rationale_required"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.missing-evidence-basis.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_evidence_basis_required"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.missing-limitations.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_limitations_required"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.hides-finding-ref.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_finding_ref_required"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.raw-source-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.missing-customer-acceptance.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_customer_acceptance_required"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.vendor-without-signoff.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_customer_acceptance_required"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.rewrites-classification.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_rewrite_forbidden"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.evidence-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_evidence_basis_unbound"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.claim-unsafe-scope.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.raw-source-risk-owner.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.false-positive-outcome-missing.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_outcome_section_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.accepted-risk-details-missing.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_outcome_details_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.accepted-risk-outcome-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_outcome_section_required"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.claim-unsafe-false-positive-outcome.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.claim-unsafe-accepted-risk-outcome.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "customer_facing_finding_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.camel-case-field.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "camel_case_protocol_field"
+    },
+    {
+      "path": "v0/invalid/review-event-log.false-positive-customer-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_false_positive_reviewer_actor_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.accepted-risk-vendor-without-evidence.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_accepted_risk_customer_evidence_required"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.source-reference-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_source_reference_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.source-reference-state-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_source_reference_state_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.invalid-review-by-date.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_review_by_date_invalid"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.customer-actor-without-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_customer_acceptance_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.false-positive-supersedes-classification.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_outcome_supersedes_family_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-log.accepted-risk-supersedes-classification.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_outcome_supersedes_family_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.fixed-verified-copy.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.accepted-risk-local-runner-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_accepted_risk_customer_evidence_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.accepted-risk-supersedes-classification-ref.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_outcome_supersedes_family_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-log.false-positive-supersedes-classification-ref.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_outcome_supersedes_family_mismatch"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.review-id-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.classification-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.finding-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.evidence-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.review-id-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.classification-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.finding-ref-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.raw-source-customer-rationale.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.claim-unsafe-signoff-summary.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.raw-source-limitations.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "accepted_risk_record_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.claim-unsafe-limitations.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "false_positive_record_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.internal-outcome-reason-raw-source.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_reason_raw_source_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.internal-outcome-reason-claim-unsafe.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_reason_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.no-customer-backed-selection.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_customer_backing_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.blank-customer-backing.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_customer_backing_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.missing-classification-binding.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_classification_binding_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.classification-binding-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_classification_binding_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.requires-validation-eligible-without-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_validation_path_required_for_eligible"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.more-than-three-included-scripts.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_included_script_cap_exceeded"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.duplicate-included-script-slot.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_included_script_slot_duplicate"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.additional-script-missing-pricing-tbd.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_additional_script_pricing_tbd_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.deadline-beyond-30-days.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_outside_included_window"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.deadline-plus-one-ns.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_outside_included_window"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.future-evidence-field.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_story_4_1_field_forbidden"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.outcome-hidden-or-rewritten.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_story_4_1_field_forbidden"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.claim-unsafe-copy.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.namespaced-claim-unsafe-copy.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.draft-binding-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_draft_binding_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.blocked-next-step-required.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_blocked_next_step_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.next-step-no-validation-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_blocked_next_step_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.next-step-do-not-record.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_blocked_next_step_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.additional-agreement-next-step-required.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_additional_agreement_next_step_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.outcome-eligible-without-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_outcome_default_out_of_scope_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.deadline-basis-sla.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_basis_limitation_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.uncertain-basis-without-limitation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_basis_limitation_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.selected-findings-empty.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_selected_findings_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.orphaned-included-allocation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.cross-finding-additional-allocation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.vendor-scanner-actor.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_actor_authority_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.deadline-before-start.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_outside_included_window"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.calendar-invalid-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_outside_included_window"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-classification-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_classification_binding_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-remediation-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-customer-status-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-validation-path-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-script-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-accepted-risk-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.unknown-false-positive-ref.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_reference_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event.verification-scope-machine-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_actor_required"
+    },
+    {
+      "path": "v0/invalid/review-event.verification-scope-vendor-no-provenance.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_customer_backing_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.verification-scope-superseded-by-classification.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_supersedes_family_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-log.customer-verification-scope-supersedes-non-scope.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_supersedes_family_mismatch"
+    },
+    {
+      "path": "v0/invalid/review-event-log.verification-scope-version-invalid.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_version_invalid"
+    },
+    {
+      "path": "v0/invalid/review-event-log.verification-scope-machine-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_actor_required"
+    },
+    {
+      "path": "v0/invalid/review-event-log.verification-scope-vendor-no-provenance.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_customer_backing_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.scope-recorded-after-deadline.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_deadline_outside_included_window"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.duplicate-script-ref-allocation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.script-ref-included-and-additional.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.additional-script-as-included-slot.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.included-script-as-additional-candidate.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.selected-script-missing-allocation.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_script_allocation_ref_mismatch"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.eligibility-reason-too-weak.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_eligibility_reason_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.finding-limitations-too-weak.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_limitations_required"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.eligible-additional-agreement-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_scope_validation_path_required_for_eligible"
+    },
+    {
+      "path": "v0/invalid/review-event.verification-scope-claim-unsafe-reason.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_reason_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/review-event-log.verification-scope-claim-unsafe-reason.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "review_event_verification_scope_reason_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.commit-missing-context.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "expected_failure": "verification_evidence_commit_context_invalid",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.validation-missing-path.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "expected_failure": "verification_evidence_validation_context_invalid",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.access-scope-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "expected_failure": "verification_evidence_access_scope_mismatch",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-record.complete-criterion-unsatisfied.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "expected_failure": "verification_record_criteria_mismatch",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-record.pending-missing-next-step.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "expected_failure": "verification_record_next_step_required",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-record.not-verified-missing-next-step.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "expected_failure": "verification_record_next_step_required",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-addendum.duplicate-evidence-resolution.json",
+      "schema": "urn:codeattest:protocol:v0:verification-addendum",
+      "expected_failure": "verification_addendum_evidence_resolution_invalid",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/verification-addendum.finalized-pending.json",
+      "schema": "urn:codeattest:protocol:v0:verification-addendum",
+      "expected_failure": "verification_addendum_finalization_invalid",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/review-event.verification-evidence-wrong-actor.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "expected_failure": "review_event_verification_evidence_actor_required",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/review-event.verification-record-wrong-ref.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "expected_failure": "review_event_typed_artifact_ref_mismatch",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/review-event-log.verification-record-stale.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "expected_failure": "review_event_verification_record_version_invalid",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "path": "v0/invalid/supporting-evidence-mapping.acceptance-claim.json",
+      "schema": "urn:codeattest:protocol:v0:supporting-evidence-mapping",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "supporting_evidence_mapping_claim_unsafe_text_forbidden"
+    },
+    {
+      "path": "v0/invalid/supporting-evidence-mapping.duplicate-entry-id.json",
+      "schema": "urn:codeattest:protocol:v0:supporting-evidence-mapping",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "supporting_evidence_mapping_duplicate_entry"
+    },
+    {
+      "path": "v0/invalid/static-bundle-manifest.internal-learning-file.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "static_bundle_internal_learning_forbidden"
+    },
+    {
+      "path": "v0/invalid/attestation-package-finalization.vendor-actor.json",
+      "schema": "urn:codeattest:protocol:v0:attestation-package-finalization",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "attestation_finalization_customer_actor_required"
+    },
+    {
+      "path": "v0/invalid/attestation-package-finalization.exported-missing-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:attestation-package-finalization",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "attestation_export_timestamp_required"
+    },
+    {
+      "path": "v0/invalid/pilot-feedback-record.customer-facing.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-feedback-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "pilot_feedback_internal_content_free_required"
+    },
+    {
+      "path": "v0/invalid/static-bundle-verification-package.tampered-signature.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-verification-package",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "static_bundle_verification_signature_invalid"
+    },
+    {
+      "path": "v0/invalid/pilot-feedback-record.pii-caveat.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-feedback-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "pilot_feedback_pii_forbidden"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.invalid-enum-outcome-state.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_outcome_state"
+    },
+    {
+      "path": "v0/invalid/environment-evidence-gate.invalid-enum-profile.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_environment_profile"
+    },
+    {
+      "path": "v0/invalid/artifact-reference.invalid-enum-artifact-type.json",
+      "schema": "urn:codeattest:protocol:v0:artifact-reference",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_artifact_type"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.invalid-enum-stage.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_local_runner_stage"
+    },
+    {
+      "path": "v0/invalid/review-event.invalid-enum-event-type.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_review_event_type"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/attestation-package-finalization.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:attestation-package-finalization",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/customer-approval.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/evidence-lifecycle-event.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/pilot-feedback-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-feedback-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/pilot-metric-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-metric-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/retention-opt-in-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:retention-opt-in-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/review-event-customer-projection.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/review-event-log.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/review-event.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:review-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/review-scope.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:review-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/security-review-attestation.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:security-review-attestation",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/signature-envelope.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/static-bundle-manifest.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/static-bundle-verification-package.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-verification-package",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/static-portal-projection.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:static-portal-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/submission-outcome.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:submission-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/supporting-evidence-mapping.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:supporting-evidence-mapping",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/verification-addendum.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:verification-addendum",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/verification-record.invalid-calendar-timestamp-c1-08.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/accepted-risk-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:accepted-risk-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/attestation-package-finalization.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:attestation-package-finalization",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/bundle-manifest.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/customer-approval.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:customer-approval",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/customer-facing-finding-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:customer-facing-finding-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/customer-remediation-status-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:customer-remediation-status-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/deletion-evidence.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:deletion-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/disclosure-policy.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:disclosure-policy",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/evidence-lifecycle-event.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-lifecycle-event",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/evidence-minimization-projection.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:evidence-minimization-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/false-positive-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:false-positive-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/finding-classification-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:finding-classification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/finding-remediation-guidance.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:finding-remediation-guidance",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/finding-validation-path.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:finding-validation-path",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/identity-signing-input.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:identity-signing-input",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_identity_signing_input_type"
+    },
+    {
+      "path": "v0/invalid/outbound-manifest.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:outbound-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/pilot-feedback-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-feedback-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/pilot-metric-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:pilot-metric-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/retention-source-derived-class.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:retention-source-derived-class",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/review-event-customer-projection.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-customer-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/review-event-log.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:review-event-log",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/review-finding-draft-set.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:review-finding-draft-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/review-scope.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:review-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/reviewer-validation-script.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:reviewer-validation-script",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/scanner-finding-set.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:scanner-finding-set",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/security-review-attestation.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:security-review-attestation",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/signature-envelope.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/static-bundle-manifest.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-manifest",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/static-bundle-verification-package.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:static-bundle-verification-package",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/static-portal-projection.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:static-portal-projection",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/stored-object-classification.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:stored-object-classification",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/supporting-evidence-mapping.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:supporting-evidence-mapping",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/vendor-receipt.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:vendor-receipt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/verification-addendum.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:verification-addendum",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/verification-pass-scope.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:verification-pass-scope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/verification-record.invalid-enum-value-c1-09.json",
+      "schema": "urn:codeattest:protocol:v0:verification-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.customer-validation-evidence-missing-artifacts.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_evidence_validation_context_invalid"
+    },
+    {
+      "path": "v0/invalid/verification-evidence-record.remote-dynamic-testing-evidence-missing-artifacts.json",
+      "schema": "urn:codeattest:protocol:v0:verification-evidence-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "verification_evidence_validation_context_invalid"
+    },
+    {
+      "path": "v0/invalid/signing-key-record.invalid-enum-value.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/signing-key-record.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/signing-key-directory.invalid-enum-value.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-directory",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/signing-key-directory.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:signing-key-directory",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/runner-key-enrollment-record.invalid-enum-value.json",
+      "schema": "urn:codeattest:protocol:v0:runner-key-enrollment-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/runner-key-enrollment-record.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:runner-key-enrollment-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/signature-verification-outcome.invalid-enum-value.json",
+      "schema": "urn:codeattest:protocol:v0:signature-verification-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/signature-verification-outcome.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:signature-verification-outcome",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/signature-envelope.ml-dsa-65-wrong-length.json",
+      "schema": "urn:codeattest:protocol:v0:signature-envelope",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "signature_bytes_untrusted"
+    },
+    {
+      "path": "v0/invalid/runner-release-record.malformed-digest.json",
+      "schema": "urn:codeattest:protocol:v0:runner-release-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "malformed_algorithm_prefixed_digest"
+    },
+    {
+      "path": "v0/invalid/runner-release-record.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:runner-release-record",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/local-runner-attempt.submit-state-without-stage.json",
+      "schema": "urn:codeattest:protocol:v0:local-runner-attempt",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "local_attempt_submit_stage_required"
+    },
+    {
+      "path": "v0/invalid/log-checkpoint.wrong-merkle-root-length.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "log_checkpoint_merkle_root_invalid"
+    },
+    {
+      "path": "v0/invalid/log-checkpoint.tree-size-mismatch.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "log_checkpoint_tree_size_mismatch"
+    },
+    {
+      "path": "v0/invalid/log-checkpoint.tampered-checkpoint-id.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "log_checkpoint_identity_mismatch"
+    },
+    {
+      "path": "v0/invalid/log-checkpoint.invalid-enum-cross-deployment-mix.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "log_checkpoint_cross_deployment_mix"
+    },
+    {
+      "path": "v0/invalid/log-checkpoint.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:log-checkpoint",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-evidence.self-reviewed.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_evidence_self_review"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.stale.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_decision_stale_evidence"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.duplicate-control.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_decision_controls_invalid"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.missing-control.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_decision_controls_invalid"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.failed-control.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_decision_failed_control"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.self-approved.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_decision_self_approval"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.wrong-release.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "readiness_decision_release_mismatch"
+    },
+    {
+      "path": "v0/invalid/environment-evidence-gate.wrong-gate-digest.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "environment_gate_readiness_decision_mismatch"
+    },
+    {
+      "path": "v0/invalid/environment-evidence-gate.unsafe-real-acceptance.json",
+      "schema": "urn:codeattest:protocol:v0:environment-evidence-gate",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "environment_gate_readiness_decision_required"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-evidence.invalid-enum-value.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-evidence.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-evidence",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.invalid-enum-value.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "invalid_enum_value"
+    },
+    {
+      "path": "v0/invalid/environment-readiness-decision.invalid-calendar-timestamp.json",
+      "schema": "urn:codeattest:protocol:v0:environment-readiness-decision",
+      "source_safety": "synthetic_non_customer",
+      "expected_failure": "utc_rfc3339_timestamp"
+    }
+  ],
+  "canonical_identities": [
+    {
+      "fixture_path": "v0/valid/log-checkpoint.empty.json",
+      "identity_field": "checkpoint_id",
+      "identity_input_path": "v0/valid/log-checkpoint.empty.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:7fc6300f9bd3b48145b00dd7b30902102c5a202cfe59b6b71d33cb73ffc94bec",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/log-checkpoint.single-review.json",
+      "identity_field": "checkpoint_id",
+      "identity_input_path": "v0/valid/log-checkpoint.single-review.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:d60ea89bc8016651bc58bbe5c4cb1b2106574a7ee7ab184b677249445ee5ffd1",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/log-checkpoint.multi-review.json",
+      "identity_field": "checkpoint_id",
+      "identity_input_path": "v0/valid/log-checkpoint.multi-review.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:b758c33b4e8e17bd1926815c0328aa1d29efa374ab8721ea91883df73c4408a8",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/review-scope.json",
+      "identity_field": "review_scope_id",
+      "identity_input_path": "v0/valid/review-scope.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/attestation-package-finalization.json",
+      "identity_field": "attestation_package_finalization_id",
+      "identity_input_path": "v0/valid/attestation-package-finalization.identity-input.json",
+      "identity_namespace": "attestation_finalization",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "attestation_finalization:efce00703010680d92479fac1a268417bb0d5487bcf38169070de509fb3ac1f8",
+      "source_safety": "synthetic_non_customer",
+      "identity_input_excludes": [
+        "attestation_package_finalization_id",
+        "export_state",
+        "exported_at"
+      ]
+    },
+    {
+      "fixture_path": "v0/valid/bundle-manifest.json",
+      "identity_field": "evidence_bundle_id",
+      "identity_input_path": "v0/valid/bundle-manifest.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/disclosure-policy.extended.json",
+      "identity_field": "disclosure_policy_id",
+      "identity_input_path": "v0/valid/disclosure-policy.extended.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:a80e09c7e7cba8834ce7f2b068dc46f5b34c5f23b86c7cd35c9423e45a1200b6",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/disclosure-policy.json",
+      "identity_field": "disclosure_policy_id",
+      "identity_input_path": "v0/valid/disclosure-policy.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:51384193280d320505b390207fd3837fc9693aa9264d13aea6cca5217f51b7c8",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/disclosure-policy.metadata-only.json",
+      "identity_field": "disclosure_policy_id",
+      "identity_input_path": "v0/valid/disclosure-policy.metadata-only.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:1979f6602994f40988f9f8e0b38b6c1cdb7a61478daabbfb71fcf65298d7275c",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/outbound-manifest.json",
+      "identity_field": "manifest_id",
+      "identity_input_path": "v0/valid/outbound-manifest.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/review-event.json",
+      "identity_field": "event_id",
+      "identity_input_path": "v0/valid/review-event.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:f5176c0cd3858f0e2da4308cb52a17e61ff65d37cf392caf39f3274c124e6ab4",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/security-review-attestation.json",
+      "identity_field": "attestation_id",
+      "identity_input_path": "v0/valid/security-review-attestation.identity-input.json",
+      "identity_namespace": "attestation",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "attestation:987a340458c986b9d1e85320160e893d25ec9d37e9da58075ca9670757c958e4",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/static-bundle-manifest.finalized.json",
+      "identity_field": "static_bundle_manifest_id",
+      "identity_input_path": "v0/valid/static-bundle-manifest.finalized.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:eff5abdc01fde072b92c02e482cbab62bc5ba21860f4f6b098696599abf0f138",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/static-bundle-manifest.generated.json",
+      "identity_field": "static_bundle_manifest_id",
+      "identity_input_path": "v0/valid/static-bundle-manifest.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:f49d0334fe33d49d8a8b1004bf4fbcf6fa006f457016dd209bf153f8234f9461",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/vendor-receipt.json",
+      "identity_field": "vendor_receipt_id",
+      "identity_input_path": "v0/valid/vendor-receipt.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.access-control.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.access-control.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:68bc87af7a6295f2a5dba363e8f0d73c6aa1bb35b281b4dc34b5b5b0fa5b50cc",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.access-logging.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.access-logging.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:bc4090edef023694ac3a5bd5f09a2bffd09ed48c2071b9be8febd3633429958f",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.encryption-at-rest.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.encryption-at-rest.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:5df13df944b927e3beebc028b9ff601f9477f37b34d2bba5742cae26d0a6ef5d",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.retention-defaults.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.retention-defaults.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:f012b97fa2256f5912dd1a8af9fa69ad3812be5353abe24899e72625e1ddc414",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.deletion-controls.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.deletion-controls.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:fc93da50216d6c690972ed764ac2cd38226acecbd181c8b07fc77b85a5302e4a",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.demo-budget-gate.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.demo-budget-gate.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:cc04a5c5c41bf8360884bf844399cc3fd2230e499028c379db232dc24e78a7ca",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.signing-release-trust.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.signing-release-trust.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:728a0bcd1f27d7f846256e70408a05c3eb2403c47dd555a2f23643d10ad1abc2",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.failed-encryption.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.failed-encryption.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:19eecb79d0edd91126836af7416ed2b9fd705ca993ea79e54123f2b620aed0fb",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.stale-access-control.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.stale-access-control.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:ef130879d6925d2b94c12d270bd936dc92ad68c3486893d7f8219239c2253b64",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-evidence.wrong-release-access-control.json",
+      "identity_field": "readiness_evidence_id",
+      "identity_input_path": "v0/valid/environment-readiness-evidence.wrong-release-access-control.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:70cf6c6aa8d1b635ba71750c294a08ec9a53a731741a24ad376d036f8c8c0d89",
+      "source_safety": "synthetic_non_customer"
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-decision.approved.json",
+      "identity_field": "readiness_decision_id",
+      "identity_input_path": "v0/valid/environment-readiness-decision.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:8aa3c2ec6cf635126083b9b643d51e12f405ef4ec8e993e6e1c7b95c092c31ce",
+      "source_safety": "synthetic_non_customer",
+      "identity_input_excludes": [
+        "readiness_decision_id",
+        "decision_signature"
+      ]
+    },
+    {
+      "fixture_path": "v0/valid/environment-readiness-decision.declined.json",
+      "identity_field": "readiness_decision_id",
+      "identity_input_path": "v0/valid/environment-readiness-decision.declined.identity-input.json",
+      "canonicalization": "rfc8785",
+      "hash_algorithm": "sha256",
+      "expected_identity": "sha256:14d8b35ce1f5190974ed131ee2000489827151fe30c6ec1c241b5c225013ef78",
+      "source_safety": "synthetic_non_customer",
+      "identity_input_excludes": [
+        "readiness_decision_id",
+        "decision_signature"
+      ]
+    }
+  ]
+}

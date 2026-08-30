@@ -1,0 +1,92 @@
+{
+  "protocol_version": "codeattest.v0",
+  "disclosure_policy_id": "sha256:a80e09c7e7cba8834ce7f2b068dc46f5b34c5f23b86c7cd35c9423e45a1200b6",
+  "created_at": "2026-07-06T00:00:00Z",
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "scanner_finding_set_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "coverage_mode": "extended_approved_snippets_or_targeted_files",
+  "include_metadata": true,
+  "include_dependency_information": true,
+  "include_scanner_findings": true,
+  "evidence_categories": [
+    {
+      "category": "metadata",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained review metadata"
+    },
+    {
+      "category": "dependencies",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained dependency metadata"
+    },
+    {
+      "category": "scanner_findings",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained Candidate Findings only"
+    },
+    {
+      "category": "raw_snippets",
+      "included": true,
+      "source_derived_class": "transient_source_derived",
+      "retention_handling": "transient approved Raw Snippets only"
+    },
+    {
+      "category": "targeted_files",
+      "included": true,
+      "source_derived_class": "transient_source_derived",
+      "retention_handling": "transient selected file or area references only"
+    },
+    {
+      "category": "derived_artifacts",
+      "included": true,
+      "source_derived_class": "retained_review_artifact",
+      "retention_handling": "retained derived policy metadata"
+    },
+    {
+      "category": "never_collected_items",
+      "included": false,
+      "source_derived_class": "never_collected",
+      "retention_handling": "complete repository archives and non-selected files are not collected",
+      "limitation": "Only selected paths and area references are represented by this fixture."
+    }
+  ],
+  "snippet_policy": {
+    "allow_raw_snippets": true,
+    "max_snippet_chars": 1200,
+    "context_lines": 5,
+    "redaction_profile": "synthetic-demo-redaction",
+    "raw_snippet_default_class": "transient_source_derived",
+    "selection_behavior": "extended_selected_files_or_areas",
+    "selected_files_or_areas": [
+      "src/app.ts",
+      "area:authentication-flow"
+    ]
+  },
+  "redaction_policy": {
+    "enabled": true,
+    "profile": "synthetic-demo-redaction",
+    "configuration_version": "synthetic-demo-redaction-v0",
+    "limitation": "Redaction reduces exposure but secret detection cannot prove absence of secrets."
+  },
+  "retention_policy": {
+    "raw_snippet_class": "transient_source_derived",
+    "targeted_file_class": "transient_source_derived",
+    "retain_source_opt_in": false,
+    "retention_period": "not_applicable"
+  },
+  "warnings": [
+    "Extended approved snippets or targeted files may improve review confidence but increases disclosure."
+  ],
+  "limitations": [
+    "Redaction reduces exposure but secret detection cannot prove absence of secrets.",
+    "Selected files or areas are recorded as references only in this fixture.",
+    "No complete repository archive is collected."
+  ],
+  "synthetic_fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ]
+}

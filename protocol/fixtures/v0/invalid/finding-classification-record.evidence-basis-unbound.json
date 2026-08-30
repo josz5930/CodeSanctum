@@ -1,0 +1,43 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "classification_record_id": "classification_record:invalid_unbound_basis_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+  "classification": "confirmed",
+  "classified_at": "2026-07-22T00:22:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "evidence_basis": [
+    "extended_approved_source_context",
+    "retained_review_artifact"
+  ],
+  "confirmation_criteria": [
+    "SYNTHETIC_DEMO_DATA approved evidence reference matches the reviewer criterion for this finding class. NOT_CUSTOMER_SOURCE."
+  ],
+  "threshold_gaps": [],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA confirmation is limited to approved evidence references and does not make broader proof claims. NOT_CUSTOMER_SOURCE."
+  ],
+  "rationale": "SYNTHETIC_DEMO_DATA evidence basis claims extended context that is absent from the referenced draft evidence refs. NOT_CUSTOMER_SOURCE.",
+  "source_reference_state": "retained_review_artifact",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:synthetic_raw_snippet",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "transient_source_derived"
+    }
+  ]
+}

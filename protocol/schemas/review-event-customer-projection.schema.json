@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:review-event-customer-projection",
+  "title": "Review Event Customer Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_id",
+    "entries"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_id",
+          "event_type",
+          "event_timestamp",
+          "actor_category",
+          "artifact_refs",
+          "visibility"
+        ],
+        "properties": {
+          "event_id": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+          },
+          "event_type": {
+            "type": "string",
+            "enum": [
+              "receipt_issued",
+              "submission_rejected",
+              "submission_quarantined",
+              "classification_recorded",
+              "remediation_guidance_recorded",
+              "validation_recorded",
+              "verification_scope_recorded",
+              "verification_evidence_recorded",
+              "verification_recorded",
+              "customer_remediation_recorded",
+              "false_positive_recorded",
+              "customer_accepted_risk_recorded",
+              "attestation_generated",
+              "static_bundle_generated",
+              "attestation_package_finalized",
+              "attestation_package_exported",
+              "evidence_deleted",
+              "retention_status_changed",
+              "evidence_accessed",
+              "key_rotation_recorded"
+            ]
+          },
+          "event_timestamp": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+          },
+          "actor_category": {
+            "type": "string",
+            "enum": [
+              "local_runner",
+              "customer_user",
+              "vendor_service",
+              "reviewer"
+            ]
+          },
+          "artifact_refs": {
+            "type": "array",
+            "maxItems": 10000,
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+            }
+          },
+          "visibility": {
+            "type": "string",
+            "const": "customer_facing"
+          },
+          "reason": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          }
+        }
+      }
+    }
+  }
+}

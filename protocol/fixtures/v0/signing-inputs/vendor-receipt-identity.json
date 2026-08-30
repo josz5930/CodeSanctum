@@ -1,0 +1,9 @@
+{
+  "protocol_version": "codeattest.v0",
+  "signing_input_type": "vendor_receipt_identity",
+  "algorithm_profile": "ml_dsa_65",
+  "signed_identity_type": "vendor_receipt",
+  "signed_identity": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+  "canonicalization": "rfc8785",
+  "identity_input_path": "v0/valid/vendor-receipt.identity-input.json"
+}

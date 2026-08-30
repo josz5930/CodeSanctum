@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:pilot-feedback-record",
+  "title": "Pilot Feedback Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "pilot_feedback_record_id",
+    "record_version",
+    "review_id",
+    "recorded_at",
+    "recorded_by",
+    "feedback_source",
+    "usefulness_rating",
+    "repeat_intent",
+    "pay_intent",
+    "mapping_feedback",
+    "objection_codes",
+    "caveats",
+    "content_free",
+    "pii_free",
+    "visibility",
+    "source_derived_class"
+  ],
+  "properties": {
+    "protocol_version": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version" },
+    "pilot_feedback_record_id": { "type": "string", "pattern": "^pilot_feedback:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "record_version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "review_id": { "type": "string", "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$" },
+    "recorded_at": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp" },
+    "recorded_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_type", "actor_id"],
+      "properties": {
+        "actor_type": { "type": "string", "enum": ["reviewer", "vendor_service"] },
+        "actor_id": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string" }
+      }
+    },
+    "feedback_source": { "type": "string", "enum": ["customer_admin_aggregate", "evidence_consumer_aggregate", "reviewer_observation"] },
+    "usefulness_rating": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "repeat_intent": { "type": "string", "enum": ["yes", "no", "unsure", "not_asked"] },
+    "pay_intent": { "type": "string", "enum": ["yes", "no", "unsure", "not_asked"] },
+    "mapping_feedback": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mapping_profile", "usefulness_rating"],
+        "properties": {
+          "mapping_profile": { "type": "string", "enum": ["soc_2_supporting_evidence", "generic_technology_risk", "customer_security_review", "not_used"] },
+          "usefulness_rating": { "type": "integer", "minimum": 1, "maximum": 5 }
+        }
+      }
+    },
+    "objection_codes": { "type": "array", "uniqueItems": true, "items": { "type": "string", "enum": ["scope_too_narrow", "evidence_too_limited", "mapping_not_applicable", "signature_profile_demo_only", "offline_package_usability", "pricing_uncertain", "turnaround", "other_content_free"] } },
+    "caveats": { "type": "array", "maxItems": 100, "minItems": 1, "items": { "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string" } },
+    "content_free": { "type": "boolean", "const": true },
+    "pii_free": { "type": "boolean", "const": true },
+    "visibility": { "type": "string", "const": "internal_only" },
+    "source_derived_class": { "type": "string", "const": "retained_review_artifact" }
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:scanner-finding-set",
+  "title": "Scanner Finding Set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "scanner_finding_set_id",
+    "generated_at",
+    "review_scope_ref",
+    "runner",
+    "source_derived_class",
+    "scanner_runs",
+    "candidate_findings",
+    "coverage_limitations",
+    "artifact_references"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "scanner_finding_set_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "generated_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "review_scope_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "codeattest-local-runner"
+        },
+        "version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    },
+    "scanner_runs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "dependentSchemas": {
+          "failure_reason": {
+            "properties": {
+              "status": {
+                "enum": ["unavailable", "failed", "invalid_output", "skipped"]
+              }
+            },
+            "required": ["status"]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": ["unavailable", "failed", "invalid_output", "skipped"]
+                }
+              },
+              "required": ["status"]
+            },
+            "then": {
+              "required": ["failure_reason"]
+            },
+            "else": { "not": { "required": ["failure_reason"] } }
+          }
+        ],
+        "required": [
+          "scanner_name",
+          "scanner_version",
+          "ruleset_identifier",
+          "executed_at",
+          "status",
+          "covered_file_group",
+          "scanned_files",
+          "rerun_possible",
+          "source_derived_class"
+        ],
+        "properties": {
+          "scanner_name": {
+            "type": "string",
+            "enum": ["regex", "semgrep"]
+          },
+          "scanner_version": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "ruleset_identifier": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "executed_at": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["succeeded", "no_findings", "unavailable", "failed", "invalid_output", "skipped"]
+          },
+          "covered_file_group": {
+            "type": "string",
+            "enum": ["typescript_javascript", "python", "mixed", "unsupported"]
+          },
+          "scanned_files": {
+            "type": "array",
+            "maxItems": 10000,
+            "items": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            }
+          },
+          "failure_reason": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "rerun_possible": {
+            "type": "boolean"
+          },
+          "source_derived_class": {
+            "type": "string",
+            "const": "retained_review_artifact"
+          }
+        }
+      }
+    },
+    "candidate_findings": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_finding_id",
+          "source",
+          "affected_area",
+          "scanner_rule_id",
+          "original_reference",
+          "source_artifact_refs",
+          "status",
+          "source_derived_class"
+        ],
+        "properties": {
+          "candidate_finding_id": {
+            "type": "string",
+            "pattern": "^candidate_finding:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["regex", "semgrep"]
+          },
+          "affected_area": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "severity": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "unknown"]
+          },
+          "scanner_rule_id": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "original_reference": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "source_artifact_refs": {
+            "type": "array",
+            "maxItems": 10000,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["candidate"]
+          },
+          "source_derived_class": {
+            "type": "string",
+            "const": "retained_review_artifact"
+          }
+        }
+      }
+    },
+    "coverage_limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "artifact_references": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:artifact-reference"
+      }
+    }
+  }
+}

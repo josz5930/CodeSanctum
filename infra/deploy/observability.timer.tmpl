@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the CodeAttest SLO check for %i every minute
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+AccuracySec=10s
+Persistent=true
+Unit=codeattest-observability@%i.service
+
+[Install]
+WantedBy=timers.target

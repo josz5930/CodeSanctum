@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:stored-object-classification",
+  "title": "Stored Object Classification",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": { "object_kind": { "enum": ["support_attachment", "log_or_trace", "analytics_record", "crash_report"] } },
+        "required": ["object_kind"]
+      },
+      "then": { "properties": { "source_derived_class": { "enum": ["never_collected", "retained_review_artifact"] } } }
+    },
+    {
+      "if": { "properties": { "source_derived_class": { "const": "customer_opt_in_retained_source" } }, "required": ["source_derived_class"] },
+      "then": { "properties": { "environment_profile": { "const": "partner_pilot_real_snippet_ready" } } }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "stored_object_ref",
+    "object_kind",
+    "source_derived_class",
+    "environment_profile"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "stored_object_ref": {
+      "type": "string",
+      "pattern": "^stored_object:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "object_kind": {
+      "type": "string",
+      "enum": [
+        "evidence_artifact",
+        "queue_payload",
+        "worker_scratch",
+        "generated_export",
+        "support_attachment",
+        "log_or_trace",
+        "analytics_record",
+        "crash_report"
+      ]
+    },
+    "source_derived_class": {
+      "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+    },
+    "environment_profile": {
+      "type": "string",
+      "enum": [
+        "synthetic_demo",
+        "partner_pilot_candidate",
+        "partner_pilot_real_snippet_ready"
+      ]
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+    }
+  }
+}

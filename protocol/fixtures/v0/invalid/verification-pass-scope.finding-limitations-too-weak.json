@@ -1,0 +1,40 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "verification_pass_id": "verification_pass:synthetic_pass_weak_limitations_001",
+  "scope_version": 1,
+  "included_pass_started_at": "2026-07-29T00:00:00Z",
+  "included_pass_start_basis": "SYNTHETIC_DEMO_DATA review completion timestamp recorded for included verification-pass availability. NOT_CUSTOMER_SOURCE.",
+  "scope_recorded_at": "2026-07-29T12:00:00Z",
+  "pass_deadline": "2026-08-28T00:00:00Z",
+  "actor": {
+    "actor_type": "customer_user",
+    "actor_id": "customer:synthetic-maya"
+  },
+  "selected_findings": [
+    {
+      "review_finding_draft_ref": "review_finding_draft:demo_finding_context",
+      "classification_record_ref": "classification_record:synthetic_likely_001",
+      "current_classification": "likely",
+      "remediation_guidance_ref": "remediation_guidance:synthetic_likely_001",
+      "customer_status_record_ref": "customer_status:synthetic_status_owner_due_001",
+      "current_customer_remediation_status": "planned",
+      "requested_verification_type": "follow_up_commit",
+      "eligibility_state": "eligible",
+      "eligibility_reason": "SYNTHETIC_DEMO_DATA customer selected the likely finding for pending follow-up verification within the included pass. NOT_CUSTOMER_SOURCE.",
+      "limitations": [
+        "later pending"
+      ]
+    }
+  ],
+  "included_script_allocation": {
+    "included_slots": [],
+    "additional_script_candidates": []
+  },
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA this verification pass is limited to selected findings, submitted follow-up evidence, and recorded validation criteria. NOT_CUSTOMER_SOURCE.",
+    "SYNTHETIC_DEMO_DATA this selection is not a complete fresh secure-code review and does not record a verification decision. NOT_CUSTOMER_SOURCE."
+  ],
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing"
+}

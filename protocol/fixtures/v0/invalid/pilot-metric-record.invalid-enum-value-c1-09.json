@@ -1,0 +1,10 @@
+{
+  "protocol_version": "codeattest.v0",
+  "fixture_markers": [
+    "SYNTHETIC_DEMO_DATA",
+    "NOT_CUSTOMER_SOURCE"
+  ],
+  "metrics": {
+    "disclosure_mode": "invalid_enum_value"
+  }
+}

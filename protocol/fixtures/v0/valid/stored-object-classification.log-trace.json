@@ -1,0 +1,7 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic-demo-intake-log-001",
+  "object_kind": "log_or_trace",
+  "source_derived_class": "never_collected",
+  "environment_profile": "synthetic_demo"
+}

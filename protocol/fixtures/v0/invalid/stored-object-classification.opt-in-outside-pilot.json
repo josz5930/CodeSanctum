@@ -1,0 +1,8 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic-demo-opt-in-snippet-002",
+  "object_kind": "evidence_artifact",
+  "source_derived_class": "customer_opt_in_retained_source",
+  "environment_profile": "synthetic_demo",
+  "artifact_ref": "artifact_ref:opt_in_snippet_002"
+}

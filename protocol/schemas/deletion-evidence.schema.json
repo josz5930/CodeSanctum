@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:deletion-evidence",
+  "title": "Deletion Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "deletion_evidence_id",
+    "deleted_artifact_digests",
+    "deletion_method",
+    "deletion_timestamp",
+    "actor",
+    "verification_status"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "deletion_evidence_id": {
+      "type": "string",
+      "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "deleted_artifact_digests": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/artifact_digest"
+      }
+    },
+    "deletion_method": {
+      "type": "string",
+      "enum": [
+        "crypto_erase",
+        "secure_delete",
+        "key_destruction",
+        "expiry_purge"
+      ]
+    },
+    "deletion_timestamp": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "actor": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/actor_reference"
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "unverified"
+      ]
+    },
+    "supersedes_deletion_evidence_ref": {
+      "type": "string",
+      "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+    }
+  }
+}

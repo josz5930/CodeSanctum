@@ -1,0 +1,22 @@
+{
+  "name": "@onevps/static-bundle",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/outcome-projection.test.mjs && node test/verification-scope-projection.test.mjs && node test/verification-addendum-projection.test.mjs && node test/epic-5-static-bundle.test.mjs && node test/static-bundle-signing-split.test.mjs",
+    "story-5.2-check": "node test/epic-5-static-bundle.test.mjs",
+    "story-5.3-check": "node test/epic-5-static-bundle.test.mjs",
+    "story-5.4-check": "node test/epic-5-static-bundle.test.mjs",
+    "story-5.5-check": "node test/epic-5-static-bundle.test.mjs",
+    "story-5.6-check": "node test/epic-5-static-bundle.test.mjs"
+  },
+  "dependencies": {
+    "@onevps/protocol-ts": "0.0.0"
+  }
+}

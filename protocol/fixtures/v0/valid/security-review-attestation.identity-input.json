@@ -1,0 +1,192 @@
+{
+  "protocol_version": "codeattest.v0",
+  "attestation_version": 1,
+  "review_id": "review:synthetic-demo-001",
+  "generated_at": "2026-08-01T12:00:00Z",
+  "generated_by": {
+    "actor_type": "vendor_service",
+    "actor_id": "vendor_service:synthetic-attestation-generator"
+  },
+  "review_scope_ref": "sha256:4fbf6826606062d0ff795c1df1a38dac5353b52a7b57c669df9d45cbad73bce2",
+  "selected_commit": {
+    "commit_sha": "0123456789abcdef0123456789abcdef01234567",
+    "source_control_system": "git"
+  },
+  "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+  "method": {
+    "coverage_mode": "finding_context_snippets",
+    "scanner_versions": [
+      "synthetic-regex-scanner/1.0",
+      "synthetic-semgrep/1.0"
+    ],
+    "tooling_summary": "SYNTHETIC_DEMO_DATA Configured scanner inputs and bounded expert procedures are recorded. NOT_CUSTOMER_SOURCE.",
+    "disclosure_summary": "SYNTHETIC_DEMO_DATA Only approved retained review artifacts are referenced. NOT_CUSTOMER_SOURCE.",
+    "method_limitations": [
+      "SYNTHETIC_DEMO_DATA Procedures are bounded to the selected commit and submitted evidence. NOT_CUSTOMER_SOURCE."
+    ]
+  },
+  "receipt_chain": {
+    "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+    "evidence_bundle_id": "sha256:d95effee91d501c4c8d5056f65063644652052b4245c7e464c8942ff2fda97bb",
+    "vendor_receipt_id": "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2",
+    "receipt_timestamp": "2026-07-10T00:20:00Z",
+    "verification_state": "received_with_receipt"
+  },
+  "sections": [
+    {
+      "section_id": "attestation_section:scope",
+      "section_type": "scope",
+      "title": "Scope",
+      "summary": "SYNTHETIC_DEMO_DATA Selected application and commit scope. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA One selected application and commit. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Review scope record. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA No broader repository scope is implied. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:review_scope"
+      ]
+    },
+    {
+      "section_id": "attestation_section:method",
+      "section_type": "method",
+      "title": "Method",
+      "summary": "SYNTHETIC_DEMO_DATA Configured inputs and expert procedures. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Procedures applied to selected scope. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Scanner metadata and reviewer records. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Tool coverage is bounded. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:scanner_finding_set"
+      ]
+    },
+    {
+      "section_id": "attestation_section:receipt",
+      "section_type": "receipt_chain",
+      "title": "Receipt chain",
+      "summary": "SYNTHETIC_DEMO_DATA Approved and received identities are linked. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Submitted Evidence Bundle only. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Manifest, bundle, and receipt identities. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Receipt does not expand review scope. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:vendor_receipt"
+      ]
+    },
+    {
+      "section_id": "attestation_section:findings",
+      "section_type": "findings_and_classification",
+      "title": "Findings and classification",
+      "summary": "SYNTHETIC_DEMO_DATA Expert classifications remain linked to evidence basis. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Findings in selected scope. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Retained finding and classification records. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Classifications are bounded expert judgments. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:synthetic_requires_validation_001"
+      ]
+    },
+    {
+      "section_id": "attestation_section:remediation",
+      "section_type": "remediation_and_validation",
+      "title": "Remediation and validation",
+      "summary": "SYNTHETIC_DEMO_DATA Recorded guidance and customer status remain distinct. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Selected finding actions. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Guidance and validation path records. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Customer status does not rewrite expert judgment. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:synthetic_requires_path_only_001",
+        "artifact_ref:synthetic_script_001",
+        "artifact_ref:synthetic_included_001"
+      ]
+    },
+    {
+      "section_id": "attestation_section:verification",
+      "section_type": "verification_outcomes",
+      "title": "Verification outcomes",
+      "summary": "SYNTHETIC_DEMO_DATA Bounded outcomes preserve before and after basis. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Selected findings and criteria only. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Verification records and addendum. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA This is not a fresh full review. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:synthetic_validation_evidence",
+        "artifact_ref:synthetic_complete"
+      ]
+    },
+    {
+      "section_id": "attestation_section:lifecycle",
+      "section_type": "evidence_lifecycle",
+      "title": "Evidence lifecycle",
+      "summary": "SYNTHETIC_DEMO_DATA Retained, deleted, and never-collected states remain distinct. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Evidence referenced by this package. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Minimization and deletion evidence records. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Deleted content is not reconstructed. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:evidence_minimization_projection"
+      ]
+    },
+    {
+      "section_id": "attestation_section:limitations",
+      "section_type": "limitations",
+      "title": "Limitations",
+      "summary": "SYNTHETIC_DEMO_DATA Evidence and method boundaries remain visible. NOT_CUSTOMER_SOURCE.",
+      "scope": "SYNTHETIC_DEMO_DATA Entire attestation package. NOT_CUSTOMER_SOURCE.",
+      "evidence_basis": [
+        "SYNTHETIC_DEMO_DATA Recorded limitations across source records. NOT_CUSTOMER_SOURCE."
+      ],
+      "limitations": [
+        "SYNTHETIC_DEMO_DATA Evidence consumers decide usefulness for their context. NOT_CUSTOMER_SOURCE."
+      ],
+      "supporting_artifact_refs": [
+        "artifact_ref:review_scope"
+      ]
+    }
+  ],
+  "verification_addendum_refs": [
+    "verification_addendum:synthetic_complete"
+  ],
+  "evidence_minimization_ref": "evidence_minimization:synthetic-demo-001",
+  "deletion_evidence_refs": [
+    "deletion_evidence:del-ev-0001"
+  ],
+  "supporting_evidence_mapping_ref": "supporting_evidence_mapping:synthetic_soc2_001",
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA Useful supporting evidence only; evidence consumers decide acceptance for their context. NOT_CUSTOMER_SOURCE."
+  ],
+  "supporting_artifact_refs": [
+    "artifact_ref:review_scope",
+    "artifact_ref:vendor_receipt",
+    "artifact_ref:evidence_minimization_projection"
+  ],
+  "customer_safe_projection": true,
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "canonicalization": "rfc8785",
+  "identity_hash_algorithm": "sha256",
+  "identity_input_excludes": [
+    "attestation_id"
+  ]
+}

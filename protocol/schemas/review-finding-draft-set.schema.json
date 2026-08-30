@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:review-finding-draft-set",
+  "title": "Review Finding Draft Set",
+  "type": "object",
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": ["normalization_status", "no_findings_statement"],
+      "properties": {
+        "normalization_status": { "const": "no_findings_produced" },
+        "review_finding_drafts": { "maxItems": 0 },
+        "no_findings_statement": { "const": "No findings were produced by the configured inputs" }
+      }
+    },
+    {
+      "required": ["normalization_status"],
+      "properties": {
+        "normalization_status": { "const": "drafts_created" },
+        "review_finding_drafts": { "minItems": 1 }
+      },
+      "not": { "required": ["no_findings_statement"] }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "review_id",
+    "normalization_run_id",
+    "normalization_status",
+    "created_at",
+    "vendor_receipt_ref",
+    "evidence_bundle_id",
+    "manifest_id",
+    "source_scanner_finding_set_ref",
+    "coverage_mode",
+    "review_finding_drafts",
+    "normalization_limitations",
+    "source_derived_class"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "normalization_run_id": {
+      "type": "string",
+      "pattern": "^normalization_run:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "normalization_status": {
+      "type": "string",
+      "enum": ["drafts_created", "no_findings_produced"]
+    },
+    "created_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "vendor_receipt_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "evidence_bundle_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "manifest_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "source_scanner_finding_set_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "coverage_mode": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+    },
+    "review_finding_drafts": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "review_finding_draft_id",
+          "candidate_finding_refs",
+          "group_key",
+          "sources",
+          "affected_area",
+          "evidence_refs",
+          "scanner_rule_ids",
+          "status",
+          "review_lifecycle_state",
+          "coverage_mode",
+          "evidence_basis",
+          "threshold_gaps",
+          "source_reference_state",
+          "source_derived_class"
+        ],
+        "properties": {
+          "review_finding_draft_id": {
+            "type": "string",
+            "pattern": "^review_finding_draft:[a-z0-9][a-z0-9_-]{2,63}$"
+          },
+          "candidate_finding_refs": {
+            "type": "array",
+            "maxItems": 10000,
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^candidate_finding:[a-z0-9][a-z0-9_-]{2,63}$"
+            }
+          },
+          "group_key": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": ["regex", "semgrep"]
+            }
+          },
+          "affected_area": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "maxItems": 10000,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": { "availability_state": { "const": "retained_review_artifact" } },
+                    "required": ["availability_state"]
+                  },
+                  "then": {
+                    "properties": {
+                      "available_for_review": { "const": true },
+                      "display_state": { "const": "available_reference" }
+                    },
+                    "not": { "required": ["deletion_evidence_ref"] }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": { "availability_state": { "const": "deleted_under_policy" } },
+                    "required": ["availability_state"]
+                  },
+                  "then": {
+                    "required": ["deletion_evidence_ref"],
+                    "properties": {
+                      "available_for_review": { "const": false },
+                      "display_state": { "const": "deleted" }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": { "availability_state": { "const": "never_collected" } },
+                    "required": ["availability_state"]
+                  },
+                  "then": {
+                    "properties": {
+                      "available_for_review": { "const": false },
+                      "display_state": { "const": "not_collected" }
+                    },
+                    "not": { "required": ["deletion_evidence_ref"] }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": { "availability_state": { "const": "not_submitted_by_policy" } },
+                    "required": ["availability_state"]
+                  },
+                  "then": {
+                    "properties": {
+                      "available_for_review": { "const": false },
+                      "display_state": { "const": "not_submitted" }
+                    },
+                    "not": { "required": ["deletion_evidence_ref"] }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": { "availability_state": { "const": "unresolved_reference" } },
+                    "required": ["availability_state"]
+                  },
+                  "then": {
+                    "properties": {
+                      "available_for_review": { "const": false },
+                      "display_state": { "const": "unresolved_reference" }
+                    },
+                    "not": { "required": ["deletion_evidence_ref"] }
+                  }
+                }
+              ],
+              "required": [
+                "artifact_ref",
+                "availability_state",
+                "available_for_review",
+                "display_state",
+                "source_derived_class"
+              ],
+              "properties": {
+                "artifact_ref": {
+                  "type": "string",
+                  "pattern": "^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$"
+                },
+                "availability_state": {
+                  "type": "string",
+                  "enum": [
+                    "retained_review_artifact",
+                    "deleted_under_policy",
+                    "never_collected",
+                    "not_submitted_by_policy",
+                    "unresolved_reference"
+                  ]
+                },
+                "available_for_review": {
+                  "type": "boolean"
+                },
+                "display_state": {
+                  "type": "string",
+                  "enum": [
+                    "available_reference",
+                    "deleted",
+                    "not_collected",
+                    "not_submitted",
+                    "unresolved_reference"
+                  ]
+                },
+                "deletion_evidence_ref": {
+                  "type": "string",
+                  "pattern": "^deletion_evidence:[a-z0-9][a-z0-9_-]{2,63}$"
+                },
+                "source_derived_class": {
+                  "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+                }
+              }
+            }
+          },
+          "severity": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "unknown"]
+          },
+          "scanner_rule_ids": {
+            "type": "array",
+            "maxItems": 10000,
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "const": "draft"
+          },
+          "review_lifecycle_state": {
+            "type": "string",
+            "const": "under_review"
+          },
+          "coverage_mode": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/coverage_mode"
+          },
+          "evidence_basis": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "scanner_output",
+                "metadata_only",
+                "finding_context_snippet",
+                "extended_approved_source_context",
+                "retained_review_artifact",
+                "deleted_under_policy_reference",
+                "not_submitted_by_policy_reference",
+                "never_collected_reference",
+                "unresolved_reference"
+              ]
+            }
+          },
+          "threshold_gaps": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+            }
+          },
+          "source_reference_state": {
+            "type": "string",
+            "enum": [
+              "retained_review_artifact",
+              "deleted_under_policy",
+              "never_collected",
+              "not_submitted_by_policy",
+              "unresolved_reference"
+            ]
+          },
+          "source_derived_class": {
+            "type": "string",
+            "const": "retained_review_artifact"
+          }
+        }
+      }
+    },
+    "normalization_limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    },
+    "no_findings_statement": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "source_derived_class": {
+      "type": "string",
+      "const": "retained_review_artifact"
+    }
+  }
+}

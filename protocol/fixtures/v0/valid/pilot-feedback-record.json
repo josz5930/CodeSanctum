@@ -1,0 +1,32 @@
+{
+  "protocol_version": "codeattest.v0",
+  "pilot_feedback_record_id": "pilot_feedback:synthetic_001",
+  "record_version": 1,
+  "review_id": "review:synthetic-demo-001",
+  "recorded_at": "2026-08-01T12:30:00Z",
+  "recorded_by": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "feedback_source": "customer_admin_aggregate",
+  "usefulness_rating": 4,
+  "repeat_intent": "yes",
+  "pay_intent": "unsure",
+  "mapping_feedback": [
+    {
+      "mapping_profile": "soc_2_supporting_evidence",
+      "usefulness_rating": 4
+    }
+  ],
+  "objection_codes": [
+    "signature_profile_demo_only",
+    "pricing_uncertain"
+  ],
+  "caveats": [
+    "SYNTHETIC_DEMO_DATA Content-free aggregate feedback excludes PII, user content, evidence content, and acceptance conclusions. NOT_CUSTOMER_SOURCE."
+  ],
+  "content_free": true,
+  "pii_free": true,
+  "visibility": "internal_only",
+  "source_derived_class": "retained_review_artifact"
+}

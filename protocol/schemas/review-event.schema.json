@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:review-event",
+  "title": "Review Event",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "required": ["internal_note"] },
+      "then": { "properties": { "visibility": { "const": "internal_only" } } }
+    },
+    {
+      "if": {
+        "properties": { "event_type": { "enum": ["classification_recorded", "remediation_guidance_recorded", "validation_recorded", "false_positive_recorded", "verification_recorded"] } },
+        "required": ["event_type"]
+      },
+      "then": { "properties": { "actor": { "properties": { "actor_type": { "const": "reviewer" } } } } }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "customer_remediation_recorded" } }, "required": ["event_type"] },
+      "then": { "properties": { "actor": { "properties": { "actor_type": { "const": "customer_user" } } } } }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "verification_evidence_recorded" } }, "required": ["event_type"] },
+      "then": { "properties": { "actor": { "properties": { "actor_type": { "enum": ["customer_user", "vendor_service"] } } } } }
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": { "const": "verification_evidence_recorded" },
+          "actor": { "properties": { "actor_type": { "const": "vendor_service" } }, "required": ["actor_type"] }
+        },
+        "required": ["event_type", "actor"]
+      },
+      "then": { "required": ["customer_actor_ref"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "attestation_generated" } }, "required": ["event_type"] },
+      "then": { "properties": { "actor": { "properties": { "actor_type": { "enum": ["reviewer", "vendor_service"] } } } } }
+    },
+    {
+      "if": { "properties": { "event_type": { "const": "static_bundle_generated" } }, "required": ["event_type"] },
+      "then": { "properties": { "actor": { "properties": { "actor_type": { "const": "vendor_service" } } } } }
+    },
+    {
+      "if": { "properties": { "event_type": { "enum": ["attestation_package_finalized", "attestation_package_exported"] } }, "required": ["event_type"] },
+      "then": { "properties": { "actor": { "properties": { "actor_type": { "const": "customer_user" } } } } }
+    },
+    {
+      "if": { "properties": { "event_type": { "enum": ["pilot_metric_recorded", "pilot_feedback_recorded"] } }, "required": ["event_type"] },
+      "then": {
+        "properties": {
+          "visibility": { "const": "internal_only" },
+          "actor": { "properties": { "actor_type": { "enum": ["reviewer", "vendor_service"] } } }
+        },
+        "not": { "required": ["reason"] }
+      }
+    },
+    {
+      "if": { "properties": { "event_type": { "enum": ["evidence_deleted", "retention_status_changed"] } }, "required": ["event_type"] },
+      "then": { "required": ["source_derived_class"] }
+    },
+    {
+      "if": { "properties": { "event_type": { "enum": ["false_positive_recorded", "customer_accepted_risk_recorded"] } }, "required": ["event_type"] },
+      "then": { "not": { "required": ["supersedes_classification_record_ref"] } }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "event_id",
+    "review_id",
+    "sequence_number",
+    "idempotency_key",
+    "event_type",
+    "actor",
+    "event_timestamp",
+    "artifact_refs",
+    "visibility",
+    "canonicalization",
+    "identity_hash_algorithm",
+    "identity_input_excludes"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "event_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "sequence_number": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "idempotency_key": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "receipt_issued",
+        "submission_rejected",
+        "submission_quarantined",
+        "classification_recorded",
+        "remediation_guidance_recorded",
+        "validation_recorded",
+        "verification_scope_recorded",
+        "verification_evidence_recorded",
+        "verification_recorded",
+        "customer_remediation_recorded",
+        "false_positive_recorded",
+        "customer_accepted_risk_recorded",
+        "attestation_generated",
+        "static_bundle_generated",
+        "attestation_package_finalized",
+        "attestation_package_exported",
+        "pilot_metric_recorded",
+        "pilot_feedback_recorded",
+        "evidence_deleted",
+        "retention_status_changed",
+        "evidence_accessed",
+        "key_rotation_recorded"
+      ]
+    },
+    "actor": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/actor_reference"
+    },
+    "event_timestamp": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(?:artifact_ref:[a-z0-9][a-z0-9_-]{2,63}|sha256:[a-f0-9]{64})$"
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "customer_facing",
+        "internal_only"
+      ]
+    },
+    "canonicalization": {
+      "type": "string",
+      "const": "rfc8785"
+    },
+    "identity_hash_algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "identity_input_excludes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "event_id"
+        ]
+      }
+    },
+    "source_derived_class": {
+      "$ref": "urn:codeattest:protocol:v0:retention-source-derived-class"
+    },
+    "reason": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "customer_actor_ref": {
+      "type": "string",
+      "pattern": "^customer:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "customer_selection_evidence_ref": {
+      "type": "string",
+      "pattern": "^customer_selection:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "internal_note": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "supersedes_event_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "supersedes_classification_record_ref": {
+      "type": "string",
+      "pattern": "^classification_record:[a-z0-9][a-z0-9_-]{2,63}$"
+    }
+  }
+}

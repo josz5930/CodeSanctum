@@ -1,0 +1,37 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "entries": [
+    {
+      "artifact_ref": "artifact_ref:finding_001",
+      "minimization_category": "retained_finding",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:manifest_metadata_001",
+      "minimization_category": "retained_metadata",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:attestation_001",
+      "minimization_category": "retained_attestation",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:opt_in_snippet_001",
+      "minimization_category": "retained_customer_opt_in_snippet",
+      "source_derived_class": "customer_opt_in_retained_source"
+    },
+    {
+      "artifact_ref": "artifact_ref:raw_snippet_001",
+      "minimization_category": "deleted_transient",
+      "source_derived_class": "transient_source_derived",
+      "deletion_evidence_ref": "deletion_evidence:del-ev-0001"
+    },
+    {
+      "artifact_ref": "artifact_ref:full_repository_001",
+      "minimization_category": "never_collected",
+      "source_derived_class": "never_collected"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "events": [
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:62ca340674b6612a4a8d7d1fdaad79669756f0c7cfd4c0be8e2680d7326aae55",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 0,
+      "idempotency_key": "classification:review:synthetic-demo-001:classification_record:synthetic_likely_001",
+      "event_type": "classification_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:synthetic-amelia"
+      },
+      "event_timestamp": "2026-07-22T00:00:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_likely_001"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ]
+    },
+    {
+      "protocol_version": "codeattest.v0",
+      "event_id": "sha256:43d6fe6883ad0de34132dd3a0b660b121844c70322faf1378095cab0f97cc9ec",
+      "review_id": "review:synthetic-demo-001",
+      "sequence_number": 1,
+      "idempotency_key": "false_positive:review:synthetic-demo-001:false_positive:synthetic_reviewer_002",
+      "event_type": "false_positive_recorded",
+      "actor": {
+        "actor_type": "reviewer",
+        "actor_id": "reviewer:synthetic-amelia"
+      },
+      "event_timestamp": "2026-07-28T02:10:00Z",
+      "artifact_refs": [
+        "artifact_ref:synthetic_reviewer_002"
+      ],
+      "visibility": "customer_facing",
+      "canonicalization": "rfc8785",
+      "identity_hash_algorithm": "sha256",
+      "identity_input_excludes": [
+        "event_id"
+      ],
+      "reason": "False positive recorded for review_finding_draft:demo_finding_context. Evidence basis: scanner_output. Rationale: SYNTHETIC_DEMO_DATA reviewer explains bounded false-positive outcome. NOT_CUSTOMER_SOURCE.",
+      "supersedes_event_id": "sha256:62ca340674b6612a4a8d7d1fdaad79669756f0c7cfd4c0be8e2680d7326aae55"
+    }
+  ]
+}

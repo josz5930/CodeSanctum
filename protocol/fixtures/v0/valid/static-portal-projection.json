@@ -1,0 +1,206 @@
+{
+  "protocol_version": "codeattest.v0",
+  "static_portal_projection_id": "static_portal_projection:synthetic_001",
+  "review_id": "review:synthetic-demo-001",
+  "static_bundle_id": "static_bundle:synthetic_001",
+  "static_bundle_manifest_ref": "sha256:f49d0334fe33d49d8a8b1004bf4fbcf6fa006f457016dd209bf153f8234f9461",
+  "generated_at": "2026-08-01T12:10:00Z",
+  "navigation": [
+    {
+      "section_id": "overview",
+      "label": "Overview",
+      "relative_path": "index.html",
+      "order": 1
+    },
+    {
+      "section_id": "scope",
+      "label": "Scope",
+      "relative_path": "scope.html",
+      "order": 2
+    },
+    {
+      "section_id": "receipt_chain",
+      "label": "Receipt chain",
+      "relative_path": "receipt-chain.html",
+      "order": 3
+    },
+    {
+      "section_id": "methods",
+      "label": "Methods",
+      "relative_path": "methods.html",
+      "order": 4
+    },
+    {
+      "section_id": "findings",
+      "label": "Findings",
+      "relative_path": "findings.html",
+      "order": 5
+    },
+    {
+      "section_id": "validation_remediation",
+      "label": "Validation and remediation",
+      "relative_path": "validation-remediation.html",
+      "order": 6
+    },
+    {
+      "section_id": "limitations",
+      "label": "Limitations",
+      "relative_path": "limitations.html",
+      "order": 7
+    },
+    {
+      "section_id": "appendices",
+      "label": "Appendices",
+      "relative_path": "appendices.html",
+      "order": 8
+    }
+  ],
+  "documents": [
+    {
+      "document_id": "portal_document:overview",
+      "section_id": "overview",
+      "title": "SYNTHETIC_DEMO_DATA Security review overview. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Bounded scope, method, receipt, findings, and limitations. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "index.html",
+      "source_artifact_refs": [
+        "artifact_ref:security_review_attestation"
+      ],
+      "copyable_identity_values": [
+        "attestation:987a340458c986b9d1e85320160e893d25ec9d37e9da58075ca9670757c958e4"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Review evidence is bounded to recorded limitations. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:scope",
+      "section_id": "scope",
+      "title": "SYNTHETIC_DEMO_DATA Review scope. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA One selected application and commit. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "scope.html",
+      "source_artifact_refs": [
+        "artifact_ref:review_scope"
+      ],
+      "copyable_identity_values": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Scope remains bounded to one selected commit. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:receipt",
+      "section_id": "receipt_chain",
+      "title": "SYNTHETIC_DEMO_DATA Receipt chain. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Manifest, bundle, and receipt identities are linked. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "receipt-chain.html",
+      "source_artifact_refs": [
+        "artifact_ref:vendor_receipt"
+      ],
+      "copyable_identity_values": [
+        "sha256:7d69283d2989cb314edfbd22681984017626132612ea2924e60048f763cbbff2"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Receipt identity is available for offline comparison. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:methods",
+      "section_id": "methods",
+      "title": "SYNTHETIC_DEMO_DATA Review methods. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Configured scanner inputs and bounded expert procedures. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "methods.html",
+      "source_artifact_refs": [
+        "artifact_ref:scanner_finding_set"
+      ],
+      "copyable_identity_values": [
+        "artifact_ref:scanner_finding_set"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Methods remain bounded to configured inputs. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:findings",
+      "section_id": "findings",
+      "title": "SYNTHETIC_DEMO_DATA Findings and classification. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Expert classifications retain evidence basis and limitations. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "findings.html",
+      "source_artifact_refs": [
+        "artifact_ref:synthetic_confirmed_submitted_001"
+      ],
+      "copyable_identity_values": [
+        "classification_record:synthetic_confirmed_submitted_001"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Findings are bounded expert judgments. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:validation",
+      "section_id": "validation_remediation",
+      "title": "SYNTHETIC_DEMO_DATA Validation and remediation. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Recorded guidance, validation, and bounded verification outcomes. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "validation-remediation.html",
+      "source_artifact_refs": [
+        "artifact_ref:validation_path_customer_script"
+      ],
+      "copyable_identity_values": [
+        "verification_addendum:synthetic_001"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Verification applies only to recorded criteria. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:limitations",
+      "section_id": "limitations",
+      "title": "SYNTHETIC_DEMO_DATA Limitations. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Evidence and method boundaries remain visible. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "limitations.html",
+      "source_artifact_refs": [
+        "artifact_ref:evidence_minimization_projection"
+      ],
+      "copyable_identity_values": [
+        "evidence_minimization:synthetic-demo-001"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Evidence consumers decide usefulness. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    },
+    {
+      "document_id": "portal_document:appendices",
+      "section_id": "appendices",
+      "title": "SYNTHETIC_DEMO_DATA Supporting appendices. NOT_CUSTOMER_SOURCE.",
+      "summary": "SYNTHETIC_DEMO_DATA Supporting artifact references and verification metadata. NOT_CUSTOMER_SOURCE.",
+      "relative_path": "appendices.html",
+      "source_artifact_refs": [
+        "artifact_ref:bundle_manifest",
+        "artifact_ref:bundle_signature",
+        "artifact_ref:bundle_identity"
+      ],
+      "copyable_identity_values": [
+        "static_bundle:synthetic_001"
+      ],
+      "phone_summary": "SYNTHETIC_DEMO_DATA Appendices preserve supporting references. NOT_CUSTOMER_SOURCE.",
+      "print_included": true,
+      "search_included": true
+    }
+  ],
+  "capabilities": {
+    "offline_navigation": true,
+    "offline_search": true,
+    "print_export": true,
+    "copy_controls": true,
+    "phone_readable_summaries": true
+  },
+  "asset_policy": {
+    "remote_assets_allowed": false,
+    "analytics_allowed": false,
+    "live_api_calls_allowed": false,
+    "runtime_authorization_required": false,
+    "relative_links_only": true
+  },
+  "customer_safe_projection": true,
+  "visibility": "customer_facing"
+}

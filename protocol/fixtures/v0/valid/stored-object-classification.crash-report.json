@@ -1,0 +1,7 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic_enum_crash_report",
+  "object_kind": "crash_report",
+  "source_derived_class": "never_collected",
+  "environment_profile": "synthetic_demo"
+}

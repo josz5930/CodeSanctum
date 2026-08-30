@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:review-scope",
+  "title": "Review Scope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "review_scope_id",
+    "review_id",
+    "generated_at",
+    "selected_application",
+    "selected_commit",
+    "repository_identity",
+    "runner",
+    "technical_context",
+    "dependency_manifests"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "review_scope_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "generated_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "selected_application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["application_id", "display_name"],
+      "properties": {
+        "application_id": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        },
+        "display_name": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "selected_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_sha", "source_control_system"],
+      "properties": {
+        "commit_sha": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "source_control_system": {
+          "type": "string",
+          "enum": ["git"]
+        }
+      }
+    },
+    "repository_identity": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "codeattest-local-runner"
+        },
+        "version": {
+          "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+        }
+      }
+    },
+    "technical_context": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["context_type", "status"],
+        "properties": {
+          "context_type": {
+            "type": "string",
+            "enum": ["language", "framework", "package_manager", "scanner", "ci_provider"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["detected", "not_detected", "unsupported", "not_collected"]
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "dependency_manifests": {
+      "type": "array",
+      "maxItems": 10000,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["manifest_type", "status", "package_manager", "dependency_count", "dependencies"],
+        "properties": {
+          "manifest_type": {
+            "type": "string",
+            "enum": [
+              "package_json",
+              "package_lock",
+              "requirements_txt",
+              "pyproject_toml",
+              "pipfile",
+              "pipfile_lock",
+              "pnpm_lock",
+              "yarn_lock"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["detected", "not_found", "unsupported", "malformed"]
+          },
+          "path": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          },
+          "package_manager": {
+            "type": "string",
+            "enum": ["npm", "pnpm", "yarn", "pip", "poetry", "pipenv", "unknown"]
+          },
+          "dependency_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "dependencies": {
+            "type": "array",
+            "maxItems": 10000,
+            "items": {
+              "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+            }
+          },
+          "limitation": {
+            "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+          }
+        }
+      }
+    }
+  }
+}

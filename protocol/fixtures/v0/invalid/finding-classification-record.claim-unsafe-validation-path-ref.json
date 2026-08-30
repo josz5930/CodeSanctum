@@ -1,0 +1,45 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "classification_record_id": "classification_record:invalid_claim_unsafe_path_001",
+  "review_finding_draft_ref": "review_finding_draft:demo_metadata_only",
+  "classification": "requires_customer_side_validation",
+  "classified_at": "2026-07-22T00:21:00Z",
+  "actor": {
+    "actor_type": "reviewer",
+    "actor_id": "reviewer:synthetic-amelia"
+  },
+  "evidence_basis": [
+    "scanner_output",
+    "metadata_only",
+    "not_submitted_by_policy_reference"
+  ],
+  "confirmation_criteria": [],
+  "threshold_gaps": [
+    "SYNTHETIC_DEMO_DATA customer environment behavior is needed before confirmation. NOT_CUSTOMER_SOURCE."
+  ],
+  "limitations": [
+    "SYNTHETIC_DEMO_DATA validation must happen customer-side and later records own status separately. NOT_CUSTOMER_SOURCE."
+  ],
+  "rationale": "SYNTHETIC_DEMO_DATA validation path reference uses claim-unsafe copy. NOT_CUSTOMER_SOURCE.",
+  "source_reference_state": "not_submitted_by_policy",
+  "source_derived_class": "retained_review_artifact",
+  "visibility": "customer_facing",
+  "review_finding_draft_evidence_refs": [
+    {
+      "artifact_ref": "artifact_ref:scanner_finding_set",
+      "availability_state": "retained_review_artifact",
+      "available_for_review": true,
+      "display_state": "available_reference",
+      "source_derived_class": "retained_review_artifact"
+    },
+    {
+      "artifact_ref": "artifact_ref:metadata_only_source_context",
+      "availability_state": "not_submitted_by_policy",
+      "available_for_review": false,
+      "display_state": "not_submitted",
+      "source_derived_class": "never_collected"
+    }
+  ],
+  "validation_path_ref": "validation_path:received_with_receipt"
+}

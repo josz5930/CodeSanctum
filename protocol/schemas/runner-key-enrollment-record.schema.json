@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:runner-key-enrollment-record",
+  "title": "Runner Key Enrollment Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "enrollment_id",
+    "review_id",
+    "runner_key_id",
+    "runner_key_version",
+    "algorithm_profile",
+    "public_key",
+    "enrollment_method",
+    "enrolled_at",
+    "limitations"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "enrollment_id": {
+      "type": "string",
+      "pattern": "^runner_enrollment:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "runner_key_id": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "runner_key_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/non_empty_string"
+    },
+    "algorithm_profile": {
+      "type": "string",
+      "const": "ml_dsa_65"
+    },
+    "public_key": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/ml_dsa_65_public_key"
+    },
+    "enrollment_method": {
+      "type": "string",
+      "enum": ["operator_verified", "trust_on_first_use"]
+    },
+    "enrolled_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "limitations": {
+      "type": "array",
+      "maxItems": 100,
+      "minItems": 1,
+      "items": {
+        "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/narrative_string"
+      }
+    }
+  }
+}

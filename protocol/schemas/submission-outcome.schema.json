@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:codeattest:protocol:v0:submission-outcome",
+  "title": "Submission Outcome",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "outcome_state": { "const": "received_with_receipt" } }, "required": ["outcome_state"] },
+      "then": {
+        "required": ["vendor_receipt_ref"],
+        "properties": { "next_path": { "const": "verify_receipt" } },
+        "not": { "required": ["failure_reason_codes"] }
+      }
+    },
+    {
+      "if": { "properties": { "outcome_state": { "const": "rejected_no_receipt" } }, "required": ["outcome_state"] },
+      "then": {
+        "required": ["failure_reason_codes"],
+        "properties": { "failure_reason_codes": { "minItems": 1 }, "next_path": { "enum": ["retry", "contact_support"] } },
+        "not": { "required": ["vendor_receipt_ref"] }
+      }
+    },
+    {
+      "if": { "properties": { "outcome_state": { "const": "quarantined_no_receipt" } }, "required": ["outcome_state"] },
+      "then": {
+        "required": ["failure_reason_codes"],
+        "properties": { "failure_reason_codes": { "minItems": 1 }, "next_path": { "enum": ["quarantine_support", "contact_support"] } },
+        "not": { "required": ["vendor_receipt_ref"] }
+      }
+    }
+  ],
+  "required": [
+    "protocol_version",
+    "submission_outcome_id",
+    "review_id",
+    "outcome_state",
+    "bundle_instance_id",
+    "submission_attempt_id",
+    "occurred_at",
+    "submission_identities",
+    "next_path",
+    "customer_facing_summary"
+  ],
+  "properties": {
+    "protocol_version": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/protocol_version"
+    },
+    "submission_outcome_id": {
+      "type": "string",
+      "pattern": "^submission_outcome:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^review:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "outcome_state": {
+      "type": "string",
+      "enum": ["received_with_receipt", "rejected_no_receipt", "quarantined_no_receipt"]
+    },
+    "bundle_instance_id": {
+      "type": "string",
+      "pattern": "^bundle_instance:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "submission_attempt_id": {
+      "type": "string",
+      "pattern": "^submission_attempt:[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "occurred_at": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/utc_rfc3339_timestamp"
+    },
+    "submission_identities": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["identity_type", "identity_value"],
+        "properties": {
+          "identity_type": {
+            "type": "string",
+            "enum": [
+              "manifest_id",
+              "evidence_bundle_id",
+              "review_request_id",
+              "bundle_instance_id",
+              "submission_attempt_id"
+            ]
+          },
+          "identity_value": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        }
+      }
+    },
+    "failure_reason_codes": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]{2,63}$"
+      }
+    },
+    "vendor_receipt_ref": {
+      "$ref": "urn:codeattest:protocol:v0:shared-definitions#/$defs/algorithm_prefixed_sha256_id"
+    },
+    "next_path": {
+      "type": "string",
+      "enum": ["retry", "quarantine_support", "contact_support", "verify_receipt"]
+    },
+    "customer_facing_summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    }
+  }
+}

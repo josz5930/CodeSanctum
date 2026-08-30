@@ -1,0 +1,28 @@
+{
+  "protocol_version": "codeattest.v0",
+  "review_id": "review:synthetic-demo-001",
+  "entries": [
+    {
+      "event_id": "sha256:aa8676e1b67d0ebcd595c9762eb5f166acc45d5a08fa7e174ad881f6ff5bb092",
+      "event_type": "verification_evidence_recorded",
+      "event_timestamp": "2026-07-30T12:00:00Z",
+      "actor_category": "customer_user",
+      "artifact_refs": [
+        "artifact_ref:synthetic_validation_evidence"
+      ],
+      "visibility": "customer_facing",
+      "reason": "SYNTHETIC_DEMO_DATA verification evidence metadata recorded. NOT_CUSTOMER_SOURCE."
+    },
+    {
+      "event_id": "sha256:100aedaed24f8bf4c8a34d08a10dbb2c5a88237b851befeab4c6f52cd67d784b",
+      "event_type": "verification_recorded",
+      "event_timestamp": "2026-07-31T12:00:00Z",
+      "actor_category": "reviewer",
+      "artifact_refs": [
+        "artifact_ref:synthetic_pending"
+      ],
+      "visibility": "customer_facing",
+      "reason": "SYNTHETIC_DEMO_DATA reviewer verification decision recorded. NOT_CUSTOMER_SOURCE."
+    }
+  ]
+}

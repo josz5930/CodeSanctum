@@ -1,0 +1,10 @@
+{
+  "name": "codeattest-synthetic-demo-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE - synthetic app for the CodeAttest Local Runner demo",
+  "dependencies": {
+    "express": "4.19.2",
+    "lodash": "4.17.21"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "protocol_version": "codeattest.v0",
+  "stored_object_ref": "stored_object:synthetic_enum_generated_export",
+  "object_kind": "generated_export",
+  "source_derived_class": "transient_source_derived",
+  "environment_profile": "synthetic_demo"
+}

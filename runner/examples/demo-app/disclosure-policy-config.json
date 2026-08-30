@@ -1,0 +1,4 @@
+{
+  "coverage_mode": "metadata_only",
+  "include_scanner_findings": true
+}

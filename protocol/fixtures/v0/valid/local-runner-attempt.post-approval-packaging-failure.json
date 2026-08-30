@@ -1,0 +1,61 @@
+{
+  "protocol_version": "codeattest.v0",
+  "attempt_id": "runner_attempt:post_approval_packaging_failure",
+  "stage": "bundle_packaging",
+  "outcome": "failed",
+  "review_state": "approved_no_signed_bundle",
+  "approval_state": "approved",
+  "bundle_state": "failed_before_ready",
+  "remote_state": "not_submitted",
+  "occurred_at": "2026-07-10T00:21:00Z",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0"
+  },
+  "runner_trust": {
+    "runner_name": "codeattest-local-runner",
+    "runner_version": "0.0.0",
+    "build_identifier": "local-dev-build",
+    "release_identifier": "unreleased-local",
+    "release_signature_status": "unsigned_local_build",
+    "bundle_signing_mode": "enrolled_runner_key",
+    "trust_label": "demo_only_unsigned",
+    "evidence_boundary": "synthetic-demo-only",
+    "limitations": [
+      "This unsigned local build is for SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE workflows only.",
+      "Synthetic demo bundle signatures are not production ML-DSA assurance."
+    ]
+  },
+  "identities": {
+    "selected_commit": "0123456789abcdef0123456789abcdef01234567",
+    "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+    "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+    "approval_id": "approval:story_1_9_demo_approval"
+  },
+  "approval_metadata": {
+    "decision": "approved",
+    "decided_at": "2026-07-10T00:20:55Z",
+    "approving_actor": {
+      "actor_type": "customer_user",
+      "actor_id": "maya@example.com"
+    }
+  },
+  "diagnostics": {
+    "stage_failed": "bundle_packaging",
+    "failure_code": "source_derived_artifact_missing",
+    "message": "The customer approved the manifest, but no signed Evidence Bundle is ready because packaging failed before bundle construction completed.",
+    "retryable": true,
+    "sensitive_detail_omitted": true,
+    "raw_snippets_printed": false,
+    "support_summary": "Materialize approved source-derived artifacts or choose fresh approval with a metadata-only policy.",
+    "local_artifact_paths": [
+      ".codeattest/evidence-bundle/customer-approval.json"
+    ]
+  },
+  "next_actions": [
+    "rerun with explicit approval reuse",
+    "choose fresh approval",
+    "revise policy",
+    "export manifest"
+  ]
+}

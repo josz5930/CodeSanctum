@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-base: var(--ca-surface-base);
+  --color-surface-raised: var(--ca-surface-raised);
+  --color-surface-subtle: var(--ca-surface-subtle);
+  --color-surface-inset: var(--ca-surface-inset);
+  --color-ink-primary: var(--ca-ink-primary);
+  --color-ink-secondary: var(--ca-ink-secondary);
+  --color-ink-muted: var(--ca-ink-muted);
+  --color-ink-disabled: var(--ca-ink-disabled);
+  --color-border-hairline: var(--ca-border-hairline);
+  --color-border-strong: var(--ca-border-strong);
+  --color-primary: var(--ca-primary);
+  --color-primary-foreground: var(--ca-primary-foreground);
+  --color-verification: var(--ca-verification);
+  --color-verification-foreground: var(--ca-verification-foreground);
+  --color-review: var(--ca-review);
+  --color-review-foreground: var(--ca-review-foreground);
+  --color-warning: var(--ca-warning);
+  --color-warning-surface: var(--ca-warning-surface);
+  --color-warning-foreground: var(--ca-warning-foreground);
+  --color-risk: var(--ca-risk);
+  --color-risk-surface: var(--ca-risk-surface);
+  --color-risk-foreground: var(--ca-risk-foreground);
+  --color-neutral-badge: var(--ca-neutral-badge);
+  --color-neutral-badge-foreground: var(--ca-neutral-badge-foreground);
+  --color-code-surface: var(--ca-code-surface);
+  --color-code-foreground: var(--ca-code-foreground);
+  --color-focus-ring: var(--ca-focus-ring);
+  --font-product: var(--ca-font-product);
+  --font-mono: var(--ca-font-mono);
+  --radius-sm: var(--ca-radius-sm);
+  --radius-md: var(--ca-radius-md);
+  --radius-lg: var(--ca-radius-lg);
+  --radius-full: var(--ca-radius-full);
+  --spacing-ca-1: var(--ca-spacing-1);
+  --spacing-ca-2: var(--ca-spacing-2);
+  --spacing-ca-3: var(--ca-spacing-3);
+  --spacing-ca-4: var(--ca-spacing-4);
+  --spacing-ca-5: var(--ca-spacing-5);
+  --spacing-ca-6: var(--ca-spacing-6);
+  --spacing-ca-8: var(--ca-spacing-8);
+  --spacing-ca-10: var(--ca-spacing-10);
+  --spacing-ca-12: var(--ca-spacing-12);
+  --spacing-gutter-mobile: var(--ca-gutter-mobile);
+  --spacing-gutter-desktop: var(--ca-gutter-desktop);
+  --spacing-page-max: var(--ca-page-max);
+  --spacing-target: var(--ca-min-target);
+}
+
+html {
+  background-color: var(--ca-surface-base);
+  color: var(--ca-ink-primary);
+  font-family: var(--ca-font-product);
+}
+
+:focus-visible {
+  outline: var(--ca-focus-ring-width) solid var(--ca-focus-ring);
+  outline-offset: var(--ca-spacing-1);
+}
+
+.min-target {
+  min-width: var(--ca-min-target);
+  min-height: var(--ca-min-target);
+}

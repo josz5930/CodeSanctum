@@ -1,0 +1,22 @@
+{
+  "name": "@onevps/ui",
+  "version": "0.0.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "dependencies": {
+    "@onevps/protocol-ts": "0.0.0"
+  },
+  "scripts": {
+    "format": "node ../../scripts/check-format.mjs .",
+    "lint": "node ../../scripts/check-workspace-boundary.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "test": "node test/scaffold.test.mjs && node test/ui-primitives.test.mjs && node test/review-history.test.mjs && node test/submission-failure.test.mjs && node test/classification-workbench.test.mjs && node test/customer-finding-record.test.mjs && node test/verification-pass-scope.test.mjs && node test/verification-completion.test.mjs && node test/epic-5-ui.test.mjs",
+    "story-5.1-check": "node test/epic-5-ui.test.mjs",
+    "story-5.2-check": "node test/epic-5-ui.test.mjs",
+    "story-5.3-check": "node test/epic-5-ui.test.mjs",
+    "story-5.5-check": "node test/epic-5-ui.test.mjs",
+    "story-5.6-check": "node test/epic-5-ui.test.mjs"
+  }
+}

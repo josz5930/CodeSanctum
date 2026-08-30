@@ -1,0 +1,926 @@
+{
+  "schema_version": 1,
+  "protocol_version": "codeattest.v0",
+  "status": "active-epic-2-prerequisite-invariants",
+  "description": "Protocol-owned cross-field invariant inventory for Epic 2 intake and receipt prerequisites. Each item records the JavaScript and Rust validation surfaces that enforce or exercise the invariant.",
+  "invariants": [
+    {
+      "id": "disclosure-policy-coverage-mode-categories",
+      "artifact": "disclosure_policy",
+      "summary": "Coverage Mode must align with snippet policy, retention policy, evidence categories, warnings, and limitations.",
+      "javascript_coverage": [
+        "validateDisclosurePolicySemantics"
+      ],
+      "rust_coverage": [
+        "validate_disclosure_policy_metadata",
+        "validate_disclosure_policy_for_manifest",
+        "validate_retention_for_mode"
+      ]
+    },
+    {
+      "id": "outbound-manifest-preview-safe-state",
+      "artifact": "outbound_manifest",
+      "summary": "Outbound Manifest remains local preview only: preview_generated, send_ready=false, local_only=true, approval_state=not_requested.",
+      "javascript_coverage": [
+        "validateOutboundManifestSemantics"
+      ],
+      "rust_coverage": [
+        "validate_outbound_manifest_body",
+        "validate_outbound_manifest_metadata"
+      ]
+    },
+    {
+      "id": "outbound-manifest-identity",
+      "artifact": "outbound_manifest",
+      "summary": "manifest_id is SHA-256 over RFC 8785 canonical manifest content excluding manifest_id.",
+      "javascript_coverage": [
+        "verifyCanonicalIdentity",
+        "validateOutboundManifestSemantics"
+      ],
+      "rust_coverage": [
+        "outbound_manifest_identity",
+        "validate_outbound_manifest_identity"
+      ]
+    },
+    {
+      "id": "artifact-reference-portable-content-path",
+      "artifact": "artifact_reference",
+      "summary": "content_path values are portable, relative, slash-separated, anchored, and never host-local absolute paths or traversal forms.",
+      "javascript_coverage": [
+        "validatePortableArtifactContentPath"
+      ],
+      "rust_coverage": [
+        "manifest_artifact_reference_for_bytes",
+        "validate_relative_content_path",
+        "resolve_content_path_under"
+      ]
+    },
+    {
+      "id": "customer-approval-displayed-context",
+      "artifact": "customer_approval",
+      "summary": "Approved or declined decisions preserve the manifest identity and the context displayed before approval.",
+      "javascript_coverage": [
+        "validateCustomerApprovalSemantics"
+      ],
+      "rust_coverage": [
+        "validate_customer_approval_metadata",
+        "validate_reused_approval_matches_context"
+      ]
+    },
+    {
+      "id": "bundle-manifest-approved-not-submitted",
+      "artifact": "bundle_manifest",
+      "summary": "Bundle manifests require approved customer approval and remain not_submitted until future intake creates receipt states.",
+      "javascript_coverage": [
+        "validateBundleManifestSemantics",
+        "validateBundleFixtureChain"
+      ],
+      "rust_coverage": [
+        "validate_manifest_chain_for_bundle",
+        "validate_bundle_manifest_metadata"
+      ]
+    },
+    {
+      "id": "bundle-manifest-identity",
+      "artifact": "bundle_manifest",
+      "summary": "evidence_bundle_id is SHA-256 over RFC 8785 canonical bundle manifest content excluding evidence_bundle_id.",
+      "javascript_coverage": [
+        "verifyCanonicalIdentity",
+        "validateBundleManifestSemantics"
+      ],
+      "rust_coverage": [
+        "evidence_bundle_identity",
+        "validate_bundle_manifest_metadata"
+      ]
+    },
+    {
+      "id": "bundle-artifact-copy-verification",
+      "artifact": "bundle_manifest",
+      "summary": "Every bundle artifact reference is verified against copied bytes for digest and size before signing output is finalized.",
+      "javascript_coverage": [
+        "validate-runner-signed-evidence-bundle artifact digest checks"
+      ],
+      "rust_coverage": [
+        "verify_bundle_artifact_copies",
+        "verify_artifact_file_matches",
+        "copy_manifest_source_derived_artifacts"
+      ]
+    },
+    {
+      "id": "signature-envelope-signed-identity",
+      "artifact": "signature_envelope",
+      "summary": "Signature envelopes sign typed manifest or evidence bundle identities and keep synthetic/demo signing limitations explicit.",
+      "javascript_coverage": [
+        "validateSignatureEnvelopeSemantics"
+      ],
+      "rust_coverage": [
+        "signature_envelope_for_bundle"
+      ]
+    },
+    {
+      "id": "local-runner-attempt-local-only-state",
+      "artifact": "local_runner_attempt",
+      "summary": "Local runner attempts preserve local failure/rerun/trust states and never introduce submitted, received, finalized, receipt, or attestation claims.",
+      "javascript_coverage": [
+        "validateLocalRunnerAttemptSemantics"
+      ],
+      "rust_coverage": [
+        "validate_local_runner_attempt",
+        "local_attempt_for_bundle_output"
+      ]
+    },
+    {
+      "id": "environment-evidence-gate-real-snippet-block",
+      "artifact": "environment_evidence_gate",
+      "summary": "Real Raw Snippets and targeted files are rejected unless environment readiness explicitly permits them and all required readiness controls are true.",
+      "javascript_coverage": [
+        "validateEnvironmentEvidenceGateSemantics"
+      ],
+      "rust_coverage": [
+        "environment_evidence_gate",
+        "validate_environment_evidence_gate"
+      ]
+    },
+    {
+      "id": "vendor-receipt-identity",
+      "artifact": "vendor_receipt",
+      "summary": "vendor_receipt_id is SHA-256 over RFC 8785 canonical receipt identity input excluding vendor_receipt_id, receipt_signature, and repeated signed_identity metadata.",
+      "javascript_coverage": [
+        "validateVendorReceiptSemantics",
+        "verifyCanonicalIdentity"
+      ],
+      "rust_coverage": [
+        "not_applicable_vendor_receipt_is_server_side"
+      ]
+    },
+    {
+      "id": "vendor-receipt-signed-identity",
+      "artifact": "vendor_receipt",
+      "summary": "Vendor Receipt signatures reuse the common signature envelope with signed_identity_type vendor_receipt and signed_identity equal to vendor_receipt_id.",
+      "javascript_coverage": [
+        "validateVendorReceiptSemantics",
+        "validateSignatureEnvelopeSemantics"
+      ],
+      "rust_coverage": [
+        "not_applicable_vendor_receipt_is_server_side"
+      ]
+    },
+    {
+      "id": "vendor-receipt-approved-received-comparison",
+      "artifact": "vendor_receipt",
+      "summary": "Approved-vs-received comparison rows and artifact count summaries must match before a received_with_receipt state exists.",
+      "javascript_coverage": [
+        "validateVendorReceiptSemantics"
+      ],
+      "rust_coverage": [
+        "not_applicable_vendor_receipt_is_server_side"
+      ]
+    },
+    {
+      "id": "vendor-receipt-no-failed-receipt",
+      "artifact": "vendor_receipt",
+      "summary": "Rejected or quarantined submissions must not be represented as Vendor Receipt records.",
+      "javascript_coverage": [
+        "validateVendorReceiptSemantics"
+      ],
+      "rust_coverage": [
+        "not_applicable_vendor_receipt_is_server_side"
+      ]
+    },
+    {
+      "id": "vendor-receipt-key-rotation-metadata",
+      "artifact": "vendor_receipt",
+      "summary": "Receipt public verification metadata preserves historical key id/version and event-append hints without rewriting old receipt records.",
+      "javascript_coverage": [
+        "validateVendorReceiptSemantics"
+      ],
+      "rust_coverage": [
+        "not_applicable_vendor_receipt_is_server_side"
+      ]
+    },
+    {
+      "id": "review-event-append-only-ordering",
+      "artifact": "review_event_log",
+      "summary": "New review state is only a newly appended event: sequence_number is strictly greater than every earlier sequence_number, no prior event is rewritten, reordered, or removed, event ids are unique, and a repeated idempotency_key is an append no-op.",
+      "javascript_coverage": [
+        "validateReviewEventLogSemantics",
+        "appendReviewEvent"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_event_log_is_server_side"
+      ]
+    },
+    {
+      "id": "review-event-content-addressed-identity",
+      "artifact": "review_event",
+      "summary": "event_id equals the sha256 of the RFC 8785 canonical event content excluding event_id, and identity_input_excludes is exactly [\"event_id\"], so events serialize deterministically for future hash chaining or transparency-log projection.",
+      "javascript_coverage": [
+        "validateReviewEventSemantics",
+        "verifyCanonicalIdentity",
+        "computeReviewEventId"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_event_log_is_server_side"
+      ]
+    },
+    {
+      "id": "log-checkpoint-content-addressed-identity",
+      "artifact": "log_checkpoint",
+      "summary": "checkpoint_id equals the sha256 of RFC 8785 canonical checkpoint content excluding checkpoint_id, deployment identity is explicit, and the Merkle root commits the deployment-wide set of per-review chain heads without changing review events.",
+      "javascript_coverage": [
+        "validateLogCheckpointSemantics",
+        "verifyCanonicalIdentity",
+        "log-checkpoint.empty.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_log_checkpoint_is_server_side"
+      ]
+    },
+    {
+      "id": "review-event-supersedes-not-rewrite",
+      "artifact": "review_event_log",
+      "summary": "Corrections are expressed only through supersedes_event_id pointing at an earlier event in the same log; customer-authored events, regardless of event_type, must not supersede an expert classification_recorded event.",
+      "javascript_coverage": [
+        "validateReviewEventLogSemantics",
+        "appendReviewEvent"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_event_log_is_server_side"
+      ]
+    },
+    {
+      "id": "review-event-visibility-customer-projection",
+      "artifact": "review_event_customer_projection",
+      "summary": "Every event declares exactly one visibility, internal_note may appear only on internal_only events, and the customer-facing projection omits internal_only events entirely while preserving event_type, event_timestamp, actor_category, artifact_refs, and reason when present.",
+      "javascript_coverage": [
+        "validateReviewEventSemantics",
+        "validateReviewEventCustomerProjectionSemantics",
+        "projectCustomerFacingHistory",
+        "buildReviewHistoryTimeline",
+        "validateReviewEventCustomerProjectionAgainstLog"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_event_log_is_server_side"
+      ]
+    },
+    {
+      "id": "review-event-customer-projection-faithful-to-log",
+      "artifact": "review_event_customer_projection",
+      "summary": "A customer projection is exactly the customer_facing subset of its review event log, in sequence_number order, with per-entry fields carried through unchanged: it may neither omit a customer_facing event (truncation) nor contain an entry the log never recorded (fabrication).",
+      "javascript_coverage": [
+        "validateReviewEventCustomerProjectionAgainstLog",
+        "projectCustomerFacingHistory"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_event_log_is_server_side"
+      ]
+    },
+    {
+      "id": "stored-object-single-retention-class",
+      "artifact": "stored_object_classification",
+      "summary": "Every stored object declares exactly one retention/source-derived class; log_or_trace, analytics_record, crash_report, and support_attachment kinds may only be never_collected or retained_review_artifact, and customer_opt_in_retained_source is only permitted under environment_profile partner_pilot_real_snippet_ready.",
+      "javascript_coverage": [
+        "validateStoredObjectClassificationSemantics",
+        "classifyStoredObject"
+      ],
+      "rust_coverage": [
+        "not_applicable_evidence_storage_is_server_side"
+      ]
+    },
+    {
+      "id": "evidence-deletion-proven-by-deletion-evidence",
+      "artifact": "evidence_lifecycle_event",
+      "summary": "Deletion is an append-only evidence_deleted event that references a Deletion Evidence artifact and declares its source_derived_class; a status label with no deletion_evidence_ref is not a receipt of deletion.",
+      "javascript_coverage": [
+        "validateEvidenceLifecycleEventSemantics",
+        "appendEvidenceLifecycleEvent"
+      ],
+      "rust_coverage": [
+        "not_applicable_evidence_storage_is_server_side"
+      ]
+    },
+    {
+      "id": "evidence-access-is-scoped-and-logged",
+      "artifact": "evidence_lifecycle_event",
+      "summary": "Sensitive artifact inspection appends an evidence_accessed event carrying actor, timestamp, artifact references, tenant/review access scope, and purpose where available; access outside the actor tenant/review scope is denied and emits no event implying inspection occurred.",
+      "javascript_coverage": [
+        "validateEvidenceLifecycleEventSemantics",
+        "enforceScopedAccess"
+      ],
+      "rust_coverage": [
+        "not_applicable_evidence_storage_is_server_side"
+      ]
+    },
+    {
+      "id": "evidence-lifecycle-append-only",
+      "artifact": "evidence_lifecycle_event",
+      "summary": "An appended evidence lifecycle event has a sequence_number strictly greater than every sequence_number already present, never reuses an event_id, and never rewrites, reorders, or removes an existing event; a repeated idempotency_key is an append no-op.",
+      "javascript_coverage": [
+        "appendEvidenceLifecycleEvent"
+      ],
+      "rust_coverage": [
+        "not_applicable_evidence_storage_is_server_side"
+      ]
+    },
+    {
+      "id": "retention-opt-in-requires-period-and-approval",
+      "artifact": "retention_opt_in_record",
+      "summary": "A retention opt-in record declares source_derived_class customer_opt_in_retained_source, a customer approval reference, the retained artifact identities (all schema-required), and a retention period whose end_timestamp is after its start_timestamp (validateRetentionOptInRecordSemantics). The record carries no environment_profile field, so the partner_pilot_real_snippet_ready gate is enforced where the profile is known: recordOptInRetention takes it as a parameter, and classifyStoredObject enforces it per stored object.",
+      "javascript_coverage": [
+        "validateRetentionOptInRecordSemantics",
+        "recordOptInRetention",
+        "classifyStoredObject"
+      ],
+      "rust_coverage": [
+        "not_applicable_evidence_storage_is_server_side"
+      ]
+    },
+    {
+      "id": "evidence-minimization-categories-distinct",
+      "artifact": "evidence_minimization_projection",
+      "summary": "retained_finding, retained_metadata, retained_attestation, retained_customer_opt_in_snippet, deleted_transient, and never_collected stay visibly distinct, each pinned to exactly one source-derived class; one artifact_ref may not appear under two different categories; and every deleted_transient entry resolves to a Deletion Evidence reference rather than a dangling one.",
+      "javascript_coverage": [
+        "validateEvidenceMinimizationProjectionSemantics",
+        "buildEvidenceMinimizationProjection"
+      ],
+      "rust_coverage": [
+        "not_applicable_evidence_storage_is_server_side"
+      ]
+    },
+    {
+      "id": "submission-outcome-states-mutually-exclusive",
+      "artifact": "submission_outcome",
+      "summary": "The three intake outcomes stay mutually exclusive and complete: received_with_receipt requires a minted vendor receipt reference and carries no failure reason codes, rejected_no_receipt and quarantined_no_receipt each carry at least one reason code and no receipt reference, next_path may only be one the state can offer, and failure copy stays claim-safe so it never implies CodeAttest reviewed or accepted the evidence.",
+      "javascript_coverage": [
+        "validateSubmissionOutcomeSemantics",
+        "buildSubmissionOutcome"
+      ],
+      "rust_coverage": [
+        "not_applicable_intake_outcome_is_server_side"
+      ]
+    },
+    {
+      "id": "submission-failure-events-use-review-event-log",
+      "artifact": "review_event_log",
+      "summary": "Rejected and quarantined submission outcomes are recorded as submission_rejected or submission_quarantined events in the existing review-event-log; each event references its submission-outcome artifact, derives idempotency_key from (bundle_instance_id, submission_attempt_id), and relies on appendReviewEvent to keep distinct retries append-only without a second history artifact.",
+      "javascript_coverage": [
+        "validateReviewEventSemantics",
+        "validateSubmissionReviewEventOutcomeReferences",
+        "buildSubmissionOutcomeEvent",
+        "appendReviewEvent",
+        "buildSubmissionAttemptTimeline"
+      ],
+      "rust_coverage": [
+        "not_applicable_intake_outcome_is_server_side"
+      ]
+    },
+    {
+      "id": "review-finding-drafts-receipt-gated",
+      "artifact": "review_finding_draft_set",
+      "summary": "Review Finding Draft normalization requires a received Vendor Receipt and preserves the matched evidence bundle, manifest, and source scanner finding set identities; rejected, quarantined, or no-receipt inputs are not normalizable.",
+      "javascript_coverage": [
+        "validateReviewFindingDraftSetSemantics",
+        "normalizeCandidateFindings",
+        "finding-normalization.test.mjs receipt boundary cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_finding_normalization_is_server_side"
+      ]
+    },
+    {
+      "id": "review-finding-drafts-inputs-only",
+      "artifact": "review_finding_draft_set",
+      "summary": "Scanner findings are normalized only into draft review artifacts: candidate ids, scanner sources, rule ids, severity, confidence, affected areas, and evidence references remain provenance and cannot create expert classifications, remediation guidance, attestation copy, receipt semantics, or scanner execution fields.",
+      "javascript_coverage": [
+        "validateReviewFindingDraftSetSemantics",
+        "normalizeCandidateFindings",
+        "finding-normalization.test.mjs grouping and forbidden-copy cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_finding_normalization_is_server_side"
+      ]
+    },
+    {
+      "id": "review-finding-drafts-evidence-availability",
+      "artifact": "review_finding_draft_set",
+      "summary": "Coverage Mode and evidence basis are explicit on each draft, threshold gaps are required for scanner-only, metadata-only, deleted, not-submitted, never-collected, or unresolved evidence, and deleted-under-policy source-derived content renders only as deleted with deletion evidence rather than available content.",
+      "javascript_coverage": [
+        "validateReviewFindingDraftSetSemantics",
+        "normalizeCandidateFindings",
+        "finding-normalization.test.mjs coverage and deletion cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_finding_normalization_is_server_side"
+      ]
+    },
+    {
+      "id": "review-finding-drafts-no-findings-claim-safe",
+      "artifact": "review_finding_draft_set",
+      "summary": "No-findings normalization emits no drafts, uses the exact statement \"No findings were produced by the configured inputs\", and carries an explicit limitation that this does not prove absence of vulnerabilities.",
+      "javascript_coverage": [
+        "validateReviewFindingDraftSetSemantics",
+        "normalizeCandidateFindings",
+        "finding-normalization.test.mjs no-findings cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_finding_normalization_is_server_side"
+      ]
+    },
+    {
+      "id": "finding-classification-allowed-taxonomy",
+      "artifact": "finding_classification_record",
+      "summary": "Reviewer classification records may only use the allowed taxonomy: likely, confirmed, inconclusive, or requires_customer_side_validation. Scanner, remediation, validation, accepted-risk, false-positive, and Attestation states are not classification values.",
+      "javascript_coverage": [
+        "validateFindingClassificationRecordSemantics",
+        "finding-classification-record.disallowed-classification.json",
+        "finding-classification-record-protocol.test.mjs taxonomy cases",
+        "finding-classification-convergence.test.mjs taxonomy fixture convergence"
+      ],
+      "rust_coverage": [
+        "not_applicable_finding_classification_is_server_side"
+      ]
+    },
+    {
+      "id": "finding-classification-reviewer-only-actor-authority",
+      "artifact": "finding_classification_record",
+      "summary": "Reviewer classification records and classification_recorded events may only be authored by CodeAttest reviewer actors. Customer-authored workflow, remediation, accepted-risk, validation, and other non-reviewer events cannot create or rewrite expert classification history.",
+      "javascript_coverage": [
+        "validateFindingClassificationRecordSemantics",
+        "validateReviewEventSemantics",
+        "buildFindingClassificationEvent",
+        "appendReviewEvent",
+        "finding-classification-record.customer-authored.json",
+        "review-event-log.customer-classification-actor.json",
+        "review-event-log.customer-supersedes-classification.json",
+        "finding-classification-convergence.test.mjs actor fixture convergence",
+        "review-event-convergence.test.mjs classification actor fixture convergence",
+        "review-event-convergence.test.mjs classification supersedes fixture convergence",
+        "finding-classification.test.mjs reviewer-only authority cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_finding_classification_is_server_side"
+      ]
+    },
+    {
+      "id": "finding-classification-confirmed-guardrails",
+      "artifact": "finding_classification_record",
+      "summary": "A confirmed classification requires meaningful confirmation criteria and rationale; whenever any evidence basis is scanner, metadata, unavailable, not-submitted, never-collected, or unresolved evidence, defensible confirmation criteria must explain why the threshold is crossed. The evidence_basis must be bound to the referenced draft evidence refs and must not contradict source_reference_state.",
+      "javascript_coverage": [
+        "validateFindingClassificationRecordSemantics",
+        "finding-classification-record.schema.json confirmation_criteria minItems",
+        "FindingClassificationRecord conditional confirmation_criteria binding",
+        "finding-classification-record-protocol.test.mjs generated type guard",
+        "finding-classification-record-protocol.test.mjs schema cases",
+        "finding-classification-convergence.test.mjs negative fixture convergence",
+        "finding-classification.test.mjs classification guardrails"
+      ],
+      "rust_coverage": [
+        "not_applicable_finding_classification_is_server_side"
+      ]
+    },
+    {
+      "id": "finding-classification-validation-path-required",
+      "artifact": "finding_classification_record",
+      "summary": "A requires_customer_side_validation classification must carry a meaningful validation path summary or a claim-safe validation path reference, so customer-side validation is visible as a required path rather than an empty label.",
+      "javascript_coverage": [
+        "validateFindingClassificationRecordSemantics",
+        "buildFindingClassificationEvent",
+        "finding-classification-record.validation-required-without-path.json",
+        "finding-classification-record-protocol.test.mjs validation path cases",
+        "finding-classification-convergence.test.mjs validation path fixture convergence"
+      ],
+      "rust_coverage": [
+        "not_applicable_finding_classification_is_server_side"
+      ]
+    },
+    {
+      "id": "classification-events-append-only-history",
+      "artifact": "review_event_log",
+      "summary": "Classification updates are appended as classification_recorded events referencing typed classification artifacts; updates use supersedes_event_id or prior classification record references, and previous history remains visible rather than being overwritten.",
+      "javascript_coverage": [
+        "buildFindingClassificationEvent",
+        "appendReviewEvent",
+        "validateReviewEventLogSemantics",
+        "finding-classification.test.mjs update and idempotency cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_finding_classification_is_server_side"
+      ]
+    },
+    {
+      "id": "finding-classification-text-source-safety",
+      "artifact": "finding_classification_record",
+      "summary": "Classification rationale, criteria, threshold gaps, limitations, validation-path summaries, and validation-path refs must not carry raw source bytes, raw scanner stdout/stderr, secrets, token-like strings, or claim-unsafe assurance copy.",
+      "javascript_coverage": [
+        "validateFindingClassificationRecordSemantics",
+        "finding-classification-record.raw-source-in-rationale.json",
+        "finding-classification-record.claim-unsafe-validation-path-ref.json",
+        "finding-classification-convergence.test.mjs text safety fixture convergence",
+        "finding-classification.test.mjs forbidden text cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_finding_classification_is_server_side"
+      ]
+    },
+    {
+      "id": "remediation-guidance-status-matrix",
+      "artifact": "finding_remediation_guidance",
+      "summary": "Reviewer remediation guidance uses bounded statuses. Actionable guidance requires meaningful remediation and validation steps, limitations, evidence references, and exploitability rationale for likely/confirmed classification context; limited or unavailable guidance requires an insufficient-evidence reason plus a next step or validation handoff.",
+      "javascript_coverage": [
+        "validateFindingRemediationGuidanceSemantics",
+        "finding-remediation-guidance.likely-actionable.json",
+        "finding-remediation-guidance.requires-validation-path-only.json",
+        "remediation-guidance-protocol.test.mjs",
+        "remediation-guidance.test.mjs actionable-detail assertions",
+        "remediation-guidance-convergence.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_remediation_guidance_is_server_side"
+      ]
+    },
+    {
+      "id": "remediation-guidance-text-source-safety",
+      "artifact": "finding_remediation_guidance",
+      "summary": "Remediation guidance free text must not carry raw source bytes, scanner stdout/stderr, secrets, token-like strings, or claim-unsafe assurance and absence-of-vulnerabilities copy.",
+      "javascript_coverage": [
+        "validateFindingRemediationGuidanceSemantics",
+        "finding-remediation-guidance.raw-source-text.json",
+        "finding-remediation-guidance.claim-unsafe-copy.json",
+        "shared claim-safety phrase list",
+        "claim-safety.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_remediation_guidance_is_server_side"
+      ]
+    },
+    {
+      "id": "customer-remediation-status-no-rewrite",
+      "artifact": "customer_remediation_status_record",
+      "summary": "Customer remediation status records capture customer owner/status/due-date/target-state/notes and export posture as audit metadata without rewriting expert classification or reviewer remediation rationale; accepted-risk and false-positive states are excluded from this vocabulary.",
+      "javascript_coverage": [
+        "validateCustomerRemediationStatusRecordSemantics",
+        "customer remediation status fixtures",
+        "remediation-guidance.test.mjs customer status assertions",
+        "remediation-guidance-convergence.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_remediation_guidance_is_server_side"
+      ]
+    },
+    {
+      "id": "customer-facing-finding-state-separation",
+      "artifact": "customer_facing_finding_record",
+      "summary": "Customer-facing finding records keep expert classification, evidence basis, reviewer guidance, customer remediation metadata, verification state, and later accepted-risk/false-positive visibility separate; one ambiguous status field is invalid and hidden customer notes are not exported.",
+      "javascript_coverage": [
+        "validateCustomerFacingFindingRecordSemantics",
+        "customerFacingFindingRecordSemanticIssues",
+        "customer-facing-finding-record.json",
+        "remediation-guidance.test.mjs projection assertions",
+        "customer-finding-record.test.mjs",
+        "outcome-projection.test.mjs",
+        "customer-facing-finding-semantics-convergence.test.mjs",
+        "customer-facing-finding-record.actionable-missing-guidance-details.json",
+        "customer-facing-finding-record.verification-ref-mismatch.json",
+        "customer-facing-finding-record.false-positive-visible-without-record.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_remediation_guidance_is_server_side"
+      ]
+    },
+    {
+      "id": "remediation-events-append-only-boundary",
+      "artifact": "review_event_log",
+      "summary": "Reviewer remediation guidance is recorded as remediation_guidance_recorded and customer status as customer_remediation_recorded, both referencing typed artifacts through the append-only review event log; customer-authored events cannot supersede classification_recorded or remediation_guidance_recorded chains, including multi-hop chains.",
+      "javascript_coverage": [
+        "validateReviewEventSemantics",
+        "validateReviewEventLogSemantics",
+        "appendReviewEvent",
+        "review-event-log customer supersedes remediation guidance fixture",
+        "review-event-log.remediation-guidance-customer-actor.json",
+        "review-event-log.customer-remediation-actor.json",
+        "review-event-log.customer-facing-reason-raw-source.json",
+        "review-event-log.customer-direct-classification-ref.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_remediation_guidance_is_server_side"
+      ]
+    },
+    {
+      "id": "validation-path-branch-contracts",
+      "artifact": "finding_validation_path",
+      "summary": "Validation paths keep remote dynamic testing, customer-run scripts, and manual steps distinct; remote testing requires authorization and safety assumptions, and customer-run script paths require explicit reviewer validation script refs.",
+      "javascript_coverage": [
+        "validateFindingValidationPathSemantics",
+        "finding-validation-path.remote-dynamic-testing.json",
+        "finding-validation-path.customer-run-script.json",
+        "finding-validation-path.manual-steps.json",
+        "finding-validation-path.remote-missing-authorization.json",
+        "finding-validation-path.script-missing-script-ref.json",
+        "validation-path-protocol.test.mjs",
+        "validation-path.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_validation_paths_are_server_side"
+      ]
+    },
+    {
+      "id": "reviewer-validation-script-included-cap",
+      "artifact": "reviewer_validation_script",
+      "summary": "Reviewer validation scripts are either included base-package scripts with slot 1..3 or additional-script candidates with pricing TBD and no included slot; builders enforce the cap with prior included-script context.",
+      "javascript_coverage": [
+        "validateReviewerValidationScriptSemantics",
+        "reviewer-validation-script.included-slot-1.json",
+        "reviewer-validation-script.included-slot-3.json",
+        "reviewer-validation-script.additional-pricing-tbd.json",
+        "reviewer-validation-script.included-missing-slot.json",
+        "reviewer-validation-script.additional-has-slot.json",
+        "validation-path-protocol.test.mjs",
+        "validation-path.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_validation_paths_are_server_side"
+      ]
+    },
+    {
+      "id": "validation-events-append-only-boundary",
+      "artifact": "review_event_log",
+      "summary": "Validation paths and reviewer validation scripts are recorded with validation_recorded events using exact singleton artifact refs and reviewer actor authority; customer events cannot supersede validation path or script chains.",
+      "javascript_coverage": [
+        "validateReviewEventSemantics",
+        "validateReviewEventLogSemantics",
+        "appendReviewEvent",
+        "buildFindingValidationPathEvent",
+        "buildReviewerValidationScriptEvent",
+        "validation-path.test.mjs append boundary cases"
+      ],
+      "rust_coverage": [
+        "not_applicable_validation_paths_are_server_side"
+      ]
+    },
+    {
+      "id": "validation-path-script-text-source-safety",
+      "artifact": "finding_validation_path",
+      "summary": "Validation path and reviewer script text, command/script content, and customer-facing projections use the shared normalized source/claim-safety matcher and cannot carry source-text markers or claim-unsafe assurance copy.",
+      "javascript_coverage": [
+        "validateFindingValidationPathSemantics",
+        "validateReviewerValidationScriptSemantics",
+        "finding-validation-path.raw-source-text.json",
+        "reviewer-validation-script.raw-source-text.json",
+        "shared claim-safety phrase list",
+        "claim-safety.test.mjs",
+        "classification-workbench.test.mjs validation path/script panels",
+        "customer-finding-record.test.mjs validation path/script sections"
+      ],
+      "rust_coverage": [
+        "not_applicable_validation_paths_are_server_side"
+      ]
+    },
+    {
+      "id": "outcome-records-separate-from-classification-status",
+      "artifact": "accepted_risk_record",
+      "summary": "Accepted-risk and false-positive records are separate retained outcome artifacts and are not classification values or customer remediation statuses.",
+      "javascript_coverage": [
+        "validateFalsePositiveRecordSemantics",
+        "validateAcceptedRiskRecordSemantics",
+        "outcome-record-protocol.test.mjs taxonomy separation"
+      ],
+      "rust_coverage": [
+        "not_applicable_outcomes_are_server_side"
+      ]
+    },
+    {
+      "id": "false-positive-outcome-visible-with-rationale",
+      "artifact": "false_positive_record",
+      "summary": "False-positive records require reviewer rationale, evidence basis, limitations, actor/timestamp, and finding/classification refs; customer-facing projections keep the finding visible with a record-backed outcome section.",
+      "javascript_coverage": [
+        "validateFalsePositiveRecordSemantics",
+        "buildFalsePositiveEvent",
+        "appendReviewEvent",
+        "projectCustomerFacingFindingRecord",
+        "outcome-records.test.mjs",
+        "customer-finding-record.test.mjs",
+        "outcome-projection.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_outcomes_are_server_side"
+      ]
+    },
+    {
+      "id": "accepted-risk-customer-backed-no-verification-claim",
+      "artifact": "accepted_risk_record",
+      "summary": "Accepted risk requires customer rationale/sign-off evidence, may coexist with remediation/validation history, and cannot imply remediation, verification, auditor/control acceptance, certification, regulator approval, independent assurance, or absence of vulnerabilities.",
+      "javascript_coverage": [
+        "validateAcceptedRiskRecordSemantics",
+        "buildCustomerAcceptedRiskEvent",
+        "appendReviewEvent",
+        "projectCustomerFacingFindingRecord",
+        "outcome-records-convergence.test.mjs",
+        "customer-finding-record.test.mjs",
+        "outcome-projection.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_outcomes_are_server_side"
+      ]
+    },
+    {
+      "id": "verification-scope-customer-backed-selection",
+      "artifact": "verification_pass_scope",
+      "summary": "Verification pass scope records customer-selected findings with customer actor or explicit customer-backed selection provenance; reviewer/vendor/service actors cannot silently choose findings for the customer.",
+      "javascript_coverage": [
+        "validateVerificationPassScopeSemantics",
+        "buildVerificationPassScopeEvent",
+        "verification-pass-scope.no-customer-backed-selection.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_verification_scope_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-scope-selected-finding-binding",
+      "artifact": "verification_pass_scope",
+      "summary": "Selected findings preserve normalized Review Finding draft, classification, remediation/status, validation path/script, and outcome refs without rewriting prior Story 3 artifacts.",
+      "javascript_coverage": [
+        "validateVerificationPassScopeFixtureReferenceSemantics",
+        "projectVerificationPassScope",
+        "verification-pass-scope.classification-binding-mismatch.json",
+        "verification-pass-scope.eligibility-reason-too-weak.json",
+        "verification-pass-scope.finding-limitations-too-weak.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_verification_scope_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-scope-included-window-and-script-cap",
+      "artifact": "verification_pass_scope",
+      "summary": "Included verification pass availability is bounded to 30 days and included Validation Script allocation is capped at unique slots 1..3 while additional scripts are pricing TBD candidates.",
+      "javascript_coverage": [
+        "validateVerificationPassScopeSemantics",
+        "verification-pass-scope.three-included-scripts.json",
+        "verification-pass-scope.deadline-beyond-30-days.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_verification_scope_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-scope-selection-not-decision",
+      "artifact": "verification_pass_scope",
+      "summary": "Story 4.1 scope selection cannot carry follow-up evidence, before/after outcomes, verification-complete status, Attestation/addendum content, or unsafe full-review success copy.",
+      "javascript_coverage": [
+        "validateVerificationPassScopeSemantics",
+        "verification-pass-scope.future-evidence-field.json",
+        "verification-pass-scope.claim-unsafe-copy.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_verification_scope_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-scope-events-append-only-boundary",
+      "artifact": "review_event_log",
+      "summary": "Verification scope changes append verification_scope_recorded events with exact singleton scope artifact refs; corrections supersede only prior verification-scope events and never classification/remediation/validation/outcome chains.",
+      "javascript_coverage": [
+        "validateReviewEventSemantics",
+        "validateReviewEventLogSemantics",
+        "appendReviewEvent",
+        "buildVerificationPassScopeEvent"
+      ],
+      "rust_coverage": [
+        "not_applicable_review_event_log_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-evidence-metadata-only-chain",
+      "artifact": "verification_evidence_record",
+      "summary": "Verification evidence remains metadata-only, customer/customer-backed, bound to active scope and formal commit/path/script context, with lifecycle-safe artifacts and versioned append-only events.",
+      "javascript_coverage": [
+        "validateVerificationEvidenceRecordSemantics",
+        "validateEpic4FixtureChainSemantics",
+        "verification-review-patches.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_epic_4_review_state_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-decision-reviewer-criteria-chain",
+      "artifact": "verification_record",
+      "summary": "Verification decisions are reviewer-owned, semantically revalidate evidence, preserve original basis, cover every recorded criterion, and emit canonical actionable outcomes through versioned append-only events.",
+      "javascript_coverage": [
+        "validateVerificationRecordSemantics",
+        "validateVersionedVerificationSupersedes",
+        "verification-review-patches.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_epic_4_review_state_is_server_side"
+      ]
+    },
+    {
+      "id": "verification-addendum-lifecycle-history-closure",
+      "artifact": "verification_addendum",
+      "summary": "Standalone addenda preserve selected scope and commit, resolve each evidence record exactly once, require deletion lifecycle proof, use active decision/evidence event heads, and keep incomplete outcomes not finalized.",
+      "javascript_coverage": [
+        "validateVerificationAddendumSemantics",
+        "validateEpic4FixtureChainSemantics",
+        "verification-addendum-projection.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_epic_4_review_state_is_server_side"
+      ]
+    },
+    {
+      "id": "attestation-retained-chain-claim-safety",
+      "artifact": "security_review_attestation",
+      "summary": "Attestation sections preserve retained scope, method, receipt, finding, remediation, verification, lifecycle, limitation, and supporting-reference context without assurance conclusions or source content.",
+      "javascript_coverage": [
+        "validateSecurityReviewAttestationSemantics",
+        "security-review-attestation.json",
+        "epic-5-protocol.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_attestation_is_server_side"
+      ]
+    },
+    {
+      "id": "supporting-evidence-approved-mapping-boundary",
+      "artifact": "supporting_evidence_mapping",
+      "summary": "Only approved versioned SOC 2 supporting-evidence, generic technology-risk, or customer-review mappings are customer-facing; consumer decision authority and non-acceptance language remain explicit.",
+      "javascript_coverage": [
+        "validateSupportingEvidenceMappingSemantics",
+        "supporting-evidence-mapping.acceptance-claim.json",
+        "claim-safety.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_attestation_is_server_side"
+      ]
+    },
+    {
+      "id": "static-bundle-content-addressed-minimized-projection",
+      "artifact": "static_bundle_manifest",
+      "summary": "Static manifests preserve stable bundle identity, versioned content identity, file digests, Evidence Bundle representation, minimization disposition, and offline verification while excluding internal pilot learning.",
+      "javascript_coverage": [
+        "validateStaticBundleManifestSemantics",
+        "static-bundle-manifest.internal-learning-file.json",
+        "epic-5-protocol.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_static_bundle_is_server_side"
+      ]
+    },
+    {
+      "id": "static-portal-offline-customer-safe-projection",
+      "artifact": "static_portal_projection",
+      "summary": "Static portal projections expose fixed document navigation, offline search/print/copy capability, relative links, and no remote assets, analytics, live API, or runtime authorization dependency.",
+      "javascript_coverage": [
+        "validateStaticPortalProjectionSemantics",
+        "static-portal-projection.json",
+        "epic-5-protocol.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_static_bundle_is_server_side"
+      ]
+    },
+    {
+      "id": "attestation-finalization-customer-new-version-boundary",
+      "artifact": "attestation_package_finalization",
+      "summary": "Only a customer actor finalizes or exports after visible context and verified prerequisites, producing a newly signed higher manifest version rather than mutating generated bytes.",
+      "javascript_coverage": [
+        "validateAttestationPackageFinalizationSemantics",
+        "attestation-package-finalization.vendor-actor.json",
+        "epic-5-protocol.test.mjs"
+      ],
+      "rust_coverage": [
+        "not_applicable_attestation_is_server_side"
+      ]
+    },
+    {
+      "id": "pilot-learning-internal-content-free-boundary",
+      "artifact": "pilot_feedback_record",
+      "summary": "Pilot metrics and feedback are bounded content-free internal-only records and events that are excluded from Attestation, static manifest, portal, search, print, and customer event history.",
+      "javascript_coverage": [
+        "validatePilotMetricRecordSemantics",
+        "validatePilotFeedbackRecordSemantics",
+        "static-bundle-manifest.internal-learning-file.json",
+        "pilot-feedback-record.customer-facing.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_pilot_learning_is_server_side"
+      ]
+    },
+    {
+      "id": "environment-readiness-evidence-decision-gate-binding",
+      "artifact": "environment_readiness_decision",
+      "summary": "A final partner-pilot gate references one approved, managed-key-signed, content-addressed decision over its exact approval input; that decision binds exactly one fresh passing independently reviewed evidence record for each of the seven controls and the exact pilot release and deployment digests.",
+      "javascript_coverage": [
+        "validateEnvironmentReadinessEvidenceSemantics",
+        "validateEnvironmentReadinessDecisionSemantics",
+        "environment-readiness-decision.stale.json",
+        "environment-evidence-gate.wrong-gate-digest.json"
+      ],
+      "rust_coverage": [
+        "not_applicable_environment_readiness_acceptance_is_server_side"
+      ]
+    }
+  ]
+}

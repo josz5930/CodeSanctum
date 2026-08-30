@@ -1,0 +1,58 @@
+{
+  "protocol_version": "codeattest.v0",
+  "attempt_id": "runner_attempt:successful_rerun",
+  "stage": "bundle_prepare",
+  "outcome": "succeeded",
+  "review_state": "signed_bundle_not_submitted",
+  "approval_state": "approved",
+  "bundle_state": "ready_not_submitted",
+  "remote_state": "not_submitted",
+  "occurred_at": "2026-07-10T00:22:00Z",
+  "runner": {
+    "name": "codeattest-local-runner",
+    "version": "0.0.0"
+  },
+  "runner_trust": {
+    "runner_name": "codeattest-local-runner",
+    "runner_version": "0.0.0",
+    "build_identifier": "local-dev-build",
+    "release_identifier": "unreleased-local",
+    "release_signature_status": "unsigned_local_build",
+    "bundle_signing_mode": "enrolled_runner_key",
+    "trust_label": "demo_only_unsigned",
+    "evidence_boundary": "synthetic-demo-only",
+    "limitations": [
+      "This unsigned local build is for SYNTHETIC_DEMO_DATA NOT_CUSTOMER_SOURCE workflows only.",
+      "Synthetic demo bundle signatures are not production ML-DSA assurance."
+    ]
+  },
+  "identities": {
+    "selected_commit": "0123456789abcdef0123456789abcdef01234567",
+    "repository_identity": "sha256:b8cc052213b8d87084a602fbff734a3112b9c52e0991b50b55066ece93046ec8",
+    "manifest_id": "sha256:8a3c1f94ede7de4e1b576aebe8c84afd8bc56290c852d3d737a22ff32420019b",
+    "approval_id": "approval:story_1_9_demo_approval",
+    "evidence_bundle_id": "sha256:76eb29ba0176d47ed50b1363c232dccb5d0744563ca1b65f62076599994db535",
+    "bundle_instance_id": "bundle_instance:story_1_9_rerun",
+    "submission_attempt_id": "submission_attempt:story_1_9_rerun"
+  },
+  "approval_metadata": {
+    "decision": "approved",
+    "decided_at": "2026-07-10T00:20:55Z",
+    "approving_actor": {
+      "actor_type": "customer_user",
+      "actor_id": "maya@example.com"
+    }
+  },
+  "diagnostics": {
+    "message": "Signed local Evidence Bundle is ready locally after explicit approved-manifest reuse; no evidence was sent.",
+    "retryable": false,
+    "sensitive_detail_omitted": true,
+    "raw_snippets_printed": false,
+    "support_summary": "Compare selected commit, repository identity, manifest identity, bundle identity, runner version, and attempt id."
+  },
+  "next_actions": [
+    "inspect local bundle",
+    "keep bundle local",
+    "wait for later submission workflow"
+  ]
+}

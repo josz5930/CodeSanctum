@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a reproducible defect that improves the project when fixed.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Thanks for helping improve CodeAttest. Bug reports are most useful when
+        they are reproducible. This is not a support channel — see the
+        [Support policy](https://github.com/josz5930/CodeSanctum#support-policy).
+        For vulnerabilities, use [SECURITY.md](https://github.com/josz5930/CodeSanctum/blob/main/SECURITY.md)
+        instead, not this form.
+  - type: checkboxes
+    id: preconditions
+    attributes:
+      label: Before you file
+      options:
+        - label: This is a defect in CodeAttest itself, not a request for deployment/setup/debugging help for my own environment.
+          required: true
+        - label: This is not a security vulnerability (those go through SECURITY.md).
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: The observed behavior, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: >-
+        Minimal, exact steps — commands, inputs, and any fixture or config
+        needed. A reproducible report is far more likely to be acted on.
+      placeholder: |
+        1. npm install
+        2. cargo run -p onevps-local-runner-scaffold -- scope init ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node version, Rust/Cargo version (or "not installed"), and the commit you are on.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: Error text or failing gate output. Do not paste secrets or real customer data.
+      render: shell
+    validations:
+      required: false
