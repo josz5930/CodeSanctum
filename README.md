@@ -1,3 +1,5 @@
+![CodeAttest](./docs/assets/codeattest-banner.svg)
+
 # CodeAttest
 
 **Cryptographically verifiable, disclosure-controlled secure-code review evidence — without uploading your whole repository.**

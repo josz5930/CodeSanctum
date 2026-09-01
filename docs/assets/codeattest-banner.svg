@@ -1,0 +1,74 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CodeAttest">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#0E1526"/>
+    </linearGradient>
+    <radialGradient id="emblemFill" cx="50%" cy="45%" r="65%">
+      <stop offset="0" stop-color="#182642"/>
+      <stop offset="1" stop-color="#0F1729"/>
+    </radialGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.2" fill="#5B7A99" opacity="0.35"/>
+    </pattern>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="400" fill="url(#bg)"/>
+  <rect x="660" y="0" width="540" height="400" fill="url(#dots)"/>
+
+  <!-- headline -->
+  <text x="72" y="150" font-family="Georgia, 'Times New Roman', serif" font-size="66" fill="#F2F4F8" letter-spacing="-1">CodeAttest</text>
+  <line x1="74" y1="172" x2="170" y2="172" stroke="#C9A15A" stroke-width="3"/>
+
+  <!-- tagline (project's own copy) -->
+  <text x="72" y="214" font-family="'Helvetica Neue', Arial, sans-serif" font-size="19" fill="#9AA7BD">
+    <tspan x="72" dy="0">Cryptographically verifiable, disclosure-</tspan>
+    <tspan x="72" dy="28">controlled secure-code review evidence —</tspan>
+    <tspan x="72" dy="28">without uploading your whole repository.</tspan>
+  </text>
+
+  <!-- real workflow, as a sequence -->
+  <line x1="72" y1="326" x2="544" y2="326" stroke="#24314A" stroke-width="2"/>
+  <g font-family="'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#92A0B8">
+    <circle cx="72" cy="326" r="5" fill="#C9A15A"/>
+    <text x="72" y="352" text-anchor="middle">Scope</text>
+    <circle cx="190" cy="326" r="5" fill="#C9A15A"/>
+    <text x="190" y="352" text-anchor="middle">Scan</text>
+    <circle cx="308" cy="326" r="5" fill="#C9A15A"/>
+    <text x="308" y="352" text-anchor="middle">Disclose</text>
+    <circle cx="426" cy="326" r="5" fill="#C9A15A"/>
+    <text x="426" y="352" text-anchor="middle">Approve</text>
+    <circle cx="544" cy="326" r="5" fill="#C9A15A"/>
+    <text x="544" y="352" text-anchor="middle">Verify</text>
+  </g>
+
+  <!-- seal / vault-dial emblem -->
+  <g>
+    <circle cx="940" cy="190" r="130" fill="none" stroke="#24314A" stroke-width="1" stroke-dasharray="2 6"/>
+    <circle cx="940" cy="190" r="116" fill="none" stroke="#2C3B57" stroke-width="1"/>
+    <circle cx="940" cy="190" r="92" fill="none" stroke="#8C6F3D" stroke-width="1.2"/>
+
+    <!-- major (cardinal) ticks -->
+    <line x1="1020" y1="190" x2="1039" y2="190" stroke="#C9A15A" stroke-width="2"/>
+    <line x1="940" y1="270" x2="940" y2="289" stroke="#C9A15A" stroke-width="2"/>
+    <line x1="860" y1="190" x2="841" y2="190" stroke="#C9A15A" stroke-width="2"/>
+    <line x1="940" y1="110" x2="940" y2="91" stroke="#C9A15A" stroke-width="2"/>
+
+    <!-- minor ticks -->
+    <line x1="1013.6" y1="232.5" x2="1025.7" y2="239.5" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="982.5" y1="263.6" x2="989.5" y2="275.7" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="897.5" y1="263.6" x2="890.5" y2="275.7" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="866.4" y1="232.5" x2="854.3" y2="239.5" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="866.4" y1="147.5" x2="854.3" y2="140.5" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="897.5" y1="116.4" x2="890.5" y2="104.3" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="982.5" y1="116.4" x2="989.5" y2="104.3" stroke="#8C6F3D" stroke-width="1.2"/>
+    <line x1="1013.6" y1="147.5" x2="1025.7" y2="140.5" stroke="#8C6F3D" stroke-width="1.2"/>
+
+    <circle cx="940" cy="190" r="64" fill="url(#emblemFill)" stroke="#C9A15A" stroke-width="2"/>
+    <path d="M912,193 L930,211 L972,163" fill="none" stroke="#C9A15A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M900,225 Q915,215 930,225 T960,225 T980,218" fill="none" stroke="#5B7A99" stroke-width="2" opacity="0.6"/>
+  </g>
+
+  <!-- closing line (project's own claim-safety principle) -->
+  <text x="1128" y="372" text-anchor="end" font-family="'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#5F6E86">Signed with ML-DSA-65 (FIPS 204) — verified, not claimed.</text>
+</svg>
