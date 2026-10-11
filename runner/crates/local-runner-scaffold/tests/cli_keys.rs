@@ -34,9 +34,13 @@ fn cli_keys_init_creates_key_files_and_prints_only_the_public_key() {
         !first_stdout.contains(&base64url_encode(&seed_base64url)),
         "the seed must never appear in keys init stdout"
     );
+    // The public key is random base64url text, so it can contain "seed" by
+    // chance (about 1 run in 400). Remove it before the word check.
+    let public_key = public_key_line(&first_stdout);
     for line in first_stdout.lines() {
+        let without_key = line.replace(public_key.as_str(), "");
         assert!(
-            !line.starts_with("seed:") && !line.to_ascii_lowercase().contains("seed"),
+            !line.starts_with("seed:") && !without_key.to_ascii_lowercase().contains("seed"),
             "keys init stdout must never mention the seed: {line}"
         );
     }
@@ -90,8 +94,12 @@ fn cli_keys_enrollment_emits_a_record_matching_the_initialized_key() {
     assert_eq!(record["public_key"], expected_public_key);
     assert_eq!(record["algorithm_profile"], "ml_dsa_65");
     assert_eq!(record["enrollment_method"], "operator_verified");
+    // Remove the random public key first, for the same reason as in keys init.
     assert!(
-        !enrollment_stdout.to_ascii_lowercase().contains("seed"),
+        !enrollment_stdout
+            .replace(expected_public_key.as_str(), "")
+            .to_ascii_lowercase()
+            .contains("seed"),
         "enrollment stdout must never mention the seed"
     );
 }
