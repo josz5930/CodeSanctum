@@ -1,4 +1,4 @@
-import { createLoginPostHandler } from "../../../../lib/session.js";
+import { createLoginPostHandler } from "../../../lib/session.js";
 
 export { createLoginPostHandler };
 

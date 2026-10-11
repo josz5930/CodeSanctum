@@ -34,20 +34,31 @@ export function totpCodeAt(secret: Buffer, unixSeconds: number): string {
   return String(binary % TOTP_MOD).padStart(TOTP_DIGITS, "0");
 }
 
-export function verifyTotpCode(secret: Buffer, presented: string, unixSeconds: number): boolean {
+/**
+ * Returns the time step (RFC 6238 counter) that the presented code matches,
+ * or undefined. The caller must claim the step with
+ * `AccountStore.claimTotpStep` before it accepts the code, because RFC 6238
+ * section 5.2 forbids a second use of one OTP.
+ */
+export function matchTotpStep(secret: Buffer, presented: string, unixSeconds: number): number | undefined {
   if (!/^\d{6}$/.test(presented)) {
-    return false;
+    return undefined;
   }
   const presentedBuf = Buffer.from(presented, "utf8");
-  let matched = false;
-  for (const step of [-1, 0, 1] as const) {
-    const expected = totpCodeAt(secret, unixSeconds + step * TOTP_STEP_SECONDS);
+  const currentStep = Math.floor(unixSeconds / TOTP_STEP_SECONDS);
+  let matched: number | undefined;
+  for (const offset of [-1, 0, 1] as const) {
+    const expected = totpCodeAt(secret, unixSeconds + offset * TOTP_STEP_SECONDS);
     const expectedBuf = Buffer.from(expected, "utf8");
     if (timingSafeEqual(expectedBuf, presentedBuf)) {
-      matched = true;
+      matched = currentStep + offset;
     }
   }
   return matched;
+}
+
+export function verifyTotpCode(secret: Buffer, presented: string, unixSeconds: number): boolean {
+  return matchTotpStep(secret, presented, unixSeconds) !== undefined;
 }
 
 function encodeBase32(bytes: Buffer): string {

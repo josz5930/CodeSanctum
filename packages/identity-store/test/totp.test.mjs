@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import { compileWorkspace } from "./helpers/compile.mjs";
 
-const { totpCodeAt, verifyTotpCode, sealTotpSecret, openTotpSecret, mintTotpSecret } =
+const { totpCodeAt, matchTotpStep, verifyTotpCode, sealTotpSecret, openTotpSecret, mintTotpSecret } =
   await compileWorkspace("totp.js");
 
 // RFC 6238 appendix B, SHA-1, 8 digits, seed "12345678901234567890".
@@ -31,6 +31,15 @@ assert.equal(verifyTotpCode(rfcSecret, "000000", 0), false);
 for (const junk of ["", "12345", "1234567", "abcdef", "12 456"]) {
   assert.equal(verifyTotpCode(rfcSecret, junk, t), false, `${JSON.stringify(junk)} must not verify`);
 }
+
+// matchTotpStep names the RFC 6238 counter that matched, so the caller can
+// refuse a second use of that step.
+const step = Math.floor(t / 30);
+assert.equal(matchTotpStep(rfcSecret, totpCodeAt(rfcSecret, t), t), step);
+assert.equal(matchTotpStep(rfcSecret, totpCodeAt(rfcSecret, t - 30), t), step - 1);
+assert.equal(matchTotpStep(rfcSecret, totpCodeAt(rfcSecret, t + 30), t), step + 1);
+assert.equal(matchTotpStep(rfcSecret, totpCodeAt(rfcSecret, t - 90), t), undefined);
+assert.equal(matchTotpStep(rfcSecret, "abcdef", t), undefined);
 
 // The secret is encrypted at rest and tamper-evident.
 const key = randomBytes(32);

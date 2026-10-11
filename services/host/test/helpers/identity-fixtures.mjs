@@ -44,7 +44,8 @@ export const SEEDED = {
     account_id: "account:synthetic-reviewer",
     tenant_id: TENANT_ID,
     totpBase32: reviewerTotp.base32,
-    currentTotpCode: () => totpCodeAt(reviewerOpened, Math.floor(Date.now() / 1000))
+    currentTotpCode: () => totpCodeAt(reviewerOpened, Math.floor(Date.now() / 1000)),
+    totpCodeAt: (unixSeconds) => totpCodeAt(reviewerOpened, unixSeconds)
   },
   locked: {
     identifier: "locked@synthetic.invalid",

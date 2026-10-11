@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { access, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { access, mkdtemp, readdir, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -65,6 +65,82 @@ async function verifyCaddy(caddyfile, failures) {
   return "caddy validate passed";
 }
 
+// Caddy `path` matchers: a pattern that ends in `*` is a prefix match, any
+// other pattern is an exact match.
+function caddyHostPathPatterns(caddyfile) {
+  const patterns = [];
+  for (const match of caddyfile.matchAll(/^\s*@\w+ path (.+)$/gm)) {
+    patterns.push(...match[1].trim().split(/\s+/));
+  }
+  return patterns;
+}
+
+function caddySendsToHost(patterns, urlPath) {
+  return patterns.some((pattern) =>
+    pattern.endsWith("*") ? urlPath.startsWith(pattern.slice(0, -1)) : urlPath === pattern
+  );
+}
+
+async function filesUnder(dir) {
+  const out = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...(await filesUnder(full)));
+    } else {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+/**
+ * Every Next.js page and route handler, and every form action in the web app,
+ * must reach Next.js through Caddy. A path that Caddy sends to the host never
+ * reaches the Next handler, so the deployed app breaks while unit tests that
+ * call the handler directly still pass.
+ */
+async function verifyWebRouting(root, caddyfile, failures) {
+  const patterns = caddyHostPathPatterns(caddyfile);
+  if (patterns.length === 0) {
+    failures.push("Caddyfile has no host path matchers to check web routes against");
+    return;
+  }
+  const webDir = path.join(root, "apps/web");
+  const appDir = path.join(webDir, "app");
+  const nextRoutes = new Set();
+  for (const file of await filesUnder(appDir)) {
+    const base = path.basename(file);
+    if (!/^(page|route)\.tsx?$/.test(base)) {
+      continue;
+    }
+    const segments = path.relative(appDir, path.dirname(file)).split(path.sep).filter((segment) => segment.length > 0);
+    // A dynamic segment such as [scope] stands for any single value.
+    const urlPath = `/${segments.map((segment) => (segment.startsWith("[") ? "sample" : segment)).join("/")}`;
+    nextRoutes.add(urlPath);
+    if (caddySendsToHost(patterns, urlPath)) {
+      failures.push(`Caddy sends Next.js ${base === "route.ts" ? "route" : "page"} ${urlPath} to the host`);
+    }
+  }
+  for (const sub of ["app", "components", "src"]) {
+    for (const file of await filesUnder(path.join(webDir, sub))) {
+      if (!file.endsWith(".tsx")) {
+        continue;
+      }
+      const text = await readFile(file, "utf8");
+      for (const match of text.matchAll(/<form\b[^>]*\baction="([^"]+)"/g)) {
+        const action = match[1];
+        const where = path.relative(root, file);
+        if (caddySendsToHost(patterns, action)) {
+          failures.push(`${where}: form action ${action} goes to the host, not to Next.js`);
+        } else if (!nextRoutes.has(action)) {
+          failures.push(`${where}: form action ${action} has no Next.js route`);
+        }
+      }
+    }
+  }
+}
+
 export async function checkDeployTemplates(root = repoRoot) {
   const names = [
     "codeattest-demo.service.tmpl",
@@ -108,6 +184,8 @@ export async function checkDeployTemplates(root = repoRoot) {
   if ((caddyfile.match(/^\{\$CODEATTEST_[A-Z_]+_HOSTNAME\} \{$/gm) ?? []).length !== 2) {
     failures.push("Caddyfile must contain exactly two TLS hostname site blocks");
   }
+
+  await verifyWebRouting(root, caddyfile, failures);
 
   const toolStatus = [await verifySystemd(files, failures), await verifyCaddy(caddyfile, failures)];
   return { failures, toolStatus };

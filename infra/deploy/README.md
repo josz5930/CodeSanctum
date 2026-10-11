@@ -38,6 +38,11 @@ routes go to that deployment's integrated Next.js process. Caddy terminates
 and automatically renews TLS after the operator provides the two hostname
 environment variables and working DNS.
 
+The web app's own form targets, `/session/login` and `/session/second-factor`,
+are browser routes, so they reach Next.js, which forwards them to the host's
+`/v0/auth/*` routes as JSON. `scripts/check-deploy-templates.mjs` fails when a
+Next.js page, route handler, or form action falls under a host path matcher.
+
 Caddy is the supported default. An nginx alternative must preserve the exact
 path/upstream split, loopback-only upstreams, independent hostnames, TLS
 renewal, request-size behavior, and secret-header posture. If an operator
