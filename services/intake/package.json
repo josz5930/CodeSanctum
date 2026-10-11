@@ -6,7 +6,7 @@
   "type": "module",
   "dependencies": {
     "@onevps/protocol-ts": "0.0.0",
-    "canonicalize": "3.0.0"
+    "canonicalize": "5.1.0"
   },
   "scripts": {
     "format": "node ../../scripts/check-format.mjs .",
