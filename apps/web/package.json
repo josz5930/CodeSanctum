@@ -7,14 +7,14 @@
   "dependencies": {
     "@onevps/protocol-ts": "0.0.0",
     "@onevps/ui": "0.0.0",
-    "next": "16.3.8",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
-    "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "tailwindcss": "4.3.3"
   },
   "scripts": {

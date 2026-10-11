@@ -7,7 +7,7 @@
   "types": "./src/index.ts",
   "dependencies": {
     "@onevps/protocol-ts": "0.0.0",
-    "pg": "8.23.0"
+    "pg": "8.23.1"
   },
   "scripts": {
     "format": "node ../../scripts/check-format.mjs .",
