@@ -3,7 +3,9 @@ import path from "node:path";
 
 const roots = process.argv.slice(2);
 const defaultStartPaths = [
+  ".github/dependabot.yml",
   ".github/workflows/ci.yml",
+  ".github/workflows/dependency-audit.yml",
   ".gitignore",
   ".node-version",
   ".nvmrc",

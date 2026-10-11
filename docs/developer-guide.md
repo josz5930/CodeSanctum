@@ -71,6 +71,21 @@ not treat it as "Rust is fine."
 | Rust format / lint / build / test | `npm run rust:fmt` / `rust:lint` / `rust:build` / `rust:test` |
 | CI aggregate (all of the above + every per-story gate) | `npm run ci` |
 
+Dependency advisories are checked by a separate workflow,
+[`dependency-audit.yml`](../.github/workflows/dependency-audit.yml). It runs on
+every pull request, on `main`, and weekly, because a new advisory can make an
+unchanged lockfile vulnerable. It fails on any npm advisory of high severity or
+above, and on any RustSec vulnerability. To run the same checks locally:
+
+```sh
+npm audit --audit-level=high
+cargo install cargo-audit --locked --version 0.22.2   # once
+cargo audit
+```
+
+Dependabot ([`dependabot.yml`](../.github/dependabot.yml)) opens weekly update
+pull requests for npm, Cargo, and GitHub Actions.
+
 `npm run format` and `npm run format:check` do **not** rewrite files. Fix LF /
 final-newline / trailing-whitespace issues by hand. The format rules (LF only,
 final newline, no trailing whitespace) apply to `.ts`, `.mjs`, `.rs`, `.json`,
