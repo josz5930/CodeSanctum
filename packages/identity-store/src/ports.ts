@@ -39,6 +39,12 @@ export interface AccountStore {
   findByIdentifier(identifier: string): Promise<AccountRecord | undefined>;
   findById(accountId: string): Promise<AccountRecord | undefined>;
   grantsFor(accountId: string): Promise<RoleGrant[]>;
+  /**
+   * Records that a TOTP time step was used to sign in. Returns "replayed" when
+   * this step, or a later one, was already used for the account, so one code
+   * can never sign in twice (RFC 6238 section 5.2).
+   */
+  claimTotpStep(accountId: string, step: number): Promise<"claimed" | "replayed">;
 }
 
 export interface SessionStore {

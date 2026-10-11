@@ -132,6 +132,91 @@ assert.match(loginHtml, /name="secret"/);
   assert.match(response.headers.getSetCookie().join("\n"), /Max-Age=0/);
 }
 
+// --- second factor ------------------------------------------------------------
+{
+  const pendingCookie = "codeattest_session_insecure_local=pending; Path=/; HttpOnly; SameSite=Strict; Max-Age=3600";
+  const { fetchImpl } = mockFetch(202, {
+    body: "{\"second_factor_required\":true}",
+    headers: { "set-cookie": pendingCookie }
+  });
+  const form = new FormData();
+  form.set("identifier", "reviewer@example.test");
+  form.set("secret", "s3cret");
+  const response = await createLoginPostHandler({ fetchImpl, env })(new Request("http://127.0.0.1:3000/v0/auth/login", {
+    method: "POST",
+    body: form
+  }));
+  assert.equal(response.headers.get("location"), "/login/second-factor",
+    "a TOTP account must go to the code page, not to a dashboard its pending session cannot open");
+  assert.match(response.headers.getSetCookie().join("\n"), /=pending;/, "the pending cookie must reach the browser");
+}
+
+const { SecondFactorForm } = await importCompiled("src/second-factor-form.js");
+const secondFactorPage = await importCompiled("app/login/second-factor/page.js");
+const secondFactorRoute = await importCompiled("app/session/second-factor/route.js");
+const { createSecondFactorPostHandler } = await importCompiled("lib/session.js");
+assert.equal(typeof secondFactorRoute.POST, "function");
+
+const secondFactorHtml = renderToStaticMarkup(createElement(SecondFactorForm));
+// Caddy sends /v0/* to the host, so the form must post to a path Next.js serves.
+assert.match(secondFactorHtml, /action="\/session\/second-factor"/);
+assert.match(secondFactorHtml, /name="code"/);
+assert.match(secondFactorHtml, /autocomplete="one-time-code"/i);
+assert.doesNotMatch(secondFactorHtml, /role="alert"/);
+
+const rejectedHtml = renderToStaticMarkup(
+  await secondFactorPage.default({ searchParams: Promise.resolve({ error: "code" }) })
+);
+assert.match(rejectedHtml, /role="alert"/);
+assert.match(rejectedHtml, /href="\/login"/);
+const plainHtml = renderToStaticMarkup(await secondFactorPage.default({ searchParams: Promise.resolve({}) }));
+assert.doesNotMatch(plainHtml, /role="alert"/);
+
+{
+  const satisfiedCookie = "codeattest_session_insecure_local=satisfied; Path=/; HttpOnly; SameSite=Strict; Max-Age=3600";
+  const { calls, fetchImpl } = mockFetch(204, { headers: { "set-cookie": satisfiedCookie } });
+  const form = new FormData();
+  form.set("code", "123 456");
+  const response = await createSecondFactorPostHandler({ fetchImpl, env })(new Request("http://127.0.0.1:3000/session/second-factor", {
+    method: "POST",
+    headers: { cookie: SESSION_COOKIE },
+    body: form
+  }));
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, `${HOST}/v0/auth/login/second-factor`);
+  assert.equal(String(calls[0].init.method).toUpperCase(), "POST");
+  assert.equal(headerValue(calls[0].init, "cookie"), SESSION_COOKIE, "the pending session cookie must be forwarded");
+  assert.deepEqual(JSON.parse(String(calls[0].init.body)), { code: "123456" }, "spaces in the code are removed");
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get("location"), "/");
+  assert.match(response.headers.getSetCookie().join("\n"), /=satisfied;/);
+}
+
+{
+  const { fetchImpl } = mockFetch(401, { body: "{\"reason_code\":\"auth_credentials_invalid\"}" });
+  const form = new FormData();
+  form.set("code", "000000");
+  const response = await createSecondFactorPostHandler({ fetchImpl, env })(new Request("http://127.0.0.1:3000/session/second-factor", {
+    method: "POST",
+    headers: { cookie: SESSION_COOKIE },
+    body: form
+  }));
+  assert.equal(response.headers.get("location"), "/login/second-factor?error=code");
+  assert.deepEqual(response.headers.getSetCookie(), [], "a refused code must not set a cookie");
+}
+
+{
+  const { calls, fetchImpl } = mockFetch(204);
+  const form = new FormData();
+  form.set("code", "123456");
+  const response = await createSecondFactorPostHandler({ fetchImpl, env })(new Request("http://127.0.0.1:3000/session/second-factor", {
+    method: "POST",
+    body: form
+  }));
+  assert.equal(calls.length, 0, "with no pending session there is nothing to send to the host");
+  assert.equal(response.headers.get("location"), "/login");
+}
+
 const sessionExpiredHtml = renderToStaticMarkup(createElement(SessionExpiredPage));
 assert.match(sessionExpiredHtml, /role="alert"/);
 assert.match(sessionExpiredHtml, /href="\/login"/);

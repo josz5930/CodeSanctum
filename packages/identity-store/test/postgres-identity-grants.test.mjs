@@ -12,7 +12,8 @@ const APPEND_ONLY_UPDATE = {
   web_session_activity: "UPDATE web_session_activity SET session_handle = 'x'",
   login_attempt: "UPDATE login_attempt SET outcome = 'x'",
   submission_credential: "UPDATE submission_credential SET customer_id = 'x'",
-  submission_credential_revocation: "UPDATE submission_credential_revocation SET reason = 'x'"
+  submission_credential_revocation: "UPDATE submission_credential_revocation SET reason = 'x'",
+  totp_step_use: "UPDATE totp_step_use SET step = 0"
 };
 
 if (!(await postgresAvailable())) {

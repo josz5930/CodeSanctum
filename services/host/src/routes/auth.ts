@@ -4,12 +4,12 @@ import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 import {
   hashSecret,
+  matchTotpStep,
   mintSessionToken,
   openTotpSecret,
   SESSION_ABSOLUTE_LIFETIME_MS,
   sessionHandleFor,
   verifySecret,
-  verifyTotpCode,
   type AccountStore,
   type LoginThrottle,
   type SecondFactorState,
@@ -161,7 +161,10 @@ export async function registerAuthRoutes(server: FastifyInstance, deps: AuthRout
     }
     const secret = openTotpSecret(account.totp_secret_box, deps.totpKey);
     const unixSeconds = Math.floor(now.getTime() / 1000);
-    const codeOk = secret !== undefined && verifyTotpCode(secret, request.body.code, unixSeconds);
+    const step = secret === undefined ? undefined : matchTotpStep(secret, request.body.code, unixSeconds);
+    // A replayed code gets the same answer as a wrong code, so a caller cannot
+    // learn which codes were valid.
+    const codeOk = step !== undefined && (await deps.accounts.claimTotpStep(account.account_id, step)) === "claimed";
     if (!codeOk) {
       await deps.throttle.record(identifierHash, "failed");
       return credentialsInvalid(deps, reply);

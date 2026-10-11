@@ -20,6 +20,7 @@ export function createMemoryAccountStore(): MemoryAccountStore {
   const byId = new Map<string, AccountRecord>();
   const byIdentifier = new Map<string, AccountRecord>();
   const grantsByAccount = new Map<string, RoleGrant[]>();
+  const lastTotpStep = new Map<string, number>();
 
   return {
     async findByIdentifier(identifier: string) {
@@ -30,6 +31,14 @@ export function createMemoryAccountStore(): MemoryAccountStore {
     },
     async grantsFor(accountId: string) {
       return grantsByAccount.get(accountId) ?? [];
+    },
+    async claimTotpStep(accountId: string, step: number) {
+      const last = lastTotpStep.get(accountId);
+      if (last !== undefined && step <= last) {
+        return "replayed";
+      }
+      lastTotpStep.set(accountId, step);
+      return "claimed";
     },
     async seed(input: IdentitySeed) {
       const record: AccountRecord = {

@@ -70,10 +70,12 @@ const beforeSecondFactor = await server.inject({ method: "GET", url: "/v0/auth/s
 assert.equal(beforeSecondFactor.statusCode, 401,
   "a session awaiting its second factor must not authenticate anything");
 
+const firstCodeAt = Math.floor(Date.now() / 1000);
+const firstCode = SEEDED.reviewer.totpCodeAt(firstCodeAt);
 const upgraded = await server.inject({
   method: "POST", url: "/v0/auth/login/second-factor",
   headers: { cookie: pending },
-  payload: { code: SEEDED.reviewer.currentTotpCode() }
+  payload: { code: firstCode }
 });
 assert.equal(upgraded.statusCode, 204);
 const satisfied = setCookie(upgraded.headers);
@@ -84,6 +86,43 @@ assert.equal(session.statusCode, 200);
 assert.deepEqual(session.json().roles, ["codeattest_reviewer"]);
 assert.equal(session.json().account_id, SEEDED.reviewer.account_id);
 assert.equal(JSON.stringify(session.json()).includes(SEEDED.reviewer.password), false);
+
+// --- second factor: a used code cannot sign in again (RFC 6238 section 5.2) ---
+async function pendingReviewerCookie() {
+  const response = await server.inject({
+    method: "POST", url: "/v0/auth/login",
+    payload: { identifier: SEEDED.reviewer.identifier, secret: SEEDED.reviewer.password }
+  });
+  assert.equal(response.statusCode, 202);
+  return setCookie(response.headers);
+}
+
+const replayPending = await pendingReviewerCookie();
+const replayed = await server.inject({
+  method: "POST", url: "/v0/auth/login/second-factor",
+  headers: { cookie: replayPending },
+  payload: { code: firstCode }
+});
+assert.equal(replayed.statusCode, 401, "a code that already signed in must be refused");
+assert.equal(replayed.json().reason_code, "auth_credentials_invalid",
+  "a replayed code must look the same as a wrong code");
+assert.equal(replayed.headers["set-cookie"], undefined);
+
+const earlier = await server.inject({
+  method: "POST", url: "/v0/auth/login/second-factor",
+  headers: { cookie: replayPending },
+  payload: { code: SEEDED.reviewer.totpCodeAt(firstCodeAt - 30) }
+});
+assert.equal(earlier.statusCode, 401, "a code from a step before the used step must be refused");
+
+// The code of the next step is new, so the same pending session can still
+// finish its sign-in with it.
+const nextStep = await server.inject({
+  method: "POST", url: "/v0/auth/login/second-factor",
+  headers: { cookie: replayPending },
+  payload: { code: SEEDED.reviewer.totpCodeAt(firstCodeAt + 30) }
+});
+assert.equal(nextStep.statusCode, 204, nextStep.body);
 
 // --- logout -------------------------------------------------------------------
 const out = await server.inject({ method: "POST", url: "/v0/auth/logout", headers: { cookie: satisfied } });

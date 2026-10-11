@@ -31,6 +31,23 @@ export async function runIdentityContract(name, makePorts) {
   const grants = await accounts.grantsFor("account:synthetic-reviewer");
   assert.equal(grants.length, 2, `${name}: every grant must come back`);
 
+  // --- TOTP step claims -------------------------------------------------------
+  const step = 59_000_000;
+  assert.equal(await accounts.claimTotpStep("account:synthetic-reviewer", step), "claimed",
+    `${name}: an unused step is claimed`);
+  assert.equal(await accounts.claimTotpStep("account:synthetic-reviewer", step), "replayed",
+    `${name}: a used step must never be claimed twice`);
+  assert.equal(await accounts.claimTotpStep("account:synthetic-reviewer", step - 1), "replayed",
+    `${name}: a step before the last used step is refused`);
+  assert.equal(await accounts.claimTotpStep("account:synthetic-reviewer", step + 1), "claimed",
+    `${name}: a later step is claimed`);
+  const racing = await Promise.all([
+    accounts.claimTotpStep("account:synthetic-reviewer", step + 2),
+    accounts.claimTotpStep("account:synthetic-reviewer", step + 2)
+  ]);
+  assert.deepEqual(racing.sort(), ["claimed", "replayed"],
+    `${name}: two requests with one code at the same time must not both pass`);
+
   // --- sessions -------------------------------------------------------------
   await sessions.issue({
     session_handle: "a".repeat(64),
