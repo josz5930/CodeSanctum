@@ -30,7 +30,9 @@ export function createHttpTransparencyAnchor(input: { baseUrl: string; token: st
       const response = await fetchImpl(url, {
         method: "PUT",
         headers: { authorization, "content-type": "application/json" },
-        body: JSON.stringify(record)
+        body: JSON.stringify(record),
+        // The request carries the bearer token; never follow it elsewhere.
+        redirect: "error"
       });
       if (!response.ok) {
         throw new Error(`transparency anchor refused the checkpoint: HTTP ${response.status}`);
@@ -48,7 +50,7 @@ export function createHttpTransparencyAnchor(input: { baseUrl: string; token: st
       return { anchor_ref: anchorRef };
     },
     async get(checkpointId) {
-      const response = await fetchImpl(urlFor(checkpointId), { method: "GET", headers: { authorization } });
+      const response = await fetchImpl(urlFor(checkpointId), { method: "GET", headers: { authorization }, redirect: "error" });
       if (response.status === 404) {
         return undefined;
       }

@@ -14,7 +14,7 @@ function stubAnchorEndpoint() {
   const objects = new Map();
   const calls = [];
   const fetchImpl = async (url, init = {}) => {
-    calls.push({ url, method: init.method, authorization: new Headers(init.headers).get("authorization") });
+    calls.push({ url, method: init.method, redirect: init.redirect, authorization: new Headers(init.headers).get("authorization") });
     if (init.method === "PUT") {
       objects.set(url, init.body);
       return new Response(JSON.stringify({ anchor_ref: `anchor:${objects.size}` }), { status: 201 });
@@ -52,6 +52,7 @@ assert.equal(publications.published.length, 1);
 assert.equal(publications.published[0].merkle_root, computeCheckpoint(HEADS).merkle_root);
 assert.deepEqual(endpoint.calls.map((call) => call.method), ["PUT", "GET"], "a publication is always read back");
 assert.ok(endpoint.calls.every((call) => call.authorization === `Bearer ${TOKEN}`));
+assert.ok(endpoint.calls.every((call) => call.redirect === "error"), "a request carrying the token never follows a redirect");
 assert.equal(endpoint.calls[0].url, `${BASE_URL}/checkpoints/${first.checkpoint_id}`);
 
 // --- same heads: no duplicate publication, but the last one is re-verified --------

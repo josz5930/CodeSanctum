@@ -170,6 +170,12 @@ await withMigratedPostgres(async () => {
     assert.equal(tampered.code, 1, tampered.output);
     assert.match(tampered.output, /"step":"key_directory".*signing_key_directory_untrusted/);
 
+    // A long-running `run` that fails to boot must exit, not sit idle on its
+    // open pool where systemd would never see the failure.
+    const runTampered = await runWorker(["run", configPath], env);
+    assert.equal(runTampered.code, 1, runTampered.output);
+    assert.match(runTampered.output, /"step":"key_directory"/);
+
     // --- an unknown command is a usage error -----------------------------------
     assert.equal((await runWorker(["purge-everything", configPath], env)).code, 2);
   } finally {

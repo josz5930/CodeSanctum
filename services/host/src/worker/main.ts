@@ -222,7 +222,11 @@ async function main(): Promise<void> {
     log({ event: "worker_command_failed", command, error: (error as Error).message });
     code = 1;
   }
-  if (command !== "run") {
+  // A `run` that started its loop only returns after the shutdown handler,
+  // which ends the pool and exits itself. Any other result must exit here: a
+  // `run` that failed to boot would otherwise sit idle on its open pool, and
+  // systemd would never see the failure or restart it.
+  if (command !== "run" || code !== 0) {
     await pool.end();
     process.exit(code);
   }
