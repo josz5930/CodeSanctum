@@ -10,7 +10,7 @@ Four ports, each with a memory adapter (tests) and a Postgres adapter (durable),
 
 - `AccountStore` — tenant, account, and role-grant lookup. Accounts are operator-provisioned (`scripts/provision-identity.mjs`); there is no self-service signup.
 - `SessionStore` — issue, resolve, touch, and revoke opaque sessions. The cookie carries 32 random bytes; the database stores only their SHA-256 (`session_handle`).
-- `LoginThrottle` — five failed logins within fifteen minutes lock an identifier. A locked identifier is indistinguishable from a wrong password.
+- `LoginThrottle` — five failed logins within fifteen minutes lock a throttle key. The host's key is a SHA-256 of the identifier and the client network (`services/host/src/routes/auth.ts`), so failures from one client do not lock the account for everyone. The `login_attempt.identifier_hash` column holds that key. A locked key is indistinguishable from a wrong password.
 - `SubmissionCredentialStore` — issue, resolve, and revoke runner submission credentials. Replaces B's config-file adapter behind the same interface.
 
 Supporting modules:

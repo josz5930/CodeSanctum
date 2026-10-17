@@ -23,6 +23,6 @@
     "lint": "node ../../scripts/check-workspace-boundary.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "build": "next build --webpack",
-    "test": "node test/scaffold.test.mjs && node test/auth-vertical.test.mjs && node test/dashboard-render.test.mjs && node test/adapter-escaping.test.mjs && node test/review-detail-render.test.mjs && node test/finding-record-render.test.mjs && node test/attestation-render.test.mjs && node test/no-dangerous-html.test.mjs && node test/claim-safety-copy.test.mjs && node test/accessibility-metadata.test.mjs"
+    "test": "node test/scaffold.test.mjs && node test/auth-vertical.test.mjs && node test/security-headers.test.mjs && node test/dashboard-render.test.mjs && node test/adapter-escaping.test.mjs && node test/review-detail-render.test.mjs && node test/finding-record-render.test.mjs && node test/attestation-render.test.mjs && node test/no-dangerous-html.test.mjs && node test/claim-safety-copy.test.mjs && node test/accessibility-metadata.test.mjs"
   }
 }

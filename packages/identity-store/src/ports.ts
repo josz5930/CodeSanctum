@@ -55,9 +55,14 @@ export interface SessionStore {
   revokeAllForAccount(accountId: string, reason: RevocationReason): Promise<void>;
 }
 
+/**
+ * Counts failed logins per key. The key is a 64-character lowercase hex
+ * SHA-256; the host hashes the identifier together with the client network, so
+ * one client's failures do not lock the account for every other client.
+ */
 export interface LoginThrottle {
-  state(identifierHash: string, now: Date): Promise<"open" | "locked">;
-  record(identifierHash: string, outcome: "succeeded" | "failed"): Promise<void>;
+  state(throttleKey: string, now: Date): Promise<"open" | "locked">;
+  record(throttleKey: string, outcome: "succeeded" | "failed"): Promise<void>;
 }
 
 export type SubmissionCredential = {

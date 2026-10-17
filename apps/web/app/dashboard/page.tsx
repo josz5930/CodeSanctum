@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import type { StatusPillView, AppShellView } from "../../../../packages/ui/src/index.js";
 import { AppShell } from "../../components/AppShell.js";
 import { StatusPill } from "../../components/StatusPill.js";
@@ -14,7 +14,12 @@ type ReviewListView = { shell: AppShellView; reviews: StatusPillView[] };
  */
 export default async function DashboardPage() {
   const cookieStore = await cookies();
-  const result = await hostFetch({ path: "/web/reviews", cookie: cookieStore.toString() });
+  const headerStore = await headers();
+  const result = await hostFetch({
+    path: "/web/reviews",
+    cookie: cookieStore.toString(),
+    forwardedFor: headerStore.get("x-forwarded-for")
+  });
   if (isSessionExpired(result)) {
     return <SessionExpiredPage />;
   }

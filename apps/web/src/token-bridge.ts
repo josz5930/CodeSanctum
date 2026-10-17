@@ -57,6 +57,11 @@ export function codeAttestTokenStyle(): CSSProperties {
   } as CSSProperties;
 }
 
+export function codeAttestTokenCss(): string {
+  const declarations = Object.entries(codeAttestTokenStyle()).map(([name, value]) => `${name}:${String(value)}`);
+  return `:root{${declarations.join(";")}}`;
+}
+
 export function reducedMotionCss(): string {
   return `@media ${codeAttestDesignTokens.motion.prefersReducedMotionMediaQuery}{*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}}`;
 }

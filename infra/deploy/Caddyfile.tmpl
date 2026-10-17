@@ -1,8 +1,37 @@
+# Security headers on every response. `defer` applies them when the response
+# is written, so they replace any value an upstream sent instead of adding a
+# second copy. The page Content-Security-Policy is not set here: Next.js sends
+# a per-request nonce policy (apps/web/proxy.ts) that Caddy must not replace.
+(security_headers) {
+	header {
+		defer
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		Cross-Origin-Opener-Policy "same-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		-Server
+		-X-Powered-By
+	}
+}
+
+# The host answers with JSON only, so its responses may load and frame nothing.
+(host_csp) {
+	header Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+}
+
+# reverse_proxy trusts no incoming X-Forwarded-For (no trusted_proxies), so it
+# sends each upstream the real client address. The host and the web app trust
+# that header from loopback only, for per-client rate limits and lockout.
+
 {$CODEATTEST_DEMO_HOSTNAME} {
 	encode zstd gzip
+	import security_headers
 
 	@demo_host path /healthz /readyz /v0/* /web/*
 	handle @demo_host {
+		import host_csp
 		reverse_proxy 127.0.0.1:8080
 	}
 
@@ -13,9 +42,11 @@
 
 {$CODEATTEST_PILOT_HOSTNAME} {
 	encode zstd gzip
+	import security_headers
 
 	@pilot_host path /healthz /readyz /v0/* /web/*
 	handle @pilot_host {
+		import host_csp
 		reverse_proxy 127.0.0.1:8081
 	}
 

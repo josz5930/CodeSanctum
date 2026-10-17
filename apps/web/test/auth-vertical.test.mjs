@@ -49,6 +49,16 @@ const { hostFetch } = await importCompiled("lib/host-fetch.js");
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, `${HOST}/web/context`);
   assert.equal(headerValue(calls[0].init, "cookie"), SESSION_COOKIE);
+  assert.equal(headerValue(calls[0].init, "x-forwarded-for"), null, "no client address means no header");
+}
+
+// The host trusts X-Forwarded-For from loopback, so the web app must pass on
+// the client address that Caddy set; otherwise every browser is 127.0.0.1 to
+// the host's rate limit and login lockout.
+{
+  const { calls, fetchImpl } = mockFetch(200, { body: "{}" });
+  await hostFetch({ path: "/web/reviews", forwardedFor: "198.51.100.7", fetchImpl, env });
+  assert.equal(headerValue(calls[0].init, "x-forwarded-for"), "198.51.100.7");
 }
 
 {
@@ -111,9 +121,12 @@ assert.match(loginHtml, /name="secret"/);
   form.set("secret", "s3cret");
   const loginResponse = await createLoginPostHandler({ fetchImpl, env })(new Request("http://127.0.0.1:3000/session/login", {
     method: "POST",
+    headers: { "x-forwarded-for": "198.51.100.7" },
     body: form
   }));
   assert.equal(loginResponse.headers.get("location"), "/");
+  assert.equal(headerValue(calls[1].init, "x-forwarded-for"), "198.51.100.7",
+    "the login lockout must count the browser's address, not the web server's");
   assert.match(loginResponse.headers.getSetCookie().join("\n"), /HttpOnly/);
 }
 
@@ -123,10 +136,11 @@ assert.match(loginHtml, /name="secret"/);
   const POSTInjected = createLogoutPostHandler({ fetchImpl, env });
   const response = await POSTInjected(new Request("http://127.0.0.1:3000/logout", {
     method: "POST",
-    headers: { cookie: SESSION_COOKIE }
+    headers: { cookie: SESSION_COOKIE, "x-forwarded-for": "198.51.100.7" }
   }));
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, `${HOST}/v0/auth/logout`);
+  assert.equal(headerValue(calls[0].init, "x-forwarded-for"), "198.51.100.7");
   assert.equal(String(calls[0].init.method).toUpperCase(), "POST");
   assert.equal(headerValue(calls[0].init, "cookie"), SESSION_COOKIE);
   assert.equal(response.headers.get("location"), "/login");
@@ -180,9 +194,10 @@ assert.doesNotMatch(plainHtml, /role="alert"/);
   form.set("code", "123 456");
   const response = await createSecondFactorPostHandler({ fetchImpl, env })(new Request("http://127.0.0.1:3000/session/second-factor", {
     method: "POST",
-    headers: { cookie: SESSION_COOKIE },
+    headers: { cookie: SESSION_COOKIE, "x-forwarded-for": "198.51.100.7" },
     body: form
   }));
+  assert.equal(headerValue(calls[0].init, "x-forwarded-for"), "198.51.100.7");
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, `${HOST}/v0/auth/login/second-factor`);
   assert.equal(String(calls[0].init.method).toUpperCase(), "POST");

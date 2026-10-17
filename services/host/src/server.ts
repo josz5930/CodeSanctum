@@ -72,9 +72,16 @@ function hostLogger(logger: HostLoggerOption): boolean | FastifyLoggerOptions {
  * liveness and /readyz for readiness. Everything else legitimately 404s.
  * Logger defaults off; pass a stream to capture request logs. Cookie,
  * authorization, and set-cookie headers are dropped from those logs.
+ *
+ * The host listens on loopback only (config.ts refuses any other listen_addr),
+ * so every connection comes from Caddy or from the Next.js web app on the same
+ * machine. Both send the real client address in X-Forwarded-For. Trusting
+ * loopback peers makes `request.ip` that client address, so per-client limits
+ * count each client separately. A peer that is not on loopback is never
+ * trusted, so its X-Forwarded-For is ignored.
  */
 export function createServer(input: { isReady: () => boolean | Promise<boolean>; logger?: HostLoggerOption }): FastifyInstance {
-  const server = Fastify({ logger: hostLogger(input.logger ?? false) });
+  const server = Fastify({ logger: hostLogger(input.logger ?? false), trustProxy: "loopback" });
 
   registerMetricLogging(server);
 

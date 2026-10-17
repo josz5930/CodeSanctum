@@ -196,6 +196,14 @@ worker must be robust before the deletion canary runs.
       wired in `main.ts` at 600 req/min/IP over every business route; `/healthz`
       and `/readyz` exempt), swappable for `@fastify/rate-limit` behind a real
       edge. Verified by `test/rate-limit.test.mjs`.
+      Follow-up fix: behind Caddy the cap keyed every client as `127.0.0.1`,
+      because `trustProxy` was off and the web app called the host without the
+      client address. `createServer` now trusts loopback peers only, the web
+      app forwards the `X-Forwarded-For` that Caddy sets, and the cap counts per
+      client (an IPv6 client per /64). The login lockout now counts per
+      identifier and client network, so a stranger can no longer keep a known
+      account locked. Verified by `test/rate-limit.test.mjs` (now in the host
+      `test` script) and `test/auth-route.test.mjs`.
 - [X] `packages/signing/src/envelope.ts` (~line 71) reports
       `directory_version = 1` when the key directory is untrusted. Verification
       still fails closed, but the reported version is cosmetic and misleading —

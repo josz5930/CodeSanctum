@@ -175,9 +175,10 @@ async function main() {
   let ready = true;
   const readiness = createDatabaseReadiness({ sql: pool });
   const server = createServer({ isReady: async () => ready && (await readiness.isLive()), logger: true });
-  // C6: a dependency-free per-IP global cap in front of every business route
-  // (auth + submission + web). Loopback-only today; swap for @fastify/rate-limit
-  // with a shared store when Caddy fronts a real route (Section 2 §1).
+  // C6: a dependency-free per-client global cap in front of every business
+  // route (auth + submission + web). The client is the X-Forwarded-For address
+  // from Caddy or the web app (see createServer). Swap for @fastify/rate-limit
+  // with a shared store when the host runs as multiple replicas.
   registerRateLimit(server, { max: 600, windowMs: 60_000, errorEnvelope });
   // C3: the web review surface reads from a record store that has no live writer
   // yet. For the demo deployment, seed it from the shipped synthetic protocol

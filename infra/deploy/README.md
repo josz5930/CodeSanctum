@@ -43,6 +43,31 @@ are browser routes, so they reach Next.js, which forwards them to the host's
 `/v0/auth/*` routes as JSON. `scripts/check-deploy-templates.mjs` fails when a
 Next.js page, route handler, or form action falls under a host path matcher.
 
+### Client address
+
+Caddy sets no `trusted_proxies`, so it drops any `X-Forwarded-For` a client
+sends and gives each upstream the real client address. The host trusts
+`X-Forwarded-For` only from loopback peers (`trustProxy: "loopback"` in
+`services/host/src/server.ts`), and the web app forwards the header on every
+call it makes to the host. So the host's global request cap and its login
+lockout count each client (an IPv6 client per /64), not one shared
+`127.0.0.1`. The lockout counts per identifier and client network, so a
+stranger who knows a username cannot keep that account locked. Do not add
+`trusted_proxies` or rewrite `X-Forwarded-For` unless another trusted proxy
+sits in front of Caddy; the template check fails on either.
+
+### Security headers
+
+Both sites import the `security_headers` snippet: HSTS (one year,
+subdomains), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`,
+`Referrer-Policy: no-referrer`, `Cross-Origin-Opener-Policy`, and
+`Permissions-Policy`, deferred so they replace any upstream copy. Host routes
+add a Content-Security-Policy that loads and frames nothing. Next.js pages get
+a per-request nonce policy (with `frame-ancestors 'none'`) from
+`apps/web/proxy.ts`; Caddy must not set a page CSP, because it would replace
+that nonce and block the app's scripts. The template check enforces all of
+this.
+
 Caddy is the supported default. An nginx alternative must preserve the exact
 path/upstream split, loopback-only upstreams, independent hostnames, TLS
 renewal, request-size behavior, and secret-header posture. If an operator

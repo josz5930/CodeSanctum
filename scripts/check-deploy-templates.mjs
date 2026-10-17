@@ -141,6 +141,58 @@ async function verifyWebRouting(root, caddyfile, failures) {
   }
 }
 
+function caddySnippet(caddyfile, name) {
+  const start = caddyfile.search(new RegExp(`^\\(${name}\\) \\{$`, "m"));
+  if (start === -1) {
+    return undefined;
+  }
+  const end = caddyfile.indexOf("\n}\n", start);
+  return end === -1 ? undefined : caddyfile.slice(start, end);
+}
+
+/**
+ * Both sites must send the security headers, and the host routes must send a
+ * policy that frames and loads nothing. The shared snippet must not set a
+ * Content-Security-Policy, because that would replace the per-request nonce
+ * policy from Next.js and break its scripts. Caddy must keep refusing a
+ * client's own X-Forwarded-For, because the host and the web app trust that
+ * header from loopback for per-client rate limits and the login lockout.
+ */
+function verifyCaddySecurityHeaders(caddyfile, failures) {
+  const shared = caddySnippet(caddyfile, "security_headers");
+  if (shared === undefined) {
+    failures.push("Caddyfile has no (security_headers) snippet");
+  } else {
+    requireMatch(shared, /^\s*defer$/m, "security headers must be deferred so they replace upstream copies", failures);
+    const hstsMaxAge = Number(shared.match(/Strict-Transport-Security "max-age=(\d+)/)?.[1] ?? 0);
+    if (hstsMaxAge < 31536000) {
+      failures.push("HSTS max-age must be at least one year");
+    }
+    requireMatch(shared, /X-Content-Type-Options "nosniff"/, "security headers lack X-Content-Type-Options nosniff", failures);
+    requireMatch(shared, /X-Frame-Options "DENY"/, "security headers lack X-Frame-Options DENY", failures);
+    requireMatch(shared, /Referrer-Policy "/, "security headers lack Referrer-Policy", failures);
+    if (/Content-Security-Policy/i.test(shared)) {
+      failures.push("the shared security headers must not set Content-Security-Policy; Next.js sends a nonce policy");
+    }
+  }
+  const hostCsp = caddySnippet(caddyfile, "host_csp");
+  if (hostCsp === undefined) {
+    failures.push("Caddyfile has no (host_csp) snippet");
+  } else {
+    requireMatch(hostCsp, /Content-Security-Policy "default-src 'none';[^"]*frame-ancestors 'none'/, "host CSP must load and frame nothing", failures);
+  }
+  if ((caddyfile.match(/^\s*import security_headers$/gm) ?? []).length !== 2) {
+    failures.push("both Caddy sites must import security_headers");
+  }
+  if ((caddyfile.match(/^\t\timport host_csp$/gm) ?? []).length !== 2) {
+    failures.push("both Caddy host handlers must import host_csp");
+  }
+  const directives = caddyfile.replace(/^\s*#.*$/gm, "");
+  if (/trusted_proxies|header_up\s+[+-]?X-Forwarded-For/i.test(directives)) {
+    failures.push("Caddy must not trust or rewrite a client's X-Forwarded-For");
+  }
+}
+
 export async function checkDeployTemplates(root = repoRoot) {
   const names = [
     "codeattest-demo.service.tmpl",
@@ -185,6 +237,7 @@ export async function checkDeployTemplates(root = repoRoot) {
     failures.push("Caddyfile must contain exactly two TLS hostname site blocks");
   }
 
+  verifyCaddySecurityHeaders(caddyfile, failures);
   await verifyWebRouting(root, caddyfile, failures);
 
   const toolStatus = [await verifySystemd(files, failures), await verifyCaddy(caddyfile, failures)];

@@ -16,6 +16,7 @@ import {
   type SessionStore
 } from "../../../../packages/identity-store/src/index.js";
 import { readSessionCookie, serializeSessionCookie } from "../auth/cookie.js";
+import { clientNetworkKey } from "../client-network.js";
 import type { ErrorEnvelopeBody } from "../error-envelope.js";
 
 const SESSION_COOKIE_MAX_AGE_SECONDS = SESSION_ABSOLUTE_LIFETIME_MS / 1000;
@@ -35,8 +36,20 @@ function clock(deps: AuthRouteDeps): Date {
   return deps.now === undefined ? new Date() : deps.now();
 }
 
-function identifierHashFor(identifier: string): string {
-  return createHash("sha256").update(identifier, "utf8").digest("hex");
+/**
+ * The login throttle counts failures per identifier AND per client network.
+ * With the identifier alone, anyone who knows a username could keep that
+ * account locked for good by sending a few wrong passwords every window. A
+ * client that guesses wrong locks that identifier only for its own network; the
+ * account owner on another network can still sign in. Each network still gets
+ * only LOGIN_LOCKOUT_THRESHOLD wrong tries per identifier per window.
+ */
+function throttleKeyFor(identifier: string, request: FastifyRequest): string {
+  return createHash("sha256")
+    .update(identifier, "utf8")
+    .update("\0", "utf8")
+    .update(clientNetworkKey(request.ip), "utf8")
+    .digest("hex");
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -109,22 +122,22 @@ export async function registerAuthRoutes(server: FastifyInstance, deps: AuthRout
       return requestInvalid(deps, reply);
     }
     const identifier = request.body.identifier.toLowerCase();
-    const identifierHash = identifierHashFor(identifier);
+    const throttleKey = throttleKeyFor(identifier, request);
     const now = clock(deps);
 
-    if ((await deps.throttle.state(identifierHash, now)) === "locked") {
-      await deps.throttle.record(identifierHash, "failed");
+    if ((await deps.throttle.state(throttleKey, now)) === "locked") {
+      await deps.throttle.record(throttleKey, "failed");
       return credentialsInvalid(deps, reply);
     }
 
     const account = await deps.accounts.findByIdentifier(identifier);
     const secretOk = verifySecret(account?.secret_hash ?? DUMMY_SECRET_HASH, request.body.secret);
     if (account === undefined || !secretOk) {
-      await deps.throttle.record(identifierHash, "failed");
+      await deps.throttle.record(throttleKey, "failed");
       return credentialsInvalid(deps, reply);
     }
 
-    await deps.throttle.record(identifierHash, "succeeded");
+    await deps.throttle.record(throttleKey, "succeeded");
     const totpEnrolled = account.totp_secret_box !== null;
     await attachSessionCookie(deps, reply, {
       accountId: account.account_id,
@@ -154,9 +167,9 @@ export async function registerAuthRoutes(server: FastifyInstance, deps: AuthRout
     if (account === undefined || account.totp_secret_box === null) {
       return credentialsInvalid(deps, reply);
     }
-    const identifierHash = identifierHashFor(account.identifier);
-    if ((await deps.throttle.state(identifierHash, now)) === "locked") {
-      await deps.throttle.record(identifierHash, "failed");
+    const throttleKey = throttleKeyFor(account.identifier, request);
+    if ((await deps.throttle.state(throttleKey, now)) === "locked") {
+      await deps.throttle.record(throttleKey, "failed");
       return credentialsInvalid(deps, reply);
     }
     const secret = openTotpSecret(account.totp_secret_box, deps.totpKey);
@@ -166,11 +179,11 @@ export async function registerAuthRoutes(server: FastifyInstance, deps: AuthRout
     // learn which codes were valid.
     const codeOk = step !== undefined && (await deps.accounts.claimTotpStep(account.account_id, step)) === "claimed";
     if (!codeOk) {
-      await deps.throttle.record(identifierHash, "failed");
+      await deps.throttle.record(throttleKey, "failed");
       return credentialsInvalid(deps, reply);
     }
 
-    await deps.throttle.record(identifierHash, "succeeded");
+    await deps.throttle.record(throttleKey, "succeeded");
     await attachSessionCookie(deps, reply, {
       accountId: account.account_id,
       secondFactorState: "satisfied",

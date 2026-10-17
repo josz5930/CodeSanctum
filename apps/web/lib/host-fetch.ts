@@ -24,6 +24,12 @@ export type HostFetchRequest = HostFetchDeps & {
   path: string;
   method?: string;
   cookie?: string;
+  /**
+   * The incoming X-Forwarded-For header (set by Caddy to the real client
+   * address). The host trusts it only from loopback, so per-client rate limits
+   * and the login lockout count the browser's client, not this server.
+   */
+  forwardedFor?: string | null;
   body?: unknown;
 };
 
@@ -53,8 +59,9 @@ export function isSessionExpired(result: HostFetchResult): result is SessionExpi
 }
 
 /**
- * Forwards the incoming Cookie header to this deployment's host. A 401
- * becomes `{ kind: "session-expired" }` instead of a thrown status.
+ * Forwards the incoming Cookie and X-Forwarded-For headers to this
+ * deployment's host. A 401 becomes `{ kind: "session-expired" }` instead of a
+ * thrown status.
  */
 export async function hostFetch(request: HostFetchRequest): Promise<HostFetchResult> {
   assertServerOnly();
@@ -63,6 +70,9 @@ export async function hostFetch(request: HostFetchRequest): Promise<HostFetchRes
   const headers = new Headers();
   if (request.cookie !== undefined && request.cookie.length > 0) {
     headers.set("cookie", request.cookie);
+  }
+  if (typeof request.forwardedFor === "string" && request.forwardedFor.length > 0) {
+    headers.set("x-forwarded-for", request.forwardedFor);
   }
   const init: RequestInit = {
     method: request.method ?? "GET",

@@ -56,6 +56,28 @@ assert.equal(lockedOut.json().reason_code, "auth_credentials_invalid",
   "a locked account must not announce that it is locked");
 assert.equal(lockedOut.headers["set-cookie"], undefined, "the correct password must not open a locked identifier");
 
+// The lockout counts per identifier AND client network. A stranger who knows
+// the username locks it only for their own network; the owner, on another
+// network behind the same proxy, can still sign in.
+const attacker = { "x-forwarded-for": "198.51.100.66" };
+const owner = { "x-forwarded-for": "192.0.2.10" };
+for (let attempt = 0; attempt < 5; attempt += 1) {
+  await server.inject({
+    method: "POST", url: "/v0/auth/login", headers: attacker,
+    payload: { identifier: SEEDED.customer.identifier, secret: "wrong" }
+  });
+}
+const attackerWithPassword = await server.inject({
+  method: "POST", url: "/v0/auth/login", headers: attacker,
+  payload: { identifier: SEEDED.customer.identifier, secret: SEEDED.customer.password }
+});
+assert.equal(attackerWithPassword.statusCode, 401, "the network that made the failures stays locked");
+const ownerLogin = await server.inject({
+  method: "POST", url: "/v0/auth/login", headers: owner,
+  payload: { identifier: SEEDED.customer.identifier, secret: SEEDED.customer.password }
+});
+assert.equal(ownerLogin.statusCode, 204, "failures from one network must not lock the account for another network");
+
 // --- second factor ------------------------------------------------------------
 const reviewer = await server.inject({
   method: "POST", url: "/v0/auth/login",

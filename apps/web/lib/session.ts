@@ -6,12 +6,14 @@ export { isSessionExpired } from "./host-fetch.js";
 export async function loginToHost(input: {
   identifier: string;
   secret: string;
+  forwardedFor?: string | null;
   fetchImpl?: FetchLike;
   env?: NodeJS.ProcessEnv;
 }): Promise<HostFetchResult> {
   return hostFetch({
     path: "/v0/auth/login",
     method: "POST",
+    forwardedFor: input.forwardedFor ?? null,
     body: { identifier: input.identifier, secret: input.secret },
     ...(input.fetchImpl !== undefined ? { fetchImpl: input.fetchImpl } : {}),
     ...(input.env !== undefined ? { env: input.env } : {})
@@ -21,6 +23,7 @@ export async function loginToHost(input: {
 export async function secondFactorToHost(input: {
   cookie: string;
   code: string;
+  forwardedFor?: string | null;
   fetchImpl?: FetchLike;
   env?: NodeJS.ProcessEnv;
 }): Promise<HostFetchResult> {
@@ -28,6 +31,7 @@ export async function secondFactorToHost(input: {
     path: "/v0/auth/login/second-factor",
     method: "POST",
     cookie: input.cookie,
+    forwardedFor: input.forwardedFor ?? null,
     body: { code: input.code },
     ...(input.fetchImpl !== undefined ? { fetchImpl: input.fetchImpl } : {}),
     ...(input.env !== undefined ? { env: input.env } : {})
@@ -36,12 +40,14 @@ export async function secondFactorToHost(input: {
 
 export async function logoutFromHost(input: {
   cookie?: string;
+  forwardedFor?: string | null;
   fetchImpl?: FetchLike;
   env?: NodeJS.ProcessEnv;
 }): Promise<HostFetchResult> {
   return hostFetch({
     path: "/v0/auth/logout",
     method: "POST",
+    forwardedFor: input.forwardedFor ?? null,
     ...(input.cookie !== undefined ? { cookie: input.cookie } : {}),
     ...(input.fetchImpl !== undefined ? { fetchImpl: input.fetchImpl } : {}),
     ...(input.env !== undefined ? { env: input.env } : {})
@@ -65,6 +71,7 @@ export function createLoginPostHandler(deps: HostFetchDeps = {}) {
     const result = await loginToHost({
       identifier: String(formData.get("identifier") ?? ""),
       secret: String(formData.get("secret") ?? ""),
+      forwardedFor: request.headers.get("x-forwarded-for"),
       ...(deps.fetchImpl !== undefined ? { fetchImpl: deps.fetchImpl } : {}),
       ...(deps.env !== undefined ? { env: deps.env } : {})
     });
@@ -92,6 +99,7 @@ export function createSecondFactorPostHandler(deps: HostFetchDeps = {}) {
     const result = await secondFactorToHost({
       cookie: cookieHeader,
       code,
+      forwardedFor: request.headers.get("x-forwarded-for"),
       ...(deps.fetchImpl !== undefined ? { fetchImpl: deps.fetchImpl } : {}),
       ...(deps.env !== undefined ? { env: deps.env } : {})
     });
@@ -110,6 +118,7 @@ export function createLogoutPostHandler(deps: HostFetchDeps = {}) {
     const cookieHeader = request.headers.get("cookie");
     const result = await logoutFromHost({
       ...(cookieHeader !== null && cookieHeader.length > 0 ? { cookie: cookieHeader } : {}),
+      forwardedFor: request.headers.get("x-forwarded-for"),
       ...(deps.fetchImpl !== undefined ? { fetchImpl: deps.fetchImpl } : {}),
       ...(deps.env !== undefined ? { env: deps.env } : {})
     });

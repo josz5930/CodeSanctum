@@ -1,21 +1,22 @@
 import type { FastifyInstance } from "fastify";
 
+import { clientNetworkKey } from "./client-network.js";
 import type { ErrorEnvelopeBody } from "./error-envelope.js";
 
 /**
- * A dependency-free per-IP global request cap (C6). Today the only throttle is
- * the per-identifier login throttle in `routes/auth.ts`; nothing bounds raw
- * request volume from a single client. This is acceptable while the host is
- * loopback-only, but it must exist before Caddy fronts a real route
- * (Section 2 §1). It is a fixed-window counter — deliberately small and
- * in-process — meant to be swapped for `@fastify/rate-limit` (with a shared
- * store) once the host runs behind a real edge and multiple replicas.
+ * A dependency-free per-client global request cap (C6). The client is
+ * `request.ip`, which `createServer` resolves through the loopback proxies
+ * (Caddy and the Next.js web app) to the real client address; an IPv6 client
+ * counts as its /64 (see `clientNetworkKey`). It is a fixed-window counter —
+ * deliberately small and in-process — meant to be swapped for
+ * `@fastify/rate-limit` (with a shared store) once the host runs as multiple
+ * replicas.
  *
  * Liveness/readiness probes are exempt: an upstream health checker polling
  * `/healthz` / `/readyz` must never be throttled into reporting the host down.
  */
 export type RateLimitOptions = {
-  /** Max requests per window per client IP. */
+  /** Max requests per window per client network. */
   max: number;
   /** Window length in milliseconds. */
   windowMs: number;
@@ -38,7 +39,7 @@ export function registerRateLimit(server: FastifyInstance, options: RateLimitOpt
     if (exempt.has(route)) {
       return;
     }
-    const key = request.ip;
+    const key = clientNetworkKey(request.ip);
     const current = now();
     let window = windows.get(key);
     if (window === undefined || current >= window.resetAt) {

@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import type {
   AppShellView,
   AttestationBuilderViewContract,
@@ -31,9 +31,11 @@ type AttestationPageView = {
 export default async function AttestationPage({ params }: { params: Promise<{ scope: string }> }) {
   const { scope } = await params;
   const cookieStore = await cookies();
+  const headerStore = await headers();
   const result = await hostFetch({
     path: `/web/reviews/${encodeURIComponent(scope)}/attestation`,
-    cookie: cookieStore.toString()
+    cookie: cookieStore.toString(),
+    forwardedFor: headerStore.get("x-forwarded-for")
   });
   if (isSessionExpired(result) || result.status !== 200) {
     return <SessionExpiredPage />;
