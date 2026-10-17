@@ -1,0 +1,18 @@
+[Unit]
+Description=CodeAttest %i retention expiry run
+After=network-online.target postgresql.service codeattest-%i.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=codeattest-%i
+Group=codeattest-%i
+WorkingDirectory=/opt/codeattest/%i/current
+Environment=CREDENTIALS_DIRECTORY=%d
+ExecStart=/usr/bin/node /opt/codeattest/%i/current/services/host/dist/services/host/src/worker/main.js retention /etc/codeattest/%i-host.json
+TimeoutStartSec=15min
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/codeattest/%i

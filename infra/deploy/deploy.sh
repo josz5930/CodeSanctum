@@ -31,6 +31,9 @@ release_dir="$releases_dir/$release_id"
 candidate_link="$identity_root/.current-$release_id"
 host_unit="codeattest-$identity.service"
 web_unit="codeattest-$identity-web.service"
+worker_unit="codeattest-worker@$identity.service"
+retention_timer="codeattest-retention@$identity.timer"
+checkpoint_timer="codeattest-checkpoint@$identity.timer"
 health_port=8080
 if [ "$identity" = pilot ]; then
   health_port=8081
@@ -123,7 +126,7 @@ rollback_failed_deploy() {
     ln -s "$previous_release" "$failed_link"
     mv -Tf "$failed_link" "$current_link"
     ln -sfn "$current_link/apps/web" "$web_link"
-    systemctl restart "$host_unit" "$web_unit" || true
+    systemctl restart "$host_unit" "$web_unit" "$worker_unit" || true
     echo "readiness failed; restored $previous_release" >&2
   fi
   exit "$exit_status"
@@ -166,15 +169,20 @@ install -m 0644 "$source_root/infra/deploy/codeattest-$identity.service.tmpl" "$
 install -m 0644 "$source_root/infra/deploy/codeattest-$identity-web.service.tmpl" "$systemd_dir/$web_unit"
 install -m 0644 "$source_root/infra/deploy/observability.service.tmpl" "$systemd_dir/codeattest-observability@.service"
 install -m 0644 "$source_root/infra/deploy/observability.timer.tmpl" "$systemd_dir/codeattest-observability@.timer"
+install -m 0644 "$source_root/infra/deploy/worker.service.tmpl" "$systemd_dir/codeattest-worker@.service"
+install -m 0644 "$source_root/infra/deploy/retention.service.tmpl" "$systemd_dir/codeattest-retention@.service"
+install -m 0644 "$source_root/infra/deploy/retention.timer.tmpl" "$systemd_dir/codeattest-retention@.timer"
+install -m 0644 "$source_root/infra/deploy/checkpoint.service.tmpl" "$systemd_dir/codeattest-checkpoint@.service"
+install -m 0644 "$source_root/infra/deploy/checkpoint.timer.tmpl" "$systemd_dir/codeattest-checkpoint@.timer"
 install -d -o root -g root -m 0755 /usr/local/lib/codeattest
 install -o root -g root -m 0755 "$source_root/scripts/check-observability.mjs" /usr/local/lib/codeattest/check-observability.mjs
 install -d -m 0755 "$caddy_dir"
 install -m 0644 "$source_root/infra/deploy/Caddyfile.tmpl" "$caddy_dir/Caddyfile"
 
 systemctl daemon-reload
-systemctl enable "$host_unit" "$web_unit" "codeattest-observability@$identity.timer"
-systemctl restart "$host_unit" "$web_unit"
-systemctl restart "codeattest-observability@$identity.timer"
+systemctl enable "$host_unit" "$web_unit" "$worker_unit" "codeattest-observability@$identity.timer" "$retention_timer" "$checkpoint_timer"
+systemctl restart "$host_unit" "$web_unit" "$worker_unit"
+systemctl restart "codeattest-observability@$identity.timer" "$retention_timer" "$checkpoint_timer"
 systemctl reload caddy.service
 
 attempt=1

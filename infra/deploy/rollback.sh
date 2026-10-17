@@ -19,6 +19,7 @@ previous_link="$identity_root/previous"
 web_link="$identity_root/web"
 host_unit="codeattest-$identity.service"
 web_unit="codeattest-$identity-web.service"
+worker_unit="codeattest-worker@$identity.service"
 health_port=8080
 if [ "$identity" = pilot ]; then
   health_port=8081
@@ -58,7 +59,7 @@ mv -Tf "$next_previous" "$previous_link"
 ln -sfn "$current_link/apps/web" "$web_link"
 
 systemctl daemon-reload
-systemctl restart "$host_unit" "$web_unit"
+systemctl restart "$host_unit" "$web_unit" "$worker_unit"
 
 attempt=1
 attempts=${CODEATTEST_HEALTH_ATTEMPTS:-30}

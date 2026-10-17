@@ -184,6 +184,8 @@ worker must be robust before the deletion canary runs.
       Verified by `test/retention-expiry.test.mjs`: a throwing `artifacts.delete`
       yields `processed: 0`, reports the job in `failed`, does not throw, and the
       job is re-claimable on the next pass.
+- [X] **Follow-up (P2):** now run hourly by `codeattest-retention@<identity>.timer`
+      (see C10).
 
 ## C6. Lower-priority hardening — [CODE] — low
 
@@ -257,6 +259,16 @@ verification code is agent work.
       never-published, tampered, or mismatched record verifies false with a
       reason; and an anchor returning no reference is rejected rather than
       reported published.
+- [X] **Follow-up (P2):** the library code above had no caller. The
+      `codeattest-checkpoint@<identity>.timer` now runs it hourly through
+      `services/host/src/worker/main.js checkpoint` with an HTTPS anchor adapter
+      (`services/host/src/worker/transparency.ts`), records each publication in
+      `transparency_checkpoint_publication` and the covered heads in
+      `chain_head_anchor` (migration 0007), and re-reads the last publication
+      when nothing changed. Without `transparency_anchor` in the config the run
+      exits non-zero. Verified by `test/worker-transparency.test.mjs`,
+      `test/worker-postgres.test.mjs`, and `test/worker-process.test.mjs`,
+      which runs the real worker process against Postgres and a stub anchor.
 
 ## C9. Draft partner-facing disclosure, retention, deletion, incident, and consent docs — [REPO] — medium — ⟳ human-in-the-loop
 
@@ -282,6 +294,37 @@ until the legal/privacy approval in Section 2 §8.
 > when Cargo is missing is wired and confirmed (2026-08-29). Installing the pinned
 > toolchain in the *permanent* CI environment is the remaining human/infra half —
 > see Section 2 §6.
+
+## C10. Run the queued and scheduled work — [CODE] — high
+
+The submission route enqueued `normalize_scanner_findings` jobs, but no process
+took them off the queue; retention expiry (C5) and checkpoint publication (C8)
+existed only as library code.
+
+- [X] The host now persists the signed Vendor Receipt at finalize
+      (`submission_vendor_receipt`); before, only its id was kept, so nothing
+      could later verify it or normalize against it. A replayed finalize
+      re-enqueues normalization in case a crash came between the outcome and
+      the first enqueue.
+- [X] `codeattest-worker@<identity>.service` drains the queue: it verifies the
+      stored receipt with a verifier built from the key directory (no private
+      key), reads the review scope and scanner finding set through logged
+      access as `vendor_service:codeattest-worker`, runs
+      `normalizeCandidateFindings`, stores the draft set as an encrypted object,
+      and records one `finding_normalization_outcome` row. Permanent failures
+      are recorded as rejected with a reason; transient ones are retried, up to
+      five claims. Claims older than 15 minutes (a dead worker) are released by
+      `releaseStaleJobClaims`.
+- [X] `codeattest-retention@<identity>.timer` runs catch-up and the purge
+      hourly; catch-up skips records whose digests already have verified expiry
+      deletion evidence, so a purge is not repeated every hour.
+- [X] **Acceptance:** `test/worker-normalize.test.mjs`,
+      `test/worker-postgres.test.mjs`, and `test/worker-process.test.mjs` (a
+      real submission is normalized by the compiled worker process, which then
+      stops cleanly on SIGTERM); `scripts/check-deploy-templates.mjs` checks the
+      units.
+- [ ] Nothing yet reads the draft sets: the reviewer workflow over HTTP and in
+      the UI is a separate item (P3).
 
 ---
 

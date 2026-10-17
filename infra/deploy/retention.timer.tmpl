@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the CodeAttest %i retention expiry every hour
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=1h
+RandomizedDelaySec=5min
+Persistent=true
+Unit=codeattest-retention@%i.service
+
+[Install]
+WantedBy=timers.target

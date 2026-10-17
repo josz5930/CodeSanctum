@@ -75,6 +75,29 @@ chooses nginx, they own its certificate automation and must add an equivalent
 validation check before deploying it; this repository intentionally ships no
 second proxy template.
 
+## Background worker
+
+The host build ships a second entrypoint,
+`services/host/dist/services/host/src/worker/main.js`, run by three templated
+units per identity. All three use the host config, run as
+`codeattest-<identity>`, and load neither the signing key nor the TOTP key: the
+worker checks receipt signatures against the trust-anchor-signed key directory
+and never signs anything. Each boots through the host's checks (migration head,
+environment gate, object store, grant self-test) plus a key-directory check, and
+stops if one fails.
+
+| Unit | Command | What it does |
+| --- | --- | --- |
+| `codeattest-worker@<identity>.service` | `run` | Long-running. Every 5 seconds it returns claims older than 15 minutes to the queue and drains `normalize_scanner_findings`: it verifies the stored receipt, reads the review scope and scanner finding set through logged access, runs the pure normalizer from `services/worker`, stores the draft set as an encrypted object, and records one `finding_normalization_outcome` row. A job that fails five times is recorded as rejected. |
+| `codeattest-retention@<identity>.timer` | `retention` | Hourly. Enqueues purges for retention records whose period ended (skipping ones already purged) and runs them. A failed purge stays queued and makes the run exit non-zero. |
+| `codeattest-checkpoint@<identity>.timer` | `checkpoint` | Hourly. Computes the transparency checkpoint over every review head, publishes it to the off-box anchor, reads it back, and records it with the covered heads in `chain_head_anchor`. If nothing changed it re-reads the last publication instead, so a changed or lost anchor record is caught. |
+
+The checkpoint unit fails closed until the anchor exists (Section 2 §7 of the
+production-readiness guide): it needs `transparency_anchor` in the host config,
+`{"base_url": "https://…", "token_credential": "<identity>-anchor-token"}`, and
+the token at `/etc/codeattest/<identity>/anchor-token`. Until then the unit
+shows as failed every hour, which is the intended signal, not noise.
+
 ## Deploy and rollback
 
 From the repository root:
@@ -99,7 +122,7 @@ retained through the `previous` symlink. A failed readiness gate restores it
 automatically.
 
 An explicit rollback verifies the retained runner release before it swaps
-`current` and `previous`, restarts host and web, and requires readiness:
+`current` and `previous`, restarts host, web, and worker, and requires readiness:
 
 ```sh
 sudo infra/deploy/rollback.sh demo

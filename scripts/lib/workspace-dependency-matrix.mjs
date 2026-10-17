@@ -14,7 +14,10 @@ export const ALLOWED_DIRECT_ONEVPS_TARGETS = {
     "@onevps/intake-service",
     "@onevps/protocol-ts",
     "@onevps/signing",
-    "@onevps/ui"
+    "@onevps/ui",
+    // The worker entrypoint (services/host/src/worker/) runs the pure
+    // normalization from services/worker against the host's stores.
+    "@onevps/worker-service"
   ]),
   "@onevps/web": new Set([
     "@onevps/protocol-ts",

@@ -144,6 +144,13 @@ Demo uses `/var/lib/codeattest/demo/objects` and its engineered budget values.
 Pilot uses the no-op meter automatically. Set both files to root-owned mode
 `0600`; `deploy.sh` refuses any other mode.
 
+When the off-box transparency anchor exists (production-readiness guide,
+Section 2 §7), add `"transparency_anchor": {"base_url": "https://…",
+"token_credential": "<identity>-anchor-token"}` to each config and store the
+bearer token at `/etc/codeattest/<identity>/anchor-token` (root-owned, mode
+`0400`). The `codeattest-checkpoint@<identity>` unit loads it; until it exists
+that unit fails every hour by design.
+
 ```sh
 sudo chown codeattest-demo:codeattest-demo /etc/codeattest/demo-host.json
 sudo chown codeattest-pilot:codeattest-pilot /etc/codeattest/pilot-host.json

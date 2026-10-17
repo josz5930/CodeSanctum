@@ -93,6 +93,14 @@ const retention = {
   assert.equal(processed.processed, 1);
   const access = { decision: "allowed", event: makeLifecycleEvent({ review_id: "review:synthetic_demo_expiry" }) };
   assert.equal((await artifacts.get({ access, digest: DIGEST })).outcome, "not_found");
+
+  // listDue keeps returning a record after its purge. A scheduled run that
+  // passes the artifact store must not enqueue the same purge again.
+  const digestRecords = createMemoryRetentionRecordStore();
+  await digestRecords.record({ ...retention, retained_artifact_refs: [DIGEST] });
+  assert.deepEqual(await catchUpRetentionExpiry({ jobs, retentionRecords: digestRecords, now: NOW, artifacts }), { enqueued: 0, already_purged: 1 });
+  assert.equal((await catchUpRetentionExpiry({ jobs, retentionRecords: digestRecords, now: NOW })).enqueued, 1,
+    "without the artifact store, catch-up cannot tell and enqueues as before");
 }
 
 {

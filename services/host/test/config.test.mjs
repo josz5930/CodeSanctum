@@ -210,4 +210,30 @@ for (const demo_budget_meter of [
   await assert.rejects(() => loadConfig(file), ConfigError);
 }
 
+
+// The optional transparency anchor: https (or a loopback http stub), a bare
+// credential name for the token, and nothing else.
+{
+  const dir = await mkdtemp(path.join(tmpdir(), "onevps-host-config-"));
+  const anchor = { base_url: "https://anchor.example.invalid/codeattest/", token_credential: "pilot-anchor-token" };
+  const config = await loadConfig(await writeConfig(dir, { ...VALID, transparency_anchor: anchor }));
+  assert.deepEqual(config.transparency_anchor, { base_url: "https://anchor.example.invalid/codeattest", token_credential: "pilot-anchor-token" });
+
+  const stub = await loadConfig(await writeConfig(dir, { ...VALID, transparency_anchor: { ...anchor, base_url: "http://127.0.0.1:9900" } }));
+  assert.equal(stub.transparency_anchor.base_url, "http://127.0.0.1:9900");
+
+  for (const bad of [
+    { ...anchor, base_url: "http://anchor.example.invalid" },
+    { ...anchor, base_url: "https://user:pw@anchor.example.invalid" },
+    { ...anchor, base_url: "https://anchor.example.invalid/?token=x" },
+    { ...anchor, base_url: "not a url" },
+    { ...anchor, token_credential: "../etc/passwd" },
+    { ...anchor, extra: true },
+    "https://anchor.example.invalid"
+  ]) {
+    const file = await writeConfig(dir, { ...VALID, transparency_anchor: bad });
+    await assert.rejects(() => loadConfig(file), (error) => error instanceof ConfigError && /transparency_anchor/.test(error.message), JSON.stringify(bad));
+  }
+}
+
 console.log("config test passed.");

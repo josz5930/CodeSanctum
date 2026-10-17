@@ -12,6 +12,7 @@ import type { SubmissionCredentialStore } from "../submission/credential-store.j
 import type { BudgetMeter } from "../submission/budget-meter.js";
 import type { SubmissionArtifactReference } from "../submission/access.js";
 import type { SubmissionAttemptRecord, SubmissionAttemptStore } from "../submission/attempt-state.js";
+import type { VendorReceiptStore } from "../submission/receipt-store.js";
 import type { AppendSubmissionReviewEventInput, AppendSubmissionReviewEventResult } from "../submission/review-events.js";
 
 /**
@@ -22,6 +23,8 @@ import type { AppendSubmissionReviewEventInput, AppendSubmissionReviewEventResul
 export type SubmissionRouteDeps = {
   credentials: SubmissionCredentialStore;
   attempts: SubmissionAttemptStore;
+  /** The signed receipt each received finalize mints; the worker reads it back. */
+  receipts: VendorReceiptStore;
   artifacts: ArtifactStore;
   classifications: StoredObjectClassificationStore;
   reviewEventLog: ReviewEventLogStore;

@@ -163,7 +163,9 @@ when they disagree with the root `README.md`, `protocol/`, and workspace READMEs
   depend on the runner, apps, services, or packages. `packages/protocol-ts` has
   no `@onevps/*` dependencies. Other workspaces may depend on `@onevps/protocol-ts`
   only (import the barrel `packages/protocol-ts/src/index.js`), except
-  `@onevps/host`, which additionally depends on `@onevps/evidence-store`.
+  `@onevps/host`, the composition root, which also depends on the stores,
+  signing, control-plane, intake, and `@onevps/worker-service` (its worker
+  entrypoint runs the pure normalization against the stores).
   Enforced by `npm run lint:deps` and `npm run lint:workspace-boundaries`.
 - **Append-only history.** Audit-significant state is events and typed records.
   Corrections use `supersedes_event_id` or a higher-version record. Never

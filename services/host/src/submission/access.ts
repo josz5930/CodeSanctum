@@ -11,6 +11,19 @@ export type SubmissionArtifactReference = {
   source_derived_class: RetentionSourceDerivedClass;
 };
 
+export type AccessMinterOptions = {
+  /** Defaults to the intake service. The worker reads as itself. */
+  actorId?: string;
+  /** Defaults to `intake_verification`. */
+  purpose?: string;
+  /**
+   * Makes each read's idempotency key distinct from the intake's reads of the
+   * same artifact, and from this caller's earlier tries (a retried read has a
+   * new timestamp, so reusing a key would be a body conflict).
+   */
+  idempotencyScope?: string;
+};
+
 /**
  * Composes `enforceScopedAccess` (apps/control-plane's pure boundary) with
  * the persisted lifecycle log to mint an `AllowedAccess` for one artifact.
@@ -20,19 +33,22 @@ export type SubmissionArtifactReference = {
  * could omit. Composed in `services/host/` rather than the pure tier because
  * the pure tier never touches a store.
  */
-export function createSubmissionAccessMinter(evidenceLifecycleLog: EvidenceLifecycleLogStore, now: () => string) {
+export function createSubmissionAccessMinter(evidenceLifecycleLog: EvidenceLifecycleLogStore, now: () => string, options: AccessMinterOptions = {}) {
+  const actorId = options.actorId ?? "vendor_service:codeattest-intake";
+  const purpose = options.purpose ?? "intake_verification";
+  const scope = options.idempotencyScope === undefined ? "" : `${options.idempotencyScope}:`;
   return async function mintSubmissionAccess(
     attempt: SubmissionAttemptRecord,
     reference: SubmissionArtifactReference
   ): Promise<AllowedAccess | undefined> {
     const events = await evidenceLifecycleLog.loadLog(attempt.review_id);
-    const idempotencyKey = `evidence_accessed:${attempt.submission_attempt_id}:${reference.digest}`;
+    const idempotencyKey = `evidence_accessed:${scope}${attempt.submission_attempt_id}:${reference.digest}`;
     // `evidence_lifecycle_event.event_id` is `^evidence_event:[a-z0-9][a-z0-9_-]{2,63}$`,
     // not a sha256-prefixed digest -- unlike a ReviewEvent, this id is not a
     // content-addressed identity the append boundary recomputes.
     const eventId = `evidence_event:${createHash("sha256").update(idempotencyKey).digest("hex").slice(0, 32)}`;
     const result = enforceScopedAccess(events, {
-      actor: { actor_type: "vendor_service", actor_id: "vendor_service:codeattest-intake" },
+      actor: { actor_type: "vendor_service", actor_id: actorId },
       role: "codeattest_ops",
       tenant_id: attempt.tenant_id,
       review_scope: attempt.review_id,
@@ -45,7 +61,7 @@ export function createSubmissionAccessMinter(evidenceLifecycleLog: EvidenceLifec
       event_id: eventId,
       idempotency_key: idempotencyKey,
       event_timestamp: now(),
-      purpose: "intake_verification"
+      purpose
     });
     return result.decision === "allowed" ? { decision: "allowed", event: result.event } : undefined;
   };

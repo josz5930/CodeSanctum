@@ -15,6 +15,18 @@ export type DemoBudgetMeterConfig = {
   unit_per_billable_event: number;
 };
 
+/**
+ * The off-box transparency anchor (F-9, Section 2 §7). Optional so a host can
+ * boot before the anchor is provisioned; the checkpoint run fails closed
+ * without it.
+ */
+export type TransparencyAnchorConfig = {
+  /** HTTPS base URL; checkpoints are PUT to and read from `<base_url>/checkpoints/<id>`. */
+  base_url: string;
+  /** Credential file name (under CREDENTIALS_DIRECTORY) holding the bearer token. */
+  token_credential: string;
+};
+
 export type HostConfig = {
   deployment_identity: "demo" | "pilot";
   database_url: string;
@@ -27,6 +39,7 @@ export type HostConfig = {
   signing: HostSigningConfig;
   demo_budget: { spend_ratio: number };
   demo_budget_meter: DemoBudgetMeterConfig;
+  transparency_anchor?: TransparencyAnchorConfig;
 };
 
 const REQUIRED_KEYS = [
@@ -42,7 +55,7 @@ const REQUIRED_KEYS = [
 
 // Sub-project B: additive to A2's closed config. Optional and default closed
 // (no unknown keys), same discipline as the rest of this file.
-const OPTIONAL_KEYS = ["demo_budget", "demo_budget_meter", "object_store_envelope_key_ref"] as const;
+const OPTIONAL_KEYS = ["demo_budget", "demo_budget_meter", "object_store_envelope_key_ref", "transparency_anchor"] as const;
 const ALLOWED_KEYS: readonly string[] = [...REQUIRED_KEYS, ...OPTIONAL_KEYS];
 
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "::1", "[::1]"]);
@@ -92,6 +105,37 @@ function validateDemoBudgetMeter(value: unknown): DemoBudgetMeterConfig {
   return {
     monthly_unit_ceiling: monthlyUnitCeiling,
     unit_per_billable_event: unitPerBillableEvent
+  };
+}
+
+function validateTransparencyAnchor(value: unknown): TransparencyAnchorConfig {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new ConfigError('config key "transparency_anchor" must be an object');
+  }
+  const record = value as Record<string, unknown>;
+  const unknownKeys = Object.keys(record).filter((key) => key !== "base_url" && key !== "token_credential");
+  if (unknownKeys.length > 0) {
+    throw new ConfigError(`transparency_anchor has unknown keys: ${unknownKeys.join(", ")}`);
+  }
+  const baseUrl = requireNonEmptyString(record.base_url, "transparency_anchor.base_url");
+  let parsedUrl: URL;
+  try {
+    parsedUrl = new URL(baseUrl);
+  } catch {
+    throw new ConfigError("transparency_anchor.base_url must be a URL");
+  }
+  // The anchor is off-box by definition, so its token must never cross the
+  // network in clear text. Plain http is accepted only for a loopback stub.
+  const loopback = LOOPBACK_HOSTS.has(parsedUrl.hostname);
+  if (parsedUrl.protocol !== "https:" && !(parsedUrl.protocol === "http:" && loopback)) {
+    throw new ConfigError("transparency_anchor.base_url must use https");
+  }
+  if (parsedUrl.search !== "" || parsedUrl.hash !== "" || parsedUrl.username !== "" || parsedUrl.password !== "") {
+    throw new ConfigError("transparency_anchor.base_url must not carry a query, fragment, or credentials");
+  }
+  return {
+    base_url: baseUrl.replace(/\/+$/, ""),
+    token_credential: requireCredentialFileName(record.token_credential, "transparency_anchor.token_credential")
   };
 }
 
@@ -190,6 +234,9 @@ export async function loadConfig(configPath: string): Promise<HostConfig> {
       record.object_store_envelope_key_ref,
       "object_store_envelope_key_ref"
     );
+  }
+  if (record.transparency_anchor !== undefined) {
+    loaded.transparency_anchor = validateTransparencyAnchor(record.transparency_anchor);
   }
   return loaded;
 }

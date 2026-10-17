@@ -20,7 +20,7 @@ const HOST_SIGNING_KEY_ID = "codeattest-demo-signing-key";
 const HOST_SIGNING_KEY_VERSION = "v1";
 const RUNNER_KEY_ID = "codeattest-runner-test-key";
 const RUNNER_KEY_VERSION = "v1";
-const SYNTHETIC_OBJECT_ENVELOPE = {
+export const SYNTHETIC_OBJECT_ENVELOPE = {
   keyId: "synthetic-host-route-test-envelope",
   key: Uint8Array.from({ length: 32 }, (_, index) => index)
 };
@@ -217,6 +217,12 @@ export async function testKeyService() {
   return fixtures.keyService;
 }
 
+/** The trust-anchor-signed key directory and anchor key the fixtures sign with. */
+export async function testKeyMaterial() {
+  const fixtures = await buildFixtures();
+  return { keyDirectory: fixtures.keyDirectory, trustAnchorPublicKey: fixtures.trustAnchorPublicKey };
+}
+
 export async function syntheticBundle() {
   const fixtures = await buildFixtures();
   return {
@@ -227,6 +233,49 @@ export async function syntheticBundle() {
     artifact_bytes_by_digest: fixtures.artifactBytesByDigest,
     artifact_bytes_by_ref: fixtures.artifactBytesByRef
   };
+}
+
+/**
+ * Runs one whole synthetic submission (open, every artifact, finalize) and
+ * returns the finalize response body.
+ */
+export async function submitSyntheticBundle(server, bundle) {
+  const headers = { authorization: AUTH_HEADER, "content-type": "application/json" };
+  const opened = await server.inject({
+    method: "POST",
+    url: "/v0/submissions",
+    headers,
+    payload: {
+      bundle_manifest: bundle.bundle_manifest,
+      signature_envelope: bundle.signature_envelope,
+      customer_approval: bundle.customer_approval,
+      approved_outbound_manifest: bundle.approved_outbound_manifest
+    }
+  });
+  if (opened.statusCode >= 300) {
+    throw new Error(`open failed: ${opened.statusCode} ${opened.body}`);
+  }
+  for (const declared of bundle.bundle_manifest.artifact_references) {
+    const stored = await server.inject({
+      method: "PUT",
+      url: `/v0/submissions/${bundle.bundle_manifest.submission_attempt_id}/artifacts/${declared.digest}`,
+      headers: { authorization: AUTH_HEADER, "content-type": "application/octet-stream" },
+      payload: Buffer.from(bundle.artifact_bytes_by_digest[declared.digest])
+    });
+    if (stored.statusCode !== 200) {
+      throw new Error(`artifact upload failed: ${stored.statusCode} ${stored.body}`);
+    }
+  }
+  const finalized = await server.inject({
+    method: "POST",
+    url: `/v0/submissions/${bundle.bundle_manifest.submission_attempt_id}/finalize`,
+    headers,
+    payload: {}
+  });
+  if (finalized.statusCode !== 200) {
+    throw new Error(`finalize failed: ${finalized.statusCode} ${finalized.body}`);
+  }
+  return finalized.json();
 }
 
 /**
@@ -243,6 +292,7 @@ export async function buildTestServer(options = {}) {
   const { createConfigBudgetMeter } = await importCompiled("src/submission/budget-meter.js");
   const { createMemorySubmissionAttemptStore, createPostgresSubmissionAttemptStore } = await importCompiled("src/submission/attempt-state.js");
   const { createSubmissionAccessMinter } = await importCompiled("src/submission/access.js");
+  const { createMemoryVendorReceiptStore, createPostgresVendorReceiptStore } = await importCompiled("src/submission/receipt-store.js");
   const { createSubmissionReviewEventAppender } = await importCompiled("src/submission/review-events.js");
 
   const evidenceStore = await importSibling(["packages", "evidence-store"], "src/index.js");
@@ -269,6 +319,7 @@ export async function buildTestServer(options = {}) {
     deps = {
       credentials,
       attempts: createPostgresSubmissionAttemptStore(options.pool),
+      receipts: createPostgresVendorReceiptStore(options.pool),
       artifacts: evidenceStore.createPostgresArtifactStore({
         sql: options.pool,
         objects,
@@ -293,6 +344,7 @@ export async function buildTestServer(options = {}) {
     deps = {
       credentials,
       attempts: createMemorySubmissionAttemptStore(),
+      receipts: createMemoryVendorReceiptStore(),
       artifacts: evidenceStore.createMemoryArtifactStore(evidenceLifecycleLog, {
         envelope: SYNTHETIC_OBJECT_ENVELOPE
       }),

@@ -57,3 +57,20 @@ export function createPostgresJobQueue(sql: SqlExecutor): JobQueue {
     }
   };
 }
+
+/**
+ * Returns jobs to the queue whose claim is older than `olderThanSeconds`. A
+ * worker that dies mid-job never calls `complete()` or `fail()`, and nothing
+ * else ever clears `claimed_at`, so without this the job would stay claimed for
+ * good. Job handlers must be idempotent, because a slow but live worker can
+ * lose its claim this way. Returns how many jobs were released.
+ */
+export async function releaseStaleJobClaims(sql: SqlExecutor, olderThanSeconds: number): Promise<number> {
+  const { rows } = await sql.query(
+    `UPDATE job SET claimed_at = NULL
+      WHERE claimed_at IS NOT NULL AND claimed_at < now() - make_interval(secs => $1)
+      RETURNING job_id`,
+    [olderThanSeconds]
+  );
+  return rows.length;
+}

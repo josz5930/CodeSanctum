@@ -166,6 +166,22 @@ const events = await deps.reviewEventLog.loadLog(REVIEW_ID);
 const issued = events.filter((event) => event.event_type === "receipt_issued");
 assert.equal(issued.length, 1);
 
+// The whole signed receipt is stored, so the worker can re-check it later.
+const storedReceipt = await deps.receipts.find(outcome.vendor_receipt_ref);
+assert.ok(storedReceipt, "the receipt the outcome names must be stored");
+assert.equal(storedReceipt.submission_attempt_id, bundle.bundle_manifest.submission_attempt_id);
+assert.equal(storedReceipt.receipt.vendor_receipt_id, outcome.vendor_receipt_ref);
+assert.ok(storedReceipt.receipt.receipt_signature, "the stored receipt keeps its signature");
+
+// A received finalize enqueues one normalization job for the worker.
+const normalizeJob = await deps.jobs.claim("normalize_scanner_findings");
+assert.ok(normalizeJob, "a received finalize must enqueue normalization");
+assert.deepEqual(JSON.parse(normalizeJob.payload), {
+  review_id: REVIEW_ID,
+  submission_attempt_id: bundle.bundle_manifest.submission_attempt_id
+});
+await deps.jobs.complete(normalizeJob.job_id);
+
 // Finalizing twice returns the identical stored outcome and appends nothing.
 const replayFinalize = await server.inject({
   method: "POST",
@@ -176,6 +192,11 @@ const replayFinalize = await server.inject({
 assert.equal(replayFinalize.statusCode, 200);
 assert.deepEqual(replayFinalize.json().submission_outcome, outcome, "a replayed finalize must not mint a second receipt");
 assert.equal((await deps.reviewEventLog.loadLog(REVIEW_ID)).length, events.length);
+// The replay enqueues normalization again, in case a crash came between the
+// outcome and the first enqueue; the worker skips a run it already recorded.
+const replayJob = await deps.jobs.claim("normalize_scanner_findings");
+assert.equal(replayJob?.job_id, normalizeJob.job_id);
+await deps.jobs.complete(replayJob.job_id);
 
 // Finalizing before every artifact has arrived is refused. Artifact bytes
 // are content-addressed and already stored under the finalized attempt

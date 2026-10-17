@@ -39,6 +39,7 @@ import { createConfigBudgetMeter } from "./submission/budget-meter.js";
 import { createEventDerivedBudgetMeter } from "./submission/event-derived-budget-meter.js";
 import { createSubmissionReviewEventAppender } from "./submission/review-events.js";
 import { createPostgresSubmissionAttemptStore } from "./submission/attempt-state.js";
+import { createPostgresVendorReceiptStore } from "./submission/receipt-store.js";
 
 function nowUtcRfc3339(): string {
   return new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
@@ -209,6 +210,7 @@ async function main() {
   await registerSubmissionRoutes(server, {
     credentials: createPostgresSubmissionCredentialStore(pool),
     attempts: createPostgresSubmissionAttemptStore(pool),
+    receipts: createPostgresVendorReceiptStore(pool),
     artifacts: createPostgresArtifactStore(objectEnvelope === undefined
       ? { sql: pool, objects, lifecycleLog: evidenceLifecycleLog }
       : { sql: pool, objects, lifecycleLog: evidenceLifecycleLog, envelope: objectEnvelope }),

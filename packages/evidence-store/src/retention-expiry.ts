@@ -13,28 +13,53 @@ export function retentionPolicyForClassification(
   return { ok: true };
 }
 
+function expiryDeletionEvidenceId(artifactDigest: string): string {
+  return `deletion_evidence:exp_${artifactDigest.slice("sha256:".length, "sha256:".length + 24)}`;
+}
+
+/**
+ * Enqueues a purge for every retention record whose period has ended. With
+ * `artifacts`, a record whose every digest already has verified expiry
+ * deletion evidence is skipped: `listDue` keeps returning a record after its
+ * purge, and a scheduled caller would otherwise purge it again on every run.
+ */
 export async function catchUpRetentionExpiry(input: {
   jobs: JobQueue;
   retentionRecords: RetentionRecordStore;
   now: string;
-}): Promise<{ enqueued: number }> {
+  artifacts?: Pick<ArtifactStore, "findDeletionEvidence">;
+}): Promise<{ enqueued: number; already_purged: number }> {
   const due = await input.retentionRecords.listDue(input.now);
   let enqueued = 0;
+  let alreadyPurged = 0;
   for (const record of due) {
+    const digests = record.retained_artifact_refs.filter((ref) => ref.startsWith("sha256:"));
+    // A record with no sha256 digests has nothing processRetentionExpiryJob
+    // can purge, so with `artifacts` it counts as done rather than being
+    // enqueued for a no-op on every run.
+    if (input.artifacts !== undefined) {
+      const artifacts = input.artifacts;
+      const verified = await Promise.all(digests.map(async (digest) =>
+        (await artifacts.findDeletionEvidence(`${expiryDeletionEvidenceId(digest)}_verified`))?.verification_status === "verified"));
+      if (verified.every(Boolean)) {
+        alreadyPurged += 1;
+        continue;
+      }
+    }
     const result = await input.jobs.enqueue({
       job_id: record.retention_record_id,
       job_type: RETENTION_EXPIRY_JOB_TYPE,
       payload: JSON.stringify({
         retention_record_id: record.retention_record_id,
         end_timestamp: record.retention_period.end_timestamp,
-        artifact_digests: record.retained_artifact_refs.filter((ref) => ref.startsWith("sha256:"))
+        artifact_digests: digests
       })
     });
     if (result.outcome === "enqueued") {
       enqueued += 1;
     }
   }
-  return { enqueued };
+  return { enqueued, already_purged: alreadyPurged };
 }
 
 export async function processRetentionExpiryJob(input: {
@@ -80,10 +105,9 @@ export async function processRetentionExpiryJob(input: {
     // un-claims the job, so continuing would immediately re-claim it).
     try {
       for (const artifactDigest of digests) {
-        const local = artifactDigest.slice("sha256:".length, "sha256:".length + 24);
         const evidence: DeletionEvidence = {
           protocol_version: "codeattest.v0",
-          deletion_evidence_id: `deletion_evidence:exp_${local}`,
+          deletion_evidence_id: expiryDeletionEvidenceId(artifactDigest),
           deleted_artifact_digests: [artifactDigest],
           deletion_method: "expiry_purge",
           deletion_timestamp: input.now,

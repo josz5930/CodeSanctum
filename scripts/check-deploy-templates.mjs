@@ -141,6 +141,40 @@ async function verifyWebRouting(root, caddyfile, failures) {
   }
 }
 
+const WORKER_MAIN = "/opt/codeattest/%i/current/services/host/dist/services/host/src/worker/main.js";
+
+/**
+ * The background worker (P2): one long-running unit drains the normalization
+ * queue, and two timers run retention expiry and checkpoint publication. All
+ * three run as the deployment's own user with the host config, and none of
+ * them loads the signing key or the TOTP key: the worker only verifies
+ * signatures and never signs or authenticates anyone.
+ */
+function verifyWorkerUnits(byName, failures) {
+  const worker = byName.get("worker.service.tmpl");
+  requireMatch(worker, /^Type=simple$/m, "worker unit must be long-running", failures);
+  requireMatch(worker, /^Restart=on-failure$/m, "worker unit is not restart-supervised", failures);
+  for (const [name, command] of [["worker.service.tmpl", "run"], ["retention.service.tmpl", "retention"], ["checkpoint.service.tmpl", "checkpoint"]]) {
+    const unit = byName.get(name);
+    requireMatch(unit, /^User=codeattest-%i$/m, `${name} has the wrong Unix user`, failures);
+    requireMatch(unit, /^WorkingDirectory=\/opt\/codeattest\/%i\/current$/m, `${name} is not on native disk`, failures);
+    if (!unit.includes(`ExecStart=/usr/bin/node ${WORKER_MAIN} ${command} /etc/codeattest/%i-host.json`)) {
+      failures.push(`${name} does not run the worker "${command}" command with the host config`);
+    }
+    if (/signing-key|totp-key/.test(unit)) {
+      failures.push(`${name} must not load the signing or TOTP key`);
+    }
+    requireMatch(unit, /^ProtectSystem=strict$/m, `${name} is not sandboxed`, failures);
+  }
+  for (const name of ["retention.service.tmpl", "checkpoint.service.tmpl"]) {
+    requireMatch(byName.get(name), /^Type=oneshot$/m, `${name} must be a oneshot run`, failures);
+    requireMatch(byName.get(name), /^TimeoutStartSec=\d+min$/m, `${name} needs a run deadline`, failures);
+  }
+  requireMatch(byName.get("retention.timer.tmpl"), /^Unit=codeattest-retention@%i\.service$/m, "retention timer runs the wrong unit", failures);
+  requireMatch(byName.get("checkpoint.timer.tmpl"), /^Unit=codeattest-checkpoint@%i\.service$/m, "checkpoint timer runs the wrong unit", failures);
+  requireMatch(byName.get("checkpoint.service.tmpl"), /^LoadCredential=%i-anchor-token:/m, "checkpoint unit does not load the anchor token", failures);
+}
+
 function caddySnippet(caddyfile, name) {
   const start = caddyfile.search(new RegExp(`^\\(${name}\\) \\{$`, "m"));
   if (start === -1) {
@@ -200,7 +234,12 @@ export async function checkDeployTemplates(root = repoRoot) {
     "codeattest-demo-web.service.tmpl",
     "codeattest-pilot-web.service.tmpl",
     "observability.service.tmpl",
-    "observability.timer.tmpl"
+    "observability.timer.tmpl",
+    "worker.service.tmpl",
+    "retention.service.tmpl",
+    "retention.timer.tmpl",
+    "checkpoint.service.tmpl",
+    "checkpoint.timer.tmpl"
   ];
   const files = await Promise.all(names.map(async (name) => [name, await readFile(path.join(root, deployDir, name), "utf8")]));
   const byName = new Map(files);
@@ -226,6 +265,7 @@ export async function checkDeployTemplates(root = repoRoot) {
     requireMatch(web, new RegExp(`CODEATTEST_HOST_BASE_URL=http://127\\.0\\.0\\.1:${expectedHostPort}$`, "m"), `${identity} web points at the wrong host`, failures);
     requireMatch(web, new RegExp(`--hostname 127\\.0\\.0\\.1 --port ${expectedWebPort}$`, "m"), `${identity} web is not bound to its own loopback port`, failures);
   }
+  verifyWorkerUnits(byName, failures);
   if (files.some(([, text]) => text.includes("/mnt/hgfs"))) {
     failures.push("a systemd template references /mnt/hgfs");
   }

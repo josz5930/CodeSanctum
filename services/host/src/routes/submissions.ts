@@ -10,6 +10,7 @@ import { artifactCountSummaryFromManifest, assembleIntakeRequest, submissionOutc
 import { budgetTierFor } from "../submission/budget-tiers.js";
 import { classifyStoredObject } from "../submission/classify.js";
 import { verifyCredentialSecret, type SubmissionCredential } from "../submission/credential-store.js";
+import { NORMALIZE_SCANNER_FINDINGS_JOB_TYPE } from "../submission/job-types.js";
 import type { SubmissionRouteDeps } from "./types.js";
 
 /** Fastify's default bodyLimit (1 MiB) is smaller than a real bundle artifact. */
@@ -103,6 +104,14 @@ export function registerBudgetHaltGuard(server: FastifyInstance, deps: BudgetHal
       spend_ratio: spendRatio
     }, "demo business routes halted at budget ceiling");
     return reply.code(503).send(deps.errorEnvelope("budget_halted"));
+  });
+}
+
+async function enqueueNormalization(deps: SubmissionRouteDeps, attempt: { review_id: string; submission_attempt_id: string }): Promise<void> {
+  await deps.jobs.enqueue({
+    job_id: `job:normalize:${attempt.submission_attempt_id}`,
+    job_type: NORMALIZE_SCANNER_FINDINGS_JOB_TYPE,
+    payload: JSON.stringify({ review_id: attempt.review_id, submission_attempt_id: attempt.submission_attempt_id })
   });
 }
 
@@ -287,7 +296,14 @@ export async function registerSubmissionRoutes(server: FastifyInstance, deps: Su
     // replay must never mint a second receipt.
     const stored = await deps.attempts.findOutcome(attempt.submission_attempt_id);
     if (stored !== undefined) {
-      return reply.code(200).send({ submission_outcome: JSON.parse(stored) });
+      const storedOutcome = JSON.parse(stored) as { outcome_state?: string };
+      // A crash between recording the outcome and enqueueing the job would
+      // otherwise strand normalization; enqueue is idempotent by job id, and
+      // the worker skips an attempt it already normalized.
+      if (storedOutcome.outcome_state === "received_with_receipt") {
+        await enqueueNormalization(deps, attempt);
+      }
+      return reply.code(200).send({ submission_outcome: storedOutcome });
     }
 
     const manifest = JSON.parse(attempt.bundle_manifest_body) as {
@@ -358,6 +374,9 @@ export async function registerSubmissionRoutes(server: FastifyInstance, deps: Su
         });
         const completed = await completeVendorReceipt(prepared, receiptSignature, receiptSignatureOutcome);
         if (completed.state === "received_with_receipt") {
+          // Recorded before the outcome: the outcome is the idempotency
+          // commit, so a receipt it names must already be durable.
+          await deps.receipts.record({ submission_attempt_id: attempt.submission_attempt_id, receipt: completed.vendor_receipt });
           outcomeResult = verification;
           vendorReceipt = completed.vendor_receipt;
           vendorReceiptSignatureOutcome = receiptSignatureOutcome;
@@ -399,11 +418,7 @@ export async function registerSubmissionRoutes(server: FastifyInstance, deps: Su
     await deps.attempts.recordOutcome(attempt.submission_attempt_id, outcomeBody);
 
     if (built.outcome.outcome_state === "received_with_receipt") {
-      await deps.jobs.enqueue({
-        job_id: `job:normalize:${attempt.submission_attempt_id}`,
-        job_type: "normalize_scanner_findings",
-        payload: JSON.stringify({ review_id: attempt.review_id, submission_attempt_id: attempt.submission_attempt_id })
-      });
+      await enqueueNormalization(deps, attempt);
     }
 
     return reply.code(200).send({ submission_outcome: built.outcome });

@@ -14,6 +14,7 @@
     "../../packages/protocol-ts/src/**/*.ts",
     "../../packages/signing/src/**/*.ts",
     "../../packages/ui/src/**/*.ts",
-    "../../services/intake/src/**/*.ts"
+    "../../services/intake/src/**/*.ts",
+    "../../services/worker/src/**/*.ts"
   ]
 }
