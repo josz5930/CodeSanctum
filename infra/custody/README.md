@@ -30,16 +30,22 @@ credential or key-directory record between them:
 ```bash
 DEPLOYMENT=demo
 node -e 'const {generateKeyPairSync}=require("node:crypto");const {privateKey}=generateKeyPairSync("ml-dsa-65");require("node:fs").writeFileSync("signing-key.pkcs8.der",privateKey.export({format:"der",type:"pkcs8"}),{mode:0o600});'
-systemd-creds encrypt --name=signing-key signing-key.pkcs8.der "/etc/codeattest/$DEPLOYMENT/signing-key.cred"
+systemd-creds encrypt --name="$DEPLOYMENT-signing-key" signing-key.pkcs8.der "/etc/codeattest/$DEPLOYMENT/signing-key.cred"
 shred -u signing-key.pkcs8.der
 ```
 
 `systemd-creds encrypt` seals to the TPM where the VPS exposes one and to the
-host key where it does not. Add to the unit:
+host key where it does not. It also embeds the `--name` value, and systemd
+refuses to decrypt the credential under any other name. The shipped host units
+load it as `demo-signing-key` and `pilot-signing-key`:
 
 ```ini
-LoadCredentialEncrypted=signing-key:/etc/codeattest/demo/signing-key.cred
+LoadCredentialEncrypted=demo-signing-key:/etc/codeattest/demo/signing-key.cred
 ```
+
+So the host config's `signing.credential_name` must be `demo-signing-key` (or
+`pilot-signing-key`), and `scripts/check-host-config.mjs` refuses any other
+value.
 
 systemd decrypts it into the unit's private `$CREDENTIALS_DIRECTORY`, a
 per-unit tmpfs readable only by that service's user. The host reads it from

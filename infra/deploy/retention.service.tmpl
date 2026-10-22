@@ -9,6 +9,9 @@ User=codeattest-%i
 Group=codeattest-%i
 WorkingDirectory=/opt/codeattest/%i/current
 Environment=CREDENTIALS_DIRECTORY=%d
+# The object-store envelope key; the host config's object_store_envelope_key_ref
+# must be "%i-envelope-key".
+LoadCredential=%i-envelope-key:/etc/codeattest/%i/envelope-key
 ExecStart=/usr/bin/node /opt/codeattest/%i/current/services/host/dist/services/host/src/worker/main.js retention /etc/codeattest/%i-host.json
 TimeoutStartSec=15min
 NoNewPrivileges=true

@@ -69,23 +69,40 @@ sudo -u postgres psql -p 5433 -tc "SELECT 1 FROM pg_database WHERE datname='code
 sudo -u postgres psql -p 5434 -tc "SELECT 1 FROM pg_database WHERE datname='codeattest'" | grep -q 1 || sudo -u postgres createdb -p 5434 -O codeattest_migrator codeattest
 ```
 
-Run migrations once as each migrator. Migration `0002_roles_and_grants.sql`
-creates `codeattest_app` with a synthetic local password; replace it immediately
-and independently in each cluster:
+Create `codeattest_app` with its real password before the first migration.
+`0002_roles_and_grants.sql` creates that role only when it is missing, and
+`codeattest_migrator` has no `CREATEROLE`, so the migration cannot create it:
 
 ```sh
-node scripts/run-migrations.mjs --database-url 'postgres://codeattest_migrator:<DEMO_MIGRATOR_PASSWORD>@127.0.0.1:5433/codeattest'
-node scripts/run-migrations.mjs --database-url 'postgres://codeattest_migrator:<PILOT_MIGRATOR_PASSWORD>@127.0.0.1:5434/codeattest'
-sudo -u postgres psql -p 5433 -d codeattest -c "ALTER ROLE codeattest_app PASSWORD '<DEMO_APP_PASSWORD>'"
-sudo -u postgres psql -p 5434 -d codeattest -c "ALTER ROLE codeattest_app PASSWORD '<PILOT_APP_PASSWORD>'"
+sudo -u postgres psql -p 5433 -tc "SELECT 1 FROM pg_roles WHERE rolname='codeattest_app'" | grep -q 1 || sudo -u postgres psql -p 5433 -c "CREATE ROLE codeattest_app LOGIN PASSWORD '<DEMO_APP_PASSWORD>'"
+sudo -u postgres psql -p 5434 -tc "SELECT 1 FROM pg_roles WHERE rolname='codeattest_app'" | grep -q 1 || sudo -u postgres psql -p 5434 -c "CREATE ROLE codeattest_app LOGIN PASSWORD '<PILOT_APP_PASSWORD>'"
+```
+
+Store each migrator URL in a root-only file. `deploy.sh` applies new
+migrations with this file on every release: the host config's URL is the
+`codeattest_app` role, which cannot run DDL. Write the files with an editor
+(not `echo`, which puts the password in shell history):
+
+```sh
+sudo install -m 0400 -o root -g root /dev/null /etc/codeattest/demo/migrator-database-url
+sudo install -m 0400 -o root -g root /dev/null /etc/codeattest/pilot/migrator-database-url
+sudoedit /etc/codeattest/demo/migrator-database-url    # postgres://codeattest_migrator:<DEMO_MIGRATOR_PASSWORD>@127.0.0.1:5433/codeattest
+sudoedit /etc/codeattest/pilot/migrator-database-url   # postgres://codeattest_migrator:<PILOT_MIGRATOR_PASSWORD>@127.0.0.1:5434/codeattest
+```
+
+Run the migrations once for each cluster:
+
+```sh
+sudo node scripts/run-migrations.mjs --database-url-file /etc/codeattest/demo/migrator-database-url
+sudo node scripts/run-migrations.mjs --database-url-file /etc/codeattest/pilot/migrator-database-url
 ```
 
 Seed only the existing, non-real-evidence profiles. Repeating version 1 is a
 recorded no-op; never edit or replace a prior gate row:
 
 ```sh
-node scripts/seed-environment-gate.mjs --database-url 'postgres://codeattest_migrator:<DEMO_MIGRATOR_PASSWORD>@127.0.0.1:5433/codeattest' --gate-file protocol/fixtures/v0/valid/environment-evidence-gate.synthetic-demo.json --version 1
-node scripts/seed-environment-gate.mjs --database-url 'postgres://codeattest_migrator:<PILOT_MIGRATOR_PASSWORD>@127.0.0.1:5434/codeattest' --gate-file protocol/fixtures/v0/valid/environment-evidence-gate.partner-pilot-candidate.json --version 1
+sudo sh -c 'CODEATTEST_DATABASE_URL="$(cat /etc/codeattest/demo/migrator-database-url)" node scripts/seed-environment-gate.mjs --gate-file protocol/fixtures/v0/valid/environment-evidence-gate.synthetic-demo.json --version 1'
+sudo sh -c 'CODEATTEST_DATABASE_URL="$(cat /etc/codeattest/pilot/migrator-database-url)" node scripts/seed-environment-gate.mjs --gate-file protocol/fixtures/v0/valid/environment-evidence-gate.partner-pilot-candidate.json --version 1'
 ```
 
 ## 4. Pilot encrypted volume
@@ -113,14 +130,23 @@ gate to force a green boot.
 
 ## 5. Config and credentials
 
-Generate independent 32-byte TOTP wrapping keys. Existing keys are never
-overwritten:
+Generate independent 32-byte TOTP wrapping keys and object-store envelope
+keys. Existing keys are never overwritten:
 
 ```sh
-sudo test -e /etc/codeattest/demo/totp-key || openssl rand 32 | sudo tee /etc/codeattest/demo/totp-key >/dev/null
-sudo test -e /etc/codeattest/pilot/totp-key || openssl rand 32 | sudo tee /etc/codeattest/pilot/totp-key >/dev/null
-sudo chmod 0400 /etc/codeattest/demo/totp-key /etc/codeattest/pilot/totp-key
+for identity in demo pilot; do
+  for key in totp-key envelope-key; do
+    sudo test -e "/etc/codeattest/$identity/$key" || openssl rand 32 | sudo tee "/etc/codeattest/$identity/$key" >/dev/null
+    sudo chmod 0400 "/etc/codeattest/$identity/$key"
+  done
+done
 ```
+
+The envelope key encrypts source-derived object bytes (AES-256-GCM) before
+they reach disk. The host, worker, and retention units all load it, and a unit
+whose credential file is missing does not start. Losing it makes every stored
+object unreadable, so back it up through the same offline path as the signing
+credential, never next to a data backup (see [`BACKUP.md`](./BACKUP.md)).
 
 Follow [`../custody/README.md`](../custody/README.md) separately for demo and
 pilot signing keys. Store the encrypted credentials at
@@ -137,12 +163,33 @@ continuing.
 
 Create `/etc/codeattest/demo-host.json` and
 `/etc/codeattest/pilot-host.json` using the exact closed shape in
-[`../../services/host/src/config.ts`](../../services/host/src/config.ts). Use
-loopback ports `8080` and `8081`, the matching cluster URL, independent key IDs,
-and `credential_name` values `demo-signing-key` and `pilot-signing-key`.
-Demo uses `/var/lib/codeattest/demo/objects` and its engineered budget values.
-Pilot uses the no-op meter automatically. Set both files to root-owned mode
-`0600`; `deploy.sh` refuses any other mode.
+[`../../services/host/src/config.ts`](../../services/host/src/config.ts).
+[`host-config.example.json`](./host-config.example.json) is a filled-in demo
+example. The credential names must match the names the systemd units load, or
+the host cannot find its keys:
+
+| Config key | Demo value | Pilot value |
+| --- | --- | --- |
+| `listen_addr` | `127.0.0.1:8080` | `127.0.0.1:8081` |
+| `database_url` | `postgres://codeattest_app:<DEMO_APP_PASSWORD>@127.0.0.1:5433/codeattest` | `postgres://codeattest_app:<PILOT_APP_PASSWORD>@127.0.0.1:5434/codeattest` |
+| `object_store_root` | `/var/lib/codeattest/demo/objects` | `/var/lib/codeattest/pilot/objects` |
+| `encryption_key_ref` | `demo-totp-key` | `pilot-totp-key` |
+| `object_store_envelope_key_ref` | `demo-envelope-key` | `pilot-envelope-key` |
+| `signing.credential_name` | `demo-signing-key` | `pilot-signing-key` |
+| `session_cookie_secure` | `true` | `true` |
+| `transparency_anchor.token_credential` (when set) | `demo-anchor-token` | `pilot-anchor-token` |
+
+Use independent signing key IDs per deployment. Demo also sets its engineered
+`demo_budget_meter` values; pilot uses the no-op meter automatically.
+`deploy.sh` runs `scripts/check-host-config.mjs` before it changes anything, and
+that check refuses a config that breaks this table, a credential file that is
+missing or readable by group or other, and a config that is not mode `0600`.
+You can run it yourself after editing a config:
+
+```sh
+npm run build:run --workspace @onevps/host
+sudo node scripts/check-host-config.mjs --identity demo --config /etc/codeattest/demo-host.json
+```
 
 When the off-box transparency anchor exists (production-readiness guide,
 Section 2 §7), add `"transparency_anchor": {"base_url": "https://…",

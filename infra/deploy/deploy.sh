@@ -21,6 +21,7 @@ config_dir=${CODEATTEST_CONFIG_DIR:-/etc/codeattest}
 caddy_dir=${CODEATTEST_CADDY_DIR:-/etc/caddy}
 release_trust_anchor=${CODEATTEST_RELEASE_TRUST_ANCHOR_FILE:-/etc/codeattest/release-trust-anchor.pub}
 config_path="$config_dir/$identity-host.json"
+migrator_url_file="$config_dir/$identity/migrator-database-url"
 identity_root="$deploy_root/$identity"
 releases_dir="$identity_root/releases"
 current_link="$identity_root/current"
@@ -100,6 +101,15 @@ if [ "$config_owner" != "codeattest-$identity" ]; then
   echo "host config must be owned by codeattest-$identity: $config_path is owned by $config_owner" >&2
   exit 1
 fi
+if [ ! -f "$migrator_url_file" ]; then
+  echo "missing migrator database URL: $migrator_url_file (see PROVISIONING.md section 3)" >&2
+  exit 1
+fi
+migrator_url_owner=$(stat -c '%U' "$migrator_url_file")
+if [ "$migrator_url_owner" != root ] || find "$migrator_url_file" -maxdepth 0 -perm /077 | grep -q .; then
+  echo "migrator database URL must be root-owned with no group/other access: $migrator_url_file" >&2
+  exit 1
+fi
 if [ -e "$current_link" ] && [ ! -L "$current_link" ]; then
   echo "refusing to replace non-symlink current path: $current_link" >&2
   exit 1
@@ -136,8 +146,11 @@ trap 'rollback_failed_deploy' INT TERM HUP EXIT
 echo "Building CodeAttest from $source_root"
 (cd "$source_root" && npm run build && npm run build:run --workspace @onevps/host)
 
-echo "Applying and checking migrations for $identity"
-(cd "$source_root" && node scripts/run-migrations.mjs --config "$config_path")
+echo "Checking host config for $identity"
+(cd "$source_root" && node scripts/check-host-config.mjs --identity "$identity" --config "$config_path" --credentials-dir "$config_dir/$identity")
+
+echo "Applying and checking migrations for $identity as codeattest_migrator"
+(cd "$source_root" && node scripts/run-migrations.mjs --database-url-file "$migrator_url_file")
 
 install -d -m 0755 "$releases_dir"
 install -d -m 0755 "$release_dir"

@@ -39,7 +39,7 @@ E adds a **read-only** `web` route group (`src/routes/web.ts`) behind C's `regis
 - Each route resolves `request.actor`, runs `@onevps/ui` builders server-side (`src/web/project-*.ts`), and returns the serializable view **contract** as JSON; the browser never receives raw evidence, the database, or the session secret
 - Audience is derived from the grant's role, never the request, so `internal_only` timeline entries and the internal-only pilot-learning contract never reach a customer
 
-What E explicitly does not add: no new evidence vocabulary, no protocol records, and no mutation surface. The finding/verification/attestation/static-bundle records these routes project come from a read-only `ReviewRecordSet` port (`src/web/record-store.ts`); production wires an empty in-memory store, and tests seed it from the synthetic-demo protocol fixtures.
+What E explicitly does not add: no new evidence vocabulary, no protocol records, and no mutation surface. The finding/verification/attestation/static-bundle records these routes project come from a read-only `ReviewRecordSet` port (`src/web/record-store.ts`); the demo deployment seeds an in-memory store from the shipped synthetic-demo protocol fixtures at boot (`src/web/seed-record-store.ts`), and the pilot's store stays empty until a persisted read model exists.
 
 ## Sub-project F boundary
 
@@ -76,5 +76,5 @@ Depends on `@onevps/evidence-store`, `@onevps/identity-store`, `@onevps/protocol
 
 ## Known limitations
 
-- **`/readyz` does not probe Postgres liveness per request.** It currently reports ready based only on whether the boot sequence completed and SIGTERM hasn't been received. A database that becomes unreachable after boot is not reflected until the process notices some other way. Design doc section 5.7 calls for `/readyz` to fail when Postgres is unavailable; this is a follow-up for whichever sub-project first adds routes that actually read/write evidence.
+- **`/readyz` probes Postgres with a cached check.** It reports ready only while the process is not draining and a `SELECT 1` succeeds (`src/readiness.ts`: 2-second timeout, 1-second cache, concurrent probes collapsed). A database that drops after boot turns `/readyz` to 503 within about a second; the live check of this against the provisioned pilot is Section 2 §5 of the production-readiness guide.
 - **The object-store encryption check (boot step 4) now probes the backing mount.** It still requires the operator's `object_store_encrypted` flag to match `encryption_at_rest_ready`, and when either is true it also requires `findmnt` to report a mapper/crypt backing device for the object root. A declaration without an encrypted mount fails closed. Source-derived object bytes are additionally envelope-encrypted when `object_store_envelope_key_ref` is present in the host config.

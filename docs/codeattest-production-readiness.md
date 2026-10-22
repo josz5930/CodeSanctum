@@ -326,6 +326,67 @@ existed only as library code.
 - [ ] Nothing yet reads the draft sets: the reviewer workflow over HTTP and in
       the UI is a separate item (P3).
 
+## C11. Make the provisioning runbook and deploy path work as written — [CODE] [REPO] — high
+
+A review on 2026-10-22 walked `infra/deploy/PROVISIONING.md` and `deploy.sh`
+against a real PostgreSQL 16 cluster and the unit templates. Each item below
+stopped a first deploy or the first upgrade, or would have.
+
+- [X] **First migration failed.** The runbook created `codeattest_migrator`
+      without `CREATEROLE`, and `0002_roles_and_grants.sql` creates
+      `codeattest_app` when it is missing, so the first migration failed with
+      "permission denied to create role" (the local compose file hid this: its
+      migrator is the superuser). The runbook now creates `codeattest_app` with
+      its real password before migrating, which also removes the window in
+      which the role had the synthetic password.
+- [X] **Upgrades with a new migration failed.** `deploy.sh` migrated with the
+      host config's URL, which is the `codeattest_app` role. That role cannot run
+      DDL, so any release adding a migration stopped with "permission denied
+      for schema public". `deploy.sh` now migrates as `codeattest_migrator`
+      from the root-only `/etc/codeattest/<identity>/migrator-database-url`
+      (`run-migrations.mjs --database-url-file`), and the runbook no longer puts
+      the migrator password in argv or shell history.
+      `scripts/check-deploy-scripts.mjs` refuses a `--config` migration.
+- [X] **The object-store envelope key was never loaded.** The host and worker
+      read `object_store_envelope_key_ref` from `$CREDENTIALS_DIRECTORY`, but no
+      unit loaded that credential, so setting it stopped the host at boot, and
+      leaving it unset meant pilot could store no source-derived object. The
+      host, worker, and retention units now load
+      `<identity>-envelope-key` from `/etc/codeattest/<identity>/envelope-key`,
+      the runbook generates it, and `scripts/check-deploy-templates.mjs`
+      enforces the credential lines.
+- [X] **The documented signing credential could not be decrypted.**
+      `infra/custody/README.md` sealed the key with `--name=signing-key`, but the
+      units load `demo-signing-key` / `pilot-signing-key`, and systemd refuses
+      a credential whose embedded name differs. The README now seals with
+      `--name="$DEPLOYMENT-signing-key"`.
+- [X] **A bad host config took down both releases.** `deploy.sh` checked only
+      the config's mode and owner. A wrong credential name or port failed
+      readiness after the switch, and the automatic rollback then restarted the
+      previous release with the same bad config. `scripts/check-host-config.mjs`
+      now runs before migrations and the switch: it loads the config with the
+      host's own loader and checks identity, `listen_addr`, cookie security,
+      every credential name against the units, and that each key file exists
+      with no group/other access and (for 32-byte keys) the right size.
+      `infra/deploy/host-config.example.json` is a filled-in example the
+      preflight test keeps valid (`services/host/test/host-config-preflight.test.mjs`).
+- [X] `deploy.sh` and `rollback.sh` were committed without the executable bit,
+      so the documented `sudo infra/deploy/deploy.sh …` failed. All deploy
+      scripts are now executable, and the deploy-script check enforces it.
+- [X] **Backup and restore (repository half of Section 2 §7).**
+      `infra/deploy/backup.sh` writes a checksummed `pg_dump` plus object-store
+      archive per identity, pauses retention purges for the run, refuses an
+      unencrypted pilot destination, and prunes to `CODEATTEST_BACKUP_KEEP`.
+      `infra/deploy/restore.sh` verifies the checksums and identity, refuses a
+      non-empty database or object root and an unencrypted pilot object root,
+      restores in one transaction, migrates to the deployed release, and waits
+      for `/readyz`. See `infra/deploy/BACKUP.md`. Drilled on 2026-10-22
+      against PostgreSQL 16: the restored data matched the source
+      (`pg_dump --data-only`), `codeattest_app` still could not `UPDATE`, and
+      each refusal path stopped with its message. *The drill on the
+      provisioned pilot, the off-box copy, and key separation stay in
+      Section 2 §7.*
+
 ---
 
 # Section 2 — Human-only processes: provisioning, live evidence, and approvals
@@ -464,9 +525,11 @@ required check actually executes.
 - [ ] Provision the **real alert sink** the C7 code emits to, and define
       on-call/escalation. (The loopback timer and emit code are Section 1 C7; this
       is the destination and the human process behind it.)
-- [ ] Implement and drill **backup + restore** for both clusters and the encrypted
-      object store, preserving encryption on restore and documenting key
-      separation.
+- [ ] Drill **backup + restore** for both clusters and the encrypted object
+      store on the provisioned host, preserving encryption on restore, and set
+      up the off-box copy and key separation. The scripts and runbook are
+      Section 1 C11 (`infra/deploy/BACKUP.md`); the live drill and its evidence
+      are this item.
 - [ ] Stand up and validate the **off-box transparency-checkpoint anchor** that
       the C8 code publishes to, so the event-log transparency chain is externally
       anchored.

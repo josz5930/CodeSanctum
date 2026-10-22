@@ -25,6 +25,7 @@ This repository does **not** yet represent a live, always-on hosted SaaS deploym
 - [Technical Architecture](./codeattest-technical-architecture.md) maps the repository structure, artifact flow, dependency direction, and quality gates to the current implementation.
 - [Control Alignment Matrix](./codeattest-control-alignment.md) provides a conservative framework mapping for diligence discussions.
 - [Production-Readiness Guide](./codeattest-production-readiness.md) lists the infrastructure, live evidence, approvals, and repository work still required before the pilot can accept real customer source-derived evidence.
+- [Deployment runbooks](../infra/deploy/README.md) cover provisioning ([`PROVISIONING.md`](../infra/deploy/PROVISIONING.md)), deploy and rollback, and backup and restore ([`BACKUP.md`](../infra/deploy/BACKUP.md)) for the single-VPS demo and pilot.
 
 ### Support, solutions, and reviewer operations
 
@@ -43,6 +44,7 @@ This repository does **not** yet represent a live, always-on hosted SaaS deploym
 | [Functional Requirements](./codeattest-functional-requirements.md) | Technical buyers, design partners | Public-facing partner-pilot requirements |
 | [Control Alignment Matrix](./codeattest-control-alignment.md) | Compliance, audit-readiness, investors | Conservative control/support mapping |
 | [Production-Readiness Guide](./codeattest-production-readiness.md) | Repository owner, pilot operator | Work remaining before real customer evidence can be accepted |
+| [Deployment runbooks](../infra/deploy/README.md) | Pilot operator | Provision, deploy, roll back, back up, and restore the demo and pilot |
 | [Partner-Facing Disclosures (DRAFT)](./codeattest-partner-disclosures-DRAFT.md) | Pilot partners, compliance teams | Draft retention, deletion, incident, and consent language, not yet in force |
 
 ## 4. Architecture At A Glance

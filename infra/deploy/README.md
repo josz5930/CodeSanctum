@@ -114,8 +114,17 @@ Before building or changing `current`, `deploy.sh` requires a clean tracked
 checkout, binds its Git commit to the signed runner release, independently
 checks the release record, binary digest, and ML-DSA-65 signature against the
 root-owned release trust anchor, and runs the runner's compiled-in trust
-self-test. It then builds in the checkout, applies/checks the migration head,
-copies the application and verified runner release to native disk, atomically
+self-test. It then builds in the checkout and runs
+[`scripts/check-host-config.mjs`](../../scripts/check-host-config.mjs) against
+the host config: the credential names must match the ones the units load, the
+key files must exist with no group/other access, and `listen_addr` must be the
+port the readiness gate probes. A bad config stops the deploy here, before
+anything changes; after the switch, the automatic rollback would restore the
+old release with the same bad config. It then applies migrations as
+`codeattest_migrator`, using the root-only URL in
+`/etc/codeattest/<identity>/migrator-database-url` (the host config's
+`codeattest_app` role cannot run DDL), copies the application and verified
+runner release to native disk, atomically
 switches `current`, installs the unit and Caddy templates, reloads supervision,
 and requires loopback `/readyz` before declaring success. The prior release is
 retained through the `previous` symlink. A failed readiness gate restores it
@@ -133,6 +142,13 @@ database must remain compatible with the retained prior release. Failed release
 directories are preserved for diagnosis; clean them up only after resolving
 their exact native-disk paths.
 
+## Backup and restore
+
+[`backup.sh`](./backup.sh) writes a checksummed database dump and object-store
+archive for one deployment; [`restore.sh`](./restore.sh) restores one into an
+empty database and object store. Pilot backups must land on an encrypted
+device, and no backup holds keys. See [`BACKUP.md`](./BACKUP.md).
+
 ## Verification
 
 Partner-pilot readiness observations use
@@ -141,8 +157,8 @@ Partner-pilot readiness observations use
 before hashing and refuses required-tool skips.
 
 `npm run delivery:f-check` covers host budget and observability tests, the
-guardrail wiring check, the SLO checker self-test, systemd/Caddy templates, and
-deploy/rollback scripts. `systemd-analyze`, Caddy, and ShellCheck run when
+guardrail wiring check, the SLO checker self-test, the host config preflight,
+systemd/Caddy templates, and the deploy, rollback, backup, and restore scripts. `systemd-analyze`, Caddy, and ShellCheck run when
 installed; their checks report `PENDING` rather than pretending an absent tool
 passed.
 

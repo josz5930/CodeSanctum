@@ -55,8 +55,20 @@ export async function migrationHead() {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const index = process.argv.indexOf("--database-url");
+  const fileIndex = process.argv.indexOf("--database-url-file");
   const configIndex = process.argv.indexOf("--config");
   let databaseUrl = index === -1 ? process.env.CODEATTEST_DATABASE_URL : process.argv[index + 1];
+  // Deployments keep the codeattest_migrator URL in a root-only file, so the
+  // password never appears in argv or the environment. The host config's URL
+  // is the codeattest_app role, which cannot run DDL.
+  if (fileIndex !== -1) {
+    const urlPath = process.argv[fileIndex + 1];
+    if (urlPath === undefined) {
+      console.error("--database-url-file requires a path");
+      process.exit(1);
+    }
+    databaseUrl = (await readFile(urlPath, "utf8")).trim();
+  }
   if (configIndex !== -1) {
     const configPath = process.argv[configIndex + 1];
     if (configPath === undefined) {
@@ -67,7 +79,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     databaseUrl = config.database_url;
   }
   if (!databaseUrl) {
-    console.error("usage: node scripts/run-migrations.mjs --config <host-config> | --database-url <url>");
+    console.error("usage: node scripts/run-migrations.mjs --database-url-file <path> | --database-url <url> | --config <host-config>");
     process.exit(1);
   }
   const applied = await runMigrations(databaseUrl);

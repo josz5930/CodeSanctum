@@ -11,6 +11,7 @@ WorkingDirectory=/opt/codeattest/demo/current
 Environment=CREDENTIALS_DIRECTORY=%d
 LoadCredential=demo-totp-key:/etc/codeattest/demo/totp-key
 LoadCredentialEncrypted=demo-signing-key:/etc/codeattest/demo/signing-key.cred
+LoadCredential=demo-envelope-key:/etc/codeattest/demo/envelope-key
 ExecStart=/usr/bin/node /opt/codeattest/demo/current/services/host/dist/services/host/src/main.js /etc/codeattest/demo-host.json
 Restart=on-failure
 RestartSec=5s

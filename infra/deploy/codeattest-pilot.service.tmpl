@@ -11,6 +11,7 @@ WorkingDirectory=/opt/codeattest/pilot/current
 Environment=CREDENTIALS_DIRECTORY=%d
 LoadCredential=pilot-totp-key:/etc/codeattest/pilot/totp-key
 LoadCredentialEncrypted=pilot-signing-key:/etc/codeattest/pilot/signing-key.cred
+LoadCredential=pilot-envelope-key:/etc/codeattest/pilot/envelope-key
 ExecStart=/usr/bin/node /opt/codeattest/pilot/current/services/host/dist/services/host/src/main.js /etc/codeattest/pilot-host.json
 Restart=on-failure
 RestartSec=5s

@@ -1,0 +1,21 @@
+{
+  "deployment_identity": "demo",
+  "database_url": "postgres://codeattest_app:<DEMO_APP_PASSWORD>@127.0.0.1:5433/codeattest",
+  "object_store_root": "/var/lib/codeattest/demo/objects",
+  "object_store_encrypted": false,
+  "listen_addr": "127.0.0.1:8080",
+  "encryption_key_ref": "demo-totp-key",
+  "object_store_envelope_key_ref": "demo-envelope-key",
+  "session_cookie_secure": true,
+  "signing": {
+    "key_directory_path": "/var/lib/codeattest/demo/signing-key-directory.json",
+    "trust_anchor_public_key": "<TRUST_ANCHOR_PUBLIC_KEY>",
+    "key_id": "codeattest-demo-signing-key",
+    "key_version": "v1",
+    "credential_name": "demo-signing-key"
+  },
+  "demo_budget_meter": {
+    "monthly_unit_ceiling": 100,
+    "unit_per_billable_event": 1
+  }
+}

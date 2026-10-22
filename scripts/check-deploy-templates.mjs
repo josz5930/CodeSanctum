@@ -173,6 +173,11 @@ function verifyWorkerUnits(byName, failures) {
   requireMatch(byName.get("retention.timer.tmpl"), /^Unit=codeattest-retention@%i\.service$/m, "retention timer runs the wrong unit", failures);
   requireMatch(byName.get("checkpoint.timer.tmpl"), /^Unit=codeattest-checkpoint@%i\.service$/m, "checkpoint timer runs the wrong unit", failures);
   requireMatch(byName.get("checkpoint.service.tmpl"), /^LoadCredential=%i-anchor-token:/m, "checkpoint unit does not load the anchor token", failures);
+  // The worker stores draft sets and the retention run deletes objects, so
+  // both need the object-store envelope key the host uses.
+  for (const name of ["worker.service.tmpl", "retention.service.tmpl"]) {
+    requireMatch(byName.get(name), /^LoadCredential=%i-envelope-key:\/etc\/codeattest\/%i\/envelope-key$/m, `${name} does not load the object-store envelope key`, failures);
+  }
 }
 
 function caddySnippet(caddyfile, name) {
@@ -253,6 +258,12 @@ export async function checkDeployTemplates(root = repoRoot) {
     requireMatch(host, new RegExp(` /etc/codeattest/${identity}-host\\.json$`, "m"), `${identity} host does not use its mode-0600 config path`, failures);
     requireMatch(host, /^Restart=on-failure$/m, `${identity} host is not restart-supervised`, failures);
     requireMatch(host, /^TimeoutStopSec=(?:1[0-9]|[2-9][0-9]+)s$/m, `${identity} host drain deadline is too short`, failures);
+    // The credential names must match what check-host-config.mjs requires in
+    // the host config; a LoadCredential= whose file is missing stops the unit.
+    for (const credential of ["totp-key", "envelope-key"]) {
+      requireMatch(host, new RegExp(`^LoadCredential=${identity}-${credential}:/etc/codeattest/${identity}/${credential}$`, "m"), `${identity} host does not load its ${credential}`, failures);
+    }
+    requireMatch(host, new RegExp(`^LoadCredentialEncrypted=${identity}-signing-key:/etc/codeattest/${identity}/signing-key\\.cred$`, "m"), `${identity} host does not load its signing key`, failures);
 
     requireMatch(web, new RegExp(`^User=codeattest-${identity}$`, "m"), `${identity} web has the wrong Unix user`, failures);
     requireMatch(web, new RegExp(`^WorkingDirectory=/opt/codeattest/${identity}/web$`, "m"), `${identity} web is not rooted on native disk`, failures);
