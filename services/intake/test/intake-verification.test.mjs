@@ -404,6 +404,14 @@ async function testShippedControlArtifactFailures(intake) {
     replaceShippedArtifactBytes(request, "review_scope", Buffer.from("{not valid json"));
   }), "shipped_review_scope_invalid");
 
+  // C13: a well-formed review scope that names a review other than the one
+  // the credential was issued for is rejected, not received.
+  await expectRejected(intake, mutate(async (request) => {
+    const reviewScope = await readFixtureJson("review-scope.json");
+    reviewScope.review_id = "review:synthetic-demo-other";
+    replaceShippedArtifactBytes(request, "review_scope", Buffer.from(JSON.stringify(reviewScope)));
+  }), "review_scope_review_mismatch");
+
   await expectRejected(intake, mutate(async (request) => {
     replaceShippedArtifactBytes(request, "disclosure_policy", Buffer.from("{not valid json"));
   }), "shipped_disclosure_policy_invalid");
@@ -822,7 +830,7 @@ async function createAcceptedRequest() {
     demo_budget_enforcement: { spend_ratio: 0.1 },
     authenticated_context: {
       customer_id: "customer:synthetic-demo",
-      review_request_id: "review_request:synthetic-demo",
+      review_request_id: "review_request:synthetic-demo-001",
       selected_application_id: approvedOutboundManifest.selected_scope_summary.selected_application.application_id,
       selected_commit: approvedOutboundManifest.selected_scope_summary.selected_commit.commit_sha,
       repository_identity_hash: approvedOutboundManifest.selected_scope_summary.repository_identity
@@ -833,7 +841,7 @@ async function createAcceptedRequest() {
     },
     submission_token_expectation: {
       customer_id: "customer:synthetic-demo",
-      review_request_id: "review_request:synthetic-demo",
+      review_request_id: "review_request:synthetic-demo-001",
       selected_application_id: approvedOutboundManifest.selected_scope_summary.selected_application.application_id,
       selected_commit: approvedOutboundManifest.selected_scope_summary.selected_commit.commit_sha,
       repository_identity_hash: approvedOutboundManifest.selected_scope_summary.repository_identity,

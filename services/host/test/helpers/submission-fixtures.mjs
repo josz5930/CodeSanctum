@@ -15,7 +15,7 @@ const validFixtureRoot = path.join(fixtureRoot, "v0", "valid");
 
 export const AUTH_HEADER = "Bearer demo-runner-key-1:synthetic-demo-submission-secret";
 const CREDENTIAL_SECRET = "synthetic-demo-submission-secret";
-export const REVIEW_ID = "review:synthetic-demo-0001";
+export const REVIEW_ID = "review:synthetic-demo-001";
 const HOST_SIGNING_KEY_ID = "codeattest-demo-signing-key";
 const HOST_SIGNING_KEY_VERSION = "v1";
 const RUNNER_KEY_ID = "codeattest-runner-test-key";
@@ -307,8 +307,8 @@ export async function buildTestServer(options = {}) {
   const credentials = createMemorySubmissionCredentialStore();
   await credentials.issue({
     ...fixtures.credential,
-    // A test that needs the credential to name the same review as the
-    // bundle's review scope passes it here.
+    // A test that needs the credential to name a review other than the one
+    // the bundle's review scope names passes it here (C13).
     ...(options.reviewId === undefined ? {} : { review_id: options.reviewId }),
     issued_at: issuedAt,
     expires_at: new Date(issuedAt.getTime() + 30 * 24 * 60 * 60 * 1000)

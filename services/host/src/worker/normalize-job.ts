@@ -170,6 +170,12 @@ async function normalizeAttempt(deps: NormalizeJobDeps, job: JobRecord, attemptI
   if (reviewScope === "not_found" || scannerFindingSet === "not_found") {
     return { outcome: "rejected", rejection_reason: "worker_artifact_unreadable" };
   }
+  // Intake rejects this at finalize (C13); the worker checks again so a draft
+  // set is never stored under a review its own scope does not name.
+  const shippedReviewId = typeof reviewScope === "object" && reviewScope !== null ? (reviewScope as { review_id?: unknown }).review_id : undefined;
+  if (shippedReviewId !== attempt.review_id) {
+    return { outcome: "rejected", rejection_reason: "worker_review_scope_mismatch" };
+  }
 
   const presence = await deps.presence(bundle.artifact_references.map((entry) => entry.digest));
   const result = normalizeCandidateFindings({

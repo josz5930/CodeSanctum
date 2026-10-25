@@ -5,7 +5,7 @@ partner-facing service that accepts real customer source-derived evidence in an
 enterprise setting. It is written for the repository owner and any operator
 provisioning the pilot.
 
-> **Status (2026-08-30).** Section 1's agent-executable code fixes (C1–C9) have
+> **Status (2026-10-25).** Section 1's agent-executable code fixes (C1–C14) have
 > landed. The items are retained below as a record of the runtime and
 > completeness gaps that were closed. The open path to accepting real customer
 > evidence is now Section 2: live provisioning, live control evidence, the
@@ -436,10 +436,48 @@ classified under the wrong review, but the submission is accepted for nothing.
 The host test fixtures carry this mismatch (`review:synthetic-demo-0001`
 credential, `review:synthetic-demo-001` bundle), which hid it.
 
-- [ ] Reject the mismatch at finalize with a recorded scope-mismatch outcome,
+- [X] Reject the mismatch at finalize with a recorded scope-mismatch outcome,
       have the worker refuse it as defense in depth, and make the host test
       fixtures consistent (then drop the `reviewId` override in
-      `services/host/test/reviewer-postgres.test.mjs`).
+      `services/host/test/reviewer-postgres.test.mjs`). Done 2026-10-25:
+      intake compares the shipped review scope's `review_id` with the review
+      the credential names and rejects `review_scope_review_mismatch`
+      (`services/intake/src/index.ts`, `validateShippedControlArtifacts`);
+      the worker rejects `worker_review_scope_mismatch` before storing a draft
+      set; the host fixtures' credential now names the bundle's review and
+      the override is gone. Verified by the intake verification test, the
+      submission route test (a mismatched credential gets a recorded
+      rejection, no receipt, and no queued job), and the worker test.
+
+## C14. Keep the deployed runtime on patched versions, and prove the database tier in CI — [CODE] [REPO] — high
+
+A review on 2026-10-25 checked the pinned toolchain and dependencies against
+published advisories and walked the CI and edge configuration.
+
+- [X] **Node 24.18.0 was pinned behind a security release.** Node 24.22.1
+      (21 October 2026) fixes several high-severity CVEs in TLS, DNS, and HTTP
+      handling. `.node-version`, `.nvmrc`, `engines`, and the runbooks now
+      pin 24.22.1. The permanent CI and the VPS must install it.
+- [X] **Next.js 16.3.8 carried two critical advisories.** GHSA-673q-mjm6-r5xr
+      (`use cache` RCE), GHSA-2464-fhr4-w9xw (SVG image-optimization RCE), and
+      GHSA-p3m5-59mp-jv5r (Server Actions DoS) are fixed from 16.4.1; the web
+      app now pins 16.4.3. Fastify moved to 5.12.7 (header validation bypass,
+      GHSA-389g-gv7q-r4x8) and the transitive `fast-uri` to its patched
+      line. `npm audit` reports no advisory at any level.
+- [X] **The Postgres tests never ran in CI.** `ci.yml` had no database, so the
+      append-only grant tests, the migrations, and the worker process test
+      skipped cleanly on every push. The job now runs a `postgres:17.2-alpine`
+      service on the harness port, has a timeout, and cancels superseded runs.
+- [X] **Caddy had no header-read or idle timeout.** A client could hold
+      connections open indefinitely (slowloris). The template now sets
+      `read_header`, `read_body_idle`, `write_idle`, and `idle`, and
+      `scripts/check-deploy-templates.mjs` fails without them.
+- [X] **The runbook stopped before the first login.** `PROVISIONING.md` now
+      has the firewall commands its text only described and a section 8 that
+      creates the first tenant, reviewer (with TOTP), customer, and submission
+      credential with `scripts/provision-identity.mjs`.
+- [ ] Rust is pinned at 1.96.1; stable is 1.99 (October 2026). No advisory
+      forces a move, so the bump waits for a release that needs it.
 
 ---
 

@@ -9,10 +9,37 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   fixture-gate:
     name: Local development and fixture gate
     runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    # The evidence-store, identity-store, and host Postgres tests skip cleanly
+    # when no database answers on 127.0.0.1:55432. This service makes them run,
+    # so the append-only grants, migrations, and worker process are exercised on
+    # every change, not only on a developer machine with Docker. The role and
+    # password are the synthetic local-development literals from
+    # infra/local/compose.yaml and infra/migrations/0002_roles_and_grants.sql.
+    services:
+      postgres:
+        image: postgres:17.2-alpine
+        env:
+          POSTGRES_USER: codeattest_migrator
+          POSTGRES_PASSWORD: synthetic_demo_local_only
+          POSTGRES_DB: codeattest
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U codeattest_migrator -d codeattest"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+
     steps:
       - name: Check out repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1

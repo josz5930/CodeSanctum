@@ -6,7 +6,7 @@
   "description": "Protocol-centered monorepo scaffold for CodeAttest.",
   "type": "module",
   "engines": {
-    "node": "24.18.0"
+    "node": "24.22.1"
   },
   "workspaces": [
     "apps/control-plane",

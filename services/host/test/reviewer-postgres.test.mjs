@@ -7,7 +7,7 @@ import { importCompiled as importEvidenceStoreCompiled } from "../../../packages
 import { importCompiled } from "./helpers/compile.mjs";
 import { buildTestServer as buildIdentityServer, loginAs, SEEDED } from "./helpers/identity-fixtures.mjs";
 import { APP_URL, postgresAvailable, withMigratedPostgres } from "./helpers/postgres-harness.mjs";
-import { buildTestServer as buildSubmissionServer, submitSyntheticBundle, SYNTHETIC_OBJECT_ENVELOPE, syntheticBundle, syntheticGate } from "./helpers/submission-fixtures.mjs";
+import { buildTestServer as buildSubmissionServer, submitSyntheticBundle, REVIEW_ID, SYNTHETIC_OBJECT_ENVELOPE, syntheticBundle, syntheticGate } from "./helpers/submission-fixtures.mjs";
 
 if (!(await postgresAvailable())) {
   console.log("reviewer-postgres test skipped: no database reachable.");
@@ -36,7 +36,9 @@ const { createPostgresArtifactPresenceReader, createPostgresNormalizationOutcome
 const { createSubmissionAccessMinter } = await importCompiled("src/submission/access.js");
 const { validateProtocolSchema } = await importCompiled("../../packages/protocol-ts/src/index.js");
 
-const BUNDLE_REVIEW = "review:synthetic-demo-001";
+// The submission credential names the same review as the bundle's review
+// scope, as a provisioned credential must (C13).
+const BUNDLE_REVIEW = REVIEW_ID;
 
 async function expectPermissionDenied(pool, statement) {
   await assert.rejects(pool.query(statement), (error) => error.code === "42501", statement);
@@ -49,9 +51,7 @@ await withMigratedPostgres(async () => {
     await seedEnvironmentGate(pool, { version: 1, gate: await syntheticGate() });
     const objectStoreRoot = await mkdtemp(path.join(tmpdir(), "onevps-host-reviewer-pg-"));
     await chmod(objectStoreRoot, 0o700);
-    // The bundle's review scope names BUNDLE_REVIEW; in production the
-    // operator provisions the credential for that same review.
-    const { server: intake, deps } = await buildSubmissionServer({ pool, objectStoreRoot, reviewId: BUNDLE_REVIEW });
+    const { server: intake, deps } = await buildSubmissionServer({ pool, objectStoreRoot });
     await submitSyntheticBundle(intake, await syntheticBundle());
     const workerNow = () => "2026-08-16T12:05:00Z";
     const outcomes = createPostgresNormalizationOutcomeStore(pool);

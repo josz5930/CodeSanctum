@@ -86,6 +86,25 @@ function workerDeps(deps, overrides = {}) {
   assert.deepEqual(await drainNormalizeJobs(worker), { normalized: 0, rejected: 1, failed: [] });
   assert.equal((await worker.outcomes.find("submission_attempt:ghost-attempt")).rejection_reason, "worker_attempt_not_found");
 
+  // C13, defense in depth: if an attempt reaches the worker under a review
+  // that its shipped review scope does not name, no draft set is stored.
+  {
+    const { server: s2, deps: d2 } = await buildTestServer();
+    const bundle2 = await syntheticBundle();
+    await submitSyntheticBundle(s2, bundle2);
+    const attempt2 = bundle2.bundle_manifest.submission_attempt_id;
+    const mislabeled = {
+      ...d2.attempts,
+      find: async (id) => {
+        const found = await d2.attempts.find(id);
+        return found === undefined ? undefined : { ...found, review_id: "review:synthetic-demo-other" };
+      }
+    };
+    const { workerDeps: w2 } = workerDeps(d2, { attempts: mislabeled });
+    assert.deepEqual(await drainNormalizeJobs(w2), { normalized: 0, rejected: 1, failed: [] });
+    assert.equal((await w2.outcomes.find(attempt2)).rejection_reason, "worker_review_scope_mismatch");
+  }
+
   // A payload that names nothing is dropped, not retried forever.
   await deps.jobs.enqueue({ job_id: "job:normalize:junk", job_type: NORMALIZE, payload: "not json" });
   assert.deepEqual(await drainNormalizeJobs(worker), { normalized: 0, rejected: 0, failed: [] });

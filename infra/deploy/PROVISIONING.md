@@ -25,7 +25,7 @@ systemctl is-system-running
 command -v rsync curl systemd-analyze caddy psql pg_createcluster cryptsetup
 ```
 
-Expected Node is `v24.18.0`. Stop if `/opt/codeattest`, `/var/lib/codeattest`,
+Expected Node is `v24.22.1`. Stop if `/opt/codeattest`, `/var/lib/codeattest`,
 or `/etc/codeattest` is a symlink into `/mnt/hgfs`; runtime data and releases
 must live on native disk.
 
@@ -218,8 +218,23 @@ sudo chmod 0600 /etc/codeattest/demo-observability.env /etc/codeattest/pilot-obs
 ## 6. DNS, Caddy, and units
 
 Create public DNS A/AAAA records for both hostnames pointing at this VPS.
-Permit inbound TCP 80/443 only; host and web ports remain loopback-only. Put
-the hostnames in Caddy's systemd environment (commonly
+Permit inbound TCP 80/443 only; host and web ports remain loopback-only. With
+Ubuntu's `ufw`, from a console session (not SSH, until the SSH rule is in):
+
+```sh
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+sudo ufw status verbose
+```
+
+Checkpoint: `ss -ltnp` must show PostgreSQL (`5433`, `5434`), the hosts
+(`8080`, `8081`), and the web processes (`3000`, `3001`) on `127.0.0.1` only.
+
+Put the hostnames in Caddy's systemd environment (commonly
 `/etc/systemd/system/caddy.service.d/codeattest.conf`):
 
 ```ini
@@ -271,3 +286,67 @@ If a release fails readiness, `deploy.sh` restores the previous release. For
 an operator-directed rollback, run `sudo infra/deploy/rollback.sh <identity>`.
 Database migrations are not rolled back; every deployed migration must remain
 backward-compatible with the retained previous release.
+
+## 8. First tenant, accounts, and submission credential
+
+The host has no self-service signup. Every tenant, account, and submission
+credential is created by an operator with `scripts/provision-identity.mjs`,
+which connects as `codeattest_migrator`. The commands print secrets to the
+terminal once: run them in a private session and hand each secret to its
+owner through a channel you would trust with a password.
+
+Run each command from the repository root with the identity's migrator URL:
+
+```sh
+alias provision-demo='sudo sh -c '"'"'CODEATTEST_DATABASE_URL="$(cat /etc/codeattest/demo/migrator-database-url)" node scripts/provision-identity.mjs "$@"'"'"' sh'
+provision-demo tenant create --tenant-id tenant-example --display-name "Example Customer"
+```
+
+A reviewer needs the `codeattest_reviewer` role and an enrolled TOTP
+authenticator; the reviewer routes refuse a session without a confirmed
+second factor. The enrollment prints an `otpauth://` URI once; the reviewer
+loads it into an authenticator app before the first login.
+
+```sh
+provision-demo account create --tenant-id tenant-example --identifier reviewer@example.invalid --role codeattest_reviewer
+provision-demo totp enroll --identifier reviewer@example.invalid --encryption-key-file /etc/codeattest/demo/totp-key
+```
+
+A customer account reads one review (`--review-scope`) or, without it, every
+review of its tenant:
+
+```sh
+provision-demo account create --tenant-id tenant-example --identifier customer@example.invalid --role customer_viewer --review-scope review:example-0001
+```
+
+A submission credential binds one review to one tenant and to the exact scope
+the customer's runner captured. Take `application_id`, `commit_sha`, and
+`repository_identity` from the runner's review scope, and `manifest_id` from
+its outbound manifest preview (step 4 in the top-level README). The
+`--review-id` must equal the `review_id` in that review scope; the host
+rejects a bundle whose shipped review scope names any other review.
+
+```sh
+provision-demo credential issue \
+  --review-id review:example-0001 \
+  --tenant-id tenant-example \
+  --application-id <application_id> \
+  --commit <commit_sha> \
+  --repository-identity-hash sha256:<repository_identity> \
+  --expected-manifest-id sha256:<manifest_id> \
+  --days 30
+```
+
+Give the customer the printed `token_key_id` and `secret`. Their runner sends
+the bundle with `submit send --endpoint https://<DEMO_HOSTNAME> --token-key-id
+<token_key_id>` and the secret in `CODEATTEST_SUBMISSION_SECRET` (see
+[`../../runner/README.md`](../../runner/README.md)). Revoke a credential that
+leaked or is no longer needed:
+
+```sh
+provision-demo credential revoke --token-key-id <token_key_id> --reason operator_revoked
+```
+
+`account reset-secret --identifier <email>` mints a new login secret and
+revokes every session of that account. Repeat this section with
+`/etc/codeattest/pilot/migrator-database-url` and `pilot-totp-key` for pilot.

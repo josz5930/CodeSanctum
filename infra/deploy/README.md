@@ -56,6 +56,15 @@ stranger who knows a username cannot keep that account locked. Do not add
 `trusted_proxies` or rewrite `X-Forwarded-For` unless another trusted proxy
 sits in front of Caddy; the template check fails on either.
 
+### Timeouts
+
+Caddy sets no header-read or idle timeout on its own, so the global
+`servers { timeouts { … } }` block in the template bounds them: `read_header`
+10s, `read_body_idle` and `write_idle` 30s, `idle` 2m. The body timeouts are
+idle timeouts that reset on every successful read or write, so a slow but
+steady artifact upload still completes; only a stalled connection is closed.
+The template check fails when any of these is removed.
+
 ### Security headers
 
 Both sites import the `security_headers` snippet: HSTS (one year,

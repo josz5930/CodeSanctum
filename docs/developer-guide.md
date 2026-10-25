@@ -18,7 +18,7 @@ future rename could be sequenced safely.
 
 ## 1. Prerequisites
 
-- Node.js `24.18.0` LTS — pinned in [`.node-version`](../.node-version) /
+- Node.js `24.22.1` LTS — pinned in [`.node-version`](../.node-version) /
   [`.nvmrc`](../.nvmrc). Use `nvm use` or an equivalent version manager.
   TypeScript `6.0.3` installs with the workspace.
 - Rust `1.96.1` with `rustfmt` and `clippy` — pinned in

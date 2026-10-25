@@ -14,6 +14,8 @@ This workspace originally shipped no business endpoints; sub-project B added the
 
 B adds the three-phase submission transport: `POST /v0/submissions` (open), `PUT /v0/submissions/{id}/artifacts/{digest}` (one per artifact), and `POST /v0/submissions/{id}/finalize` (mint the receipt, record the outcome, enqueue the worker job). It ships the `SubmissionCredentialStore` and `BudgetMeter` ports (`src/submission/credential-store.ts`, `src/submission/budget-meter.ts`), and composes `enforceScopedAccess` and the review-event append boundary into the finalize route (`src/submission/access.ts`, `src/submission/review-events.ts`). B originally backed credentials from the host config file; C replaced that adapter with the Postgres store in `@onevps/identity-store` behind the same `SubmissionCredentialStore` interface. F replaces the demo deployment's static meter at composition time, as documented below.
 
+A credential names one review. At finalize, intake rejects a bundle whose shipped review scope names another review (`review_scope_review_mismatch`), and the worker refuses the same case again (`worker_review_scope_mismatch`), so no draft set is ever stored under a review its own scope does not name.
+
 What B explicitly does not add: no browser surface, no authentication of humans, no TLS, no internet exposure — the host still binds to loopback only. Receipts are signed with the real ML-DSA-65 managed key D2 wired into boot (`src/signing/key-service.ts`); the boot-bound environment-evidence gate is still read-only here, unwidened by anything in this sub-project.
 
 ## Sub-project C boundary

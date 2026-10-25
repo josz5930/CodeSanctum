@@ -230,6 +230,11 @@ function verifyCaddySecurityHeaders(caddyfile, failures) {
   if (/trusted_proxies|header_up\s+[+-]?X-Forwarded-For/i.test(directives)) {
     failures.push("Caddy must not trust or rewrite a client's X-Forwarded-For");
   }
+  // Caddy has no default header-read or idle timeout; without these a client
+  // can hold connections open indefinitely (slowloris).
+  for (const timeout of ["read_header", "read_body_idle", "idle"]) {
+    requireMatch(directives, new RegExp(`^\\s*${timeout}\\s+\\d+[smh]$`, "m"), `Caddy servers timeouts must set ${timeout}`, failures);
+  }
 }
 
 export async function checkDeployTemplates(root = repoRoot) {

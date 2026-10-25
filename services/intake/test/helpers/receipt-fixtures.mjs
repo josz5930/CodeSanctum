@@ -149,7 +149,7 @@ async function createAcceptedIntakeRequest() {
     demo_budget_enforcement: { spend_ratio: 0.1 },
     authenticated_context: {
       customer_id: "customer:synthetic-demo",
-      review_request_id: "review_request:synthetic-demo",
+      review_request_id: "review_request:synthetic-demo-001",
       selected_application_id: approvedOutboundManifest.selected_scope_summary.selected_application.application_id,
       selected_commit: approvedOutboundManifest.selected_scope_summary.selected_commit.commit_sha,
       repository_identity_hash: approvedOutboundManifest.selected_scope_summary.repository_identity
@@ -160,7 +160,7 @@ async function createAcceptedIntakeRequest() {
     },
     submission_token_expectation: {
       customer_id: "customer:synthetic-demo",
-      review_request_id: "review_request:synthetic-demo",
+      review_request_id: "review_request:synthetic-demo-001",
       selected_application_id: approvedOutboundManifest.selected_scope_summary.selected_application.application_id,
       selected_commit: approvedOutboundManifest.selected_scope_summary.selected_commit.commit_sha,
       repository_identity_hash: approvedOutboundManifest.selected_scope_summary.repository_identity,

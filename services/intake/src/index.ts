@@ -1294,6 +1294,11 @@ function validateShippedControlArtifacts(request: IntakeVerificationRequest): Ve
     const parsed = parseShippedJson(bytesByRef[reviewScopeRef]);
     if (parsed === undefined || validateProtocolSchema("urn:codeattest:protocol:v0:review-scope", parsed).length > 0) {
       issues.push(reject("shipped_review_scope_invalid"));
+    } else if (!isRecord(parsed) || parsed["review_id"] !== reviewIdFor(request.submission_token_expectation.review_request_id)) {
+      // C13: the credential names one review. A bundle whose shipped review
+      // scope names another review would otherwise be received, and its
+      // normalized draft set would name a review it is not stored under.
+      issues.push(reject("review_scope_review_mismatch"));
     }
   }
 
@@ -1931,6 +1936,15 @@ function constantTimeStringEquals(left: string, right: string): boolean {
 
 function reject(code: string): VerificationIssue {
   return { code, disposition: "reject" };
+}
+
+/**
+ * The host derives intake's `review_request:<suffix>` from the credential's
+ * `review:<suffix>` (same suffix, different grammar). The shipped review scope
+ * carries the `review:` form, so the expectation is mapped back for comparison.
+ */
+function reviewIdFor(reviewRequestId: string): string {
+  return `review:${reviewRequestId.replace(/^review_request:/, "")}`;
 }
 
 function quarantine(code: string): VerificationIssue {

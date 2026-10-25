@@ -22,7 +22,7 @@ node scripts/collect-readiness-evidence.mjs \
   --command "npm run identity:c-check" \
   --stdout-file /tmp/identity-c-check.stdout \
   --exit-status 0 \
-  --tool-version "node-24.18.0" \
+  --tool-version "node-24.22.1" \
   --release-digest sha256:<exact-release> \
   --expected-release-digest sha256:<exact-release> \
   --deployment-identity pilot \

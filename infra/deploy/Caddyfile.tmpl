@@ -25,6 +25,21 @@
 # sends each upstream the real client address. The host and the web app trust
 # that header from loopback only, for per-client rate limits and lockout.
 
+# Caddy sets no header-read or idle timeout by default, so a client that sends
+# request headers one byte at a time, or holds idle connections open, keeps a
+# connection for as long as it likes. The body timeouts are idle timeouts, so a
+# slow but steady 64 MiB artifact upload still completes.
+{
+	servers {
+		timeouts {
+			read_header 10s
+			read_body_idle 30s
+			write_idle 30s
+			idle 2m
+		}
+	}
+}
+
 {$CODEATTEST_DEMO_HOSTNAME} {
 	encode zstd gzip
 	import security_headers

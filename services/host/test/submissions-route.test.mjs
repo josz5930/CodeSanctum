@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { buildTestServer, syntheticBundle, AUTH_HEADER, REVIEW_ID } from "./helpers/submission-fixtures.mjs";
+import { buildTestServer, submitSyntheticBundle, syntheticBundle, AUTH_HEADER, REVIEW_ID } from "./helpers/submission-fixtures.mjs";
 
 const { server, deps } = await buildTestServer();
 const bundle = await syntheticBundle();
@@ -263,6 +263,18 @@ assert.equal(rejected.statusCode, 200, rejected.body);
 assert.equal(rejected.json().submission_outcome.outcome_state, "rejected_no_receipt");
 assert.ok(rejected.json().submission_outcome.failure_reason_codes.length >= 1);
 assert.equal(rejected.json().submission_outcome.vendor_receipt_ref, undefined);
+
+// C13: a credential issued for one review does not receive a bundle whose
+// shipped review scope names another. The outcome is a recorded rejection with
+// the scope-mismatch reason, no receipt, and nothing queued for the worker.
+{
+  const { server: otherReview, deps: otherDeps } = await buildTestServer({ reviewId: "review:synthetic-demo-other" });
+  const mismatched = await submitSyntheticBundle(otherReview, await syntheticBundle());
+  assert.equal(mismatched.submission_outcome.outcome_state, "rejected_no_receipt");
+  assert.ok(mismatched.submission_outcome.failure_reason_codes.includes("review_scope_review_mismatch"), JSON.stringify(mismatched.submission_outcome.failure_reason_codes));
+  assert.equal(mismatched.submission_outcome.vendor_receipt_ref, undefined);
+  assert.equal(await otherDeps.jobs.claim("normalize_scanner_findings"), undefined, "a rejected submission enqueues no normalization");
+}
 
 // The budget guard: at or above 95% intake is disabled regardless of validity.
 const { server: broke } = await buildTestServer({ spendRatio: 0.96 });
