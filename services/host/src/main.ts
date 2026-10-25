@@ -33,7 +33,8 @@ import { registerAuthRoutes } from "./routes/auth.js";
 import { registerBudgetHaltGuard, registerSubmissionRoutes } from "./routes/submissions.js";
 import { registerWebRoutes } from "./routes/web.js";
 import { createMemoryReviewRecordStore } from "./web/record-store.js";
-import { seedSyntheticDemoReviewRecords } from "./web/seed-record-store.js";
+import { SYNTHETIC_DEMO_REVIEW_SCOPE, seedSyntheticDemoReviewRecords } from "./web/seed-record-store.js";
+import { createMemoryReviewOwnershipReader, createPostgresReviewOwnershipReader } from "./web/review-ownership.js";
 import { createSubmissionAccessMinter } from "./submission/access.js";
 import { createConfigBudgetMeter } from "./submission/budget-meter.js";
 import { createEventDerivedBudgetMeter } from "./submission/event-derived-budget-meter.js";
@@ -187,14 +188,20 @@ async function main() {
   // survives a restart even though the store itself is in-memory. Non-demo
   // deployments start empty until a real read model exists.
   const records = createMemoryReviewRecordStore();
+  // A review belongs to the tenant its submission credentials name. The
+  // seeded synthetic-demo review is public repository content, so on the demo
+  // deployment any signed-in account may read it.
+  const syntheticReviews = createMemoryReviewOwnershipReader();
   if (config.deployment_identity === "demo") {
     seedSyntheticDemoReviewRecords(records, {
       fixturesRoot: fileURLToPath(new URL("../../../protocol/fixtures/v0", import.meta.url)),
       verifier: keyService.verifier,
       verifiedAt: nowUtcRfc3339()
     });
+    syntheticReviews.seedPublicSynthetic(SYNTHETIC_DEMO_REVIEW_SCOPE);
   }
-  server.decorate("ports", { evidenceLifecycleLog, reviewEventLog, records });
+  const reviewOwnership = createPostgresReviewOwnershipReader(pool, syntheticReviews);
+  server.decorate("ports", { evidenceLifecycleLog, reviewEventLog, records, reviewOwnership });
   server.decorate("now", nowUtcRfc3339);
   registerBudgetHaltGuard(server, {
     deploymentIdentity: config.deployment_identity,

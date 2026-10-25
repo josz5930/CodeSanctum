@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 
 import type { EvidenceLifecycleLogStore, ReviewEventLogStore } from "../../../../packages/evidence-store/src/index.js";
 import type { ReviewRecordStore } from "../web/record-store.js";
+import type { ReviewOwnershipReader } from "../web/review-ownership.js";
 import {
   actorTypeForRole,
   sessionHandleFor,
@@ -27,6 +28,7 @@ declare module "fastify" {
       evidenceLifecycleLog: EvidenceLifecycleLogStore;
       reviewEventLog: ReviewEventLogStore;
       records: ReviewRecordStore;
+      reviewOwnership: ReviewOwnershipReader;
     };
     now: () => string;
   }

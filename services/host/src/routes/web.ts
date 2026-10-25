@@ -10,6 +10,7 @@ import { projectReviewDetail } from "../web/project-review-detail.js";
 import { projectFindingRecords } from "../web/project-finding-record.js";
 import { projectVerificationScope } from "../web/project-verification-scope.js";
 import { projectAttestation } from "../web/project-attestation.js";
+import { ownerTenantFor } from "../web/review-ownership.js";
 
 export type WebRouteDeps = {
   errorEnvelope: (reasonCode: string) => ErrorEnvelopeBody;
@@ -32,12 +33,20 @@ function uniqueGrantedReviewIds(actor: AuthenticatedActor): string[] {
  * Listing is not a stored-artifact read. `artifact_ref` is derived from the
  * grant's review id so access logging stays scoped without a catalog.
  * Pattern: `^artifact_ref:[a-z0-9][a-z0-9_-]{2,63}$`.
+ *
+ * The tenant is the review's owner, never the actor's own tenant: comparing
+ * the actor's tenant with itself let a tenant-wide grant read any review id.
+ * An unknown review has no scope at all and is denied.
  */
-function artifactScopeForReviewList(actor: AuthenticatedActor, reviewId: string): ArtifactScope {
+async function artifactScopeForReviewList(request: FastifyRequest, actor: AuthenticatedActor, reviewId: string): Promise<ArtifactScope | undefined> {
+  const tenantId = ownerTenantFor(await request.server.ports.reviewOwnership(reviewId), actor.tenant_id);
+  if (tenantId === undefined) {
+    return undefined;
+  }
   const slug = reviewId.replace(/[^a-z0-9]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase().slice(0, 64);
   return {
     artifact_ref: `artifact_ref:${slug}`,
-    tenant_id: actor.tenant_id,
+    tenant_id: tenantId,
     review_scope: reviewId,
     source_derived_class: "retained_review_artifact"
   };
@@ -57,8 +66,12 @@ async function gateReviewScope(
   reviewScope: string,
   idempotencyScope: "review_detail" | "review_findings" | "review_attestation"
 ): Promise<ScopeGate> {
+  const artifact = await artifactScopeForReviewList(request, actor, reviewScope);
+  if (artifact === undefined) {
+    return { ok: false, status: 403 };
+  }
   const access = await requireEvidenceAccess(request, {
-    artifact: artifactScopeForReviewList(actor, reviewScope),
+    artifact,
     purpose: "customer_review_read",
     idempotencyScope
   });
@@ -91,8 +104,12 @@ export async function registerWebRoutes(server: FastifyInstance, deps: WebRouteD
     const actor = request.actor;
     const allowedLogs: ReviewEvent[][] = [];
     for (const reviewId of uniqueGrantedReviewIds(actor)) {
+      const artifact = await artifactScopeForReviewList(request, actor, reviewId);
+      if (artifact === undefined) {
+        continue;
+      }
       const access = await requireEvidenceAccess(request, {
-        artifact: artifactScopeForReviewList(actor, reviewId),
+        artifact,
         purpose: "customer_review_read",
         idempotencyScope: "review_list"
       });

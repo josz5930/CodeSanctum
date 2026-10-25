@@ -212,6 +212,11 @@ export async function buildTestServer(options = {}) {
   const reviewEventLog = evidenceStore.createMemoryReviewEventLogStore();
   const artifacts = evidenceStore.createMemoryArtifactStore(evidenceLifecycleLog);
   const records = createMemoryReviewRecordStore();
+  const { createMemoryReviewOwnershipReader } = await importCompiled("src/web/review-ownership.js");
+  const reviewOwnership = createMemoryReviewOwnershipReader();
+  reviewOwnership.seedOwner(SEEDED.reviewInScope, TENANT_ID);
+  reviewOwnership.seedOwner(SEEDED.reviewRejected, TENANT_ID);
+  reviewOwnership.seedOwner(SEEDED.reviewOutOfScope, OTHER_TENANT_ID);
 
   await accounts.seed({
     tenant: { tenant_id: TENANT_ID, display_name: "SYNTHETIC_DEMO_DATA tenant" },
@@ -390,7 +395,7 @@ export async function buildTestServer(options = {}) {
       ? { isReady: () => true }
       : { isReady: () => true, logger: options.logger }
   );
-  server.decorate("ports", { evidenceLifecycleLog, reviewEventLog, records });
+  server.decorate("ports", { evidenceLifecycleLog, reviewEventLog, records, reviewOwnership });
   server.decorate("now", nowUtcRfc3339);
   registerActorResolution(server, {
     accounts,
@@ -434,5 +439,5 @@ export async function buildTestServer(options = {}) {
     return reply.code(200).send(Buffer.from(read.bytes));
   });
   await server.ready();
-  return { server, ports: { accounts, sessions, throttle, totpKey, evidenceLifecycleLog, reviewEventLog, artifacts, records } };
+  return { server, ports: { accounts, sessions, throttle, totpKey, evidenceLifecycleLog, reviewEventLog, artifacts, records, reviewOwnership } };
 }

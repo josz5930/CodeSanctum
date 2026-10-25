@@ -387,6 +387,26 @@ stopped a first deploy or the first upgrade, or would have.
       provisioned pilot, the off-box copy, and key separation stay in
       Section 2 §7.*
 
+## C12. Bind each review to the tenant that owns it — [CODE] — high
+
+Found on 2026-10-25 while building the reviewer workflow (P3). The web access
+gate put the actor's own tenant on the artifact scope, so the scoped-access
+check compared that tenant with itself. A customer with a tenant-wide grant
+could read the detail, findings, and attestation of another tenant's review by
+typing its id, and the access event was written to that tenant's log.
+
+- [X] `services/host/src/web/review-ownership.ts` resolves the owner from
+      `submission_credential` (one review, one tenant). The gate uses the
+      owner's tenant, so a foreign review is denied as out of scope and logs
+      nothing. A review with no credential, or with credentials for two
+      tenants, is denied to everyone. The demo deployment's seeded synthetic
+      review is public repository content and stays readable.
+- [X] **Acceptance:** `services/host/test/review-ownership.test.mjs`: a
+      tenant-wide customer gets 403 on all three routes for a foreign review
+      with no event in the foreign log, 403 on an unknown review, 200 on its
+      own review; the Postgres reader returns the owner, fails closed on a
+      split review, and falls back to the public synthetic set.
+
 ---
 
 # Section 2 — Human-only processes: provisioning, live evidence, and approvals

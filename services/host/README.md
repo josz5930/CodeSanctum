@@ -36,6 +36,7 @@ E adds a **read-only** `web` route group (`src/routes/web.ts`) behind C's `regis
 
 - `GET /web/context`, `GET /web/reviews`, `GET /web/reviews/:reviewScope`, `GET /web/reviews/:reviewScope/findings`, `GET /web/reviews/:reviewScope/attestation`
 - Every review-scoped route runs the same `gateReviewScope` helper: C's `requireEvidenceAccess`, one persisted `evidence_accessed` event, then `selectGrant` for the audience — routes never call `enforceScopedAccess` directly
+- The artifact scope carries the review's **owning** tenant (`src/web/review-ownership.ts`), read from the submission credentials that bind each review to one tenant. A tenant-wide grant therefore covers only its own tenant's reviews; a review that no credential names, or that credentials bind to two tenants, is denied to everyone. On the demo deployment the seeded synthetic review is public repository content and readable by any signed-in account
 - Each route resolves `request.actor`, runs `@onevps/ui` builders server-side (`src/web/project-*.ts`), and returns the serializable view **contract** as JSON; the browser never receives raw evidence, the database, or the session secret
 - Audience is derived from the grant's role, never the request, so `internal_only` timeline entries and the internal-only pilot-learning contract never reach a customer
 
