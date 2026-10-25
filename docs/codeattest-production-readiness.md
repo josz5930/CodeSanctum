@@ -323,8 +323,25 @@ existed only as library code.
       real submission is normalized by the compiled worker process, which then
       stops cleanly on SIGTERM); `scripts/check-deploy-templates.mjs` checks the
       units.
-- [ ] Nothing yet reads the draft sets: the reviewer workflow over HTTP and in
-      the UI is a separate item (P3).
+- [X] Nothing read the draft sets. **P3, done 2026-10-25:** reviewers read
+      them and record classifications over HTTP
+      (`services/host/src/routes/reviewer.ts`) and in the web app
+      (`/reviewer`, `/reviews/[scope]/workbench`). See the host README's P3
+      section for the routes and their gate (reviewer grant, TOTP-confirmed
+      session, review owned by the reviewer's tenant). Records are
+      append-only (`finding_classification_record`, migration 0008), bound to
+      the stored draft by the server, and in force only through their
+      `classification_recorded` event; a changed judgment supersedes the
+      earlier one. Verified by `test/reviewer-routes.test.mjs` (every gate,
+      refusal, supersession, a lost race, the customer timeline, unreadable and
+      mismatched draft sets), `test/reviewer-postgres.test.mjs` (a real
+      submission normalized by the worker and classified twice against
+      Postgres, with append-only grants), and
+      `apps/web/test/reviewer-workbench.test.mjs`.
+- [ ] Later reviewer records (remediation guidance, validation paths and
+      scripts, false-positive and accepted-risk records) and the
+      customer-facing finding records built from them have control-plane
+      builders but no write route yet.
 
 ## C11. Make the provisioning runbook and deploy path work as written — [CODE] [REPO] — high
 
@@ -406,6 +423,23 @@ typing its id, and the access event was written to that tenant's log.
       with no event in the foreign log, 403 on an unknown review, 200 on its
       own review; the Postgres reader returns the owner, fails closed on a
       split review, and falls back to the public synthetic set.
+
+## C13. Reject a bundle whose review scope names another review — [CODE] — medium
+
+Found on 2026-10-25 while testing P3 end to end. Intake does not compare the
+`review_id` in the bundle's review scope with the review the submission
+credential names. The normalizer takes the draft set's `review_id` from the
+review scope, so a mismatched bundle is accepted and normalized, and its draft
+set names a different review than the one it is stored under. The reviewer
+routes refuse such a set (`draft_set_review_mismatch`), so nothing is
+classified under the wrong review, but the submission is accepted for nothing.
+The host test fixtures carry this mismatch (`review:synthetic-demo-0001`
+credential, `review:synthetic-demo-001` bundle), which hid it.
+
+- [ ] Reject the mismatch at finalize with a recorded scope-mismatch outcome,
+      have the worker refuse it as defense in depth, and make the host test
+      fixtures consistent (then drop the `reviewId` override in
+      `services/host/test/reviewer-postgres.test.mjs`).
 
 ---
 

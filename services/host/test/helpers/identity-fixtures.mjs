@@ -438,6 +438,12 @@ export async function buildTestServer(options = {}) {
     }
     return reply.code(200).send(Buffer.from(read.bytes));
   });
+  const ports = { accounts, sessions, throttle, totpKey, evidenceLifecycleLog, reviewEventLog, artifacts, records, reviewOwnership };
+  // Routes from other sub-projects register here: Fastify takes no new route
+  // once the server has booted.
+  if (options.beforeReady !== undefined) {
+    await options.beforeReady(server, ports);
+  }
   await server.ready();
-  return { server, ports: { accounts, sessions, throttle, totpKey, evidenceLifecycleLog, reviewEventLog, artifacts, records, reviewOwnership } };
+  return { server, ports };
 }

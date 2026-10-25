@@ -11,7 +11,17 @@ export type NormalizationOutcomeRecord =
 export interface NormalizationOutcomeStore {
   record(record: NormalizationOutcomeRecord): Promise<{ outcome: "recorded" | "already_present" }>;
   find(submissionAttemptId: string): Promise<NormalizationOutcomeRecord | undefined>;
+  /** Every result recorded for a review, oldest first. */
+  listForReview(reviewId: string): Promise<NormalizationOutcomeRecord[]>;
+  /**
+   * The reviews with recorded results for a tenant's submissions, most recent
+   * first. The memory store holds no tenant and returns every review; callers
+   * must still check each review's owner.
+   */
+  listReviewsForTenant(tenantId: string): Promise<ReviewNormalizationSummary[]>;
 }
+
+export type ReviewNormalizationSummary = { review_id: string; normalized: number; rejected: number };
 
 export function createMemoryNormalizationOutcomeStore(): NormalizationOutcomeStore {
   const records = new Map<string, NormalizationOutcomeRecord>();
@@ -25,6 +35,18 @@ export function createMemoryNormalizationOutcomeStore(): NormalizationOutcomeSto
     },
     async find(submissionAttemptId) {
       return records.get(submissionAttemptId);
+    },
+    async listForReview(reviewId) {
+      return [...records.values()].filter((record) => record.review_id === reviewId);
+    },
+    async listReviewsForTenant() {
+      const summaries = new Map<string, ReviewNormalizationSummary>();
+      for (const record of [...records.values()].reverse()) {
+        const summary = summaries.get(record.review_id) ?? { review_id: record.review_id, normalized: 0, rejected: 0 };
+        summary[record.outcome] += 1;
+        summaries.set(record.review_id, summary);
+      }
+      return [...summaries.values()];
     }
   };
 }
@@ -54,17 +76,44 @@ export function createPostgresNormalizationOutcomeStore(sql: SqlExecutor): Norma
            FROM finding_normalization_outcome WHERE submission_attempt_id = $1`,
         [submissionAttemptId]
       );
-      const row = rows[0] as
-        | { submission_attempt_id: string; review_id: string; outcome: string; rejection_reason: string | null; draft_set_digest: string | null }
-        | undefined;
+      const row = rows[0] as OutcomeRow | undefined;
       if (row === undefined) {
         return undefined;
       }
-      return row.outcome === "normalized"
-        ? { submission_attempt_id: row.submission_attempt_id, review_id: row.review_id, outcome: "normalized", draft_set_digest: String(row.draft_set_digest) }
-        : { submission_attempt_id: row.submission_attempt_id, review_id: row.review_id, outcome: "rejected", rejection_reason: String(row.rejection_reason) };
+      return outcomeFromRow(row);
+    },
+    async listForReview(reviewId) {
+      const { rows } = await sql.query(
+        `SELECT submission_attempt_id, review_id, outcome, rejection_reason, draft_set_digest
+           FROM finding_normalization_outcome WHERE review_id = $1
+          ORDER BY recorded_at ASC, submission_attempt_id ASC`,
+        [reviewId]
+      );
+      return rows.map((row) => outcomeFromRow(row as OutcomeRow));
+    },
+    async listReviewsForTenant(tenantId) {
+      const { rows } = await sql.query(
+        `SELECT o.review_id,
+                count(*) FILTER (WHERE o.outcome = 'normalized')::int AS normalized,
+                count(*) FILTER (WHERE o.outcome = 'rejected')::int AS rejected
+           FROM finding_normalization_outcome o
+           JOIN submission_attempt a ON a.submission_attempt_id = o.submission_attempt_id
+          WHERE a.tenant_id = $1
+          GROUP BY o.review_id
+          ORDER BY max(o.recorded_at) DESC, o.review_id ASC`,
+        [tenantId]
+      );
+      return rows.map((row) => ({ review_id: String(row.review_id), normalized: Number(row.normalized), rejected: Number(row.rejected) }));
     }
   };
+}
+
+type OutcomeRow = { submission_attempt_id: string; review_id: string; outcome: string; rejection_reason: string | null; draft_set_digest: string | null };
+
+function outcomeFromRow(row: OutcomeRow): NormalizationOutcomeRecord {
+  return row.outcome === "normalized"
+    ? { submission_attempt_id: row.submission_attempt_id, review_id: row.review_id, outcome: "normalized", draft_set_digest: String(row.draft_set_digest) }
+    : { submission_attempt_id: row.submission_attempt_id, review_id: row.review_id, outcome: "rejected", rejection_reason: String(row.rejection_reason) };
 }
 
 /** What the store knows about one artifact digest, without reading its bytes. */

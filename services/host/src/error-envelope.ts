@@ -25,6 +25,17 @@ const MESSAGES: Record<string, string> = {
   auth_request_invalid: "The authentication request was not valid.",
   auth_credentials_invalid: "The credentials could not be authenticated.",
   evidence_access_denied: "Access to this evidence was denied.",
+  evidence_unavailable: "The evidence could not be read; try again later.",
+  second_factor_required: "This action requires a session confirmed with an authenticator code.",
+  classification_request_invalid: "The classification request was not valid.",
+  classification_draft_not_found: "No normalized finding draft matches this request.",
+  draft_set_review_mismatch: "This draft set names a different review than the one it was submitted to, so it cannot be classified here.",
+  classification_conflict: "The review changed while this classification was being saved; reload and try again.",
+  finding_classification_confirmed_criteria_required: "A confirmed classification needs at least one confirmation criterion.",
+  finding_classification_confirmed_defensible_criteria_required: "This evidence basis needs defensible confirmation criteria before it can be confirmed.",
+  finding_classification_validation_path_required: "A classification that requires customer-side validation needs a validation path.",
+  finding_classification_limitations_required: "A classification needs at least one limitation.",
+  finding_classification_text_forbidden: "The classification text contains wording or source content that may not be recorded.",
   rate_limited: "Too many requests from this client; retry after a short delay."
 };
 

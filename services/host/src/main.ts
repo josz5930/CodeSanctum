@@ -31,7 +31,10 @@ import { checkSigningKey } from "./signing-key-check.js";
 import { createKeyService } from "./signing/key-service.js";
 import { registerAuthRoutes } from "./routes/auth.js";
 import { registerBudgetHaltGuard, registerSubmissionRoutes } from "./routes/submissions.js";
+import { registerReviewerRoutes } from "./routes/reviewer.js";
 import { registerWebRoutes } from "./routes/web.js";
+import { createPostgresFindingClassificationRecordStore } from "./reviewer/classification-store.js";
+import { createPostgresNormalizationOutcomeStore } from "./worker/normalization-records.js";
 import { createMemoryReviewRecordStore } from "./web/record-store.js";
 import { SYNTHETIC_DEMO_REVIEW_SCOPE, seedSyntheticDemoReviewRecords } from "./web/seed-record-store.js";
 import { createMemoryReviewOwnershipReader, createPostgresReviewOwnershipReader } from "./web/review-ownership.js";
@@ -213,15 +216,25 @@ async function main() {
     sessions,
     sessionCookieSecure: config.session_cookie_secure
   });
+  const artifacts = createPostgresArtifactStore(objectEnvelope === undefined
+    ? { sql: pool, objects, lifecycleLog: evidenceLifecycleLog }
+    : { sql: pool, objects, lifecycleLog: evidenceLifecycleLog, envelope: objectEnvelope });
+  const objectClassifications = createPostgresClassificationStore(pool);
   await registerWebRoutes(server, { errorEnvelope });
+  // P3: reviewers read the worker's draft sets and record classifications.
+  await registerReviewerRoutes(server, {
+    outcomes: createPostgresNormalizationOutcomeStore(pool),
+    artifacts,
+    objectClassifications,
+    classifications: createPostgresFindingClassificationRecordStore(pool),
+    errorEnvelope
+  });
   await registerSubmissionRoutes(server, {
     credentials: createPostgresSubmissionCredentialStore(pool),
     attempts: createPostgresSubmissionAttemptStore(pool),
     receipts: createPostgresVendorReceiptStore(pool),
-    artifacts: createPostgresArtifactStore(objectEnvelope === undefined
-      ? { sql: pool, objects, lifecycleLog: evidenceLifecycleLog }
-      : { sql: pool, objects, lifecycleLog: evidenceLifecycleLog, envelope: objectEnvelope }),
-    classifications: createPostgresClassificationStore(pool),
+    artifacts,
+    classifications: objectClassifications,
     reviewEventLog,
     jobs: createPostgresJobQueue(pool),
     budget,

@@ -307,6 +307,9 @@ export async function buildTestServer(options = {}) {
   const credentials = createMemorySubmissionCredentialStore();
   await credentials.issue({
     ...fixtures.credential,
+    // A test that needs the credential to name the same review as the
+    // bundle's review scope passes it here.
+    ...(options.reviewId === undefined ? {} : { review_id: options.reviewId }),
     issued_at: issuedAt,
     expires_at: new Date(issuedAt.getTime() + 30 * 24 * 60 * 60 * 1000)
   });

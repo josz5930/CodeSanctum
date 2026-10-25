@@ -26,6 +26,7 @@ export default async function DashboardPage() {
   const data = JSON.parse(result.bodyText) as ReviewListView;
   return (
     <AppShell view={data.shell}>
+      {data.shell.actorContext?.label === "codeattest_reviewer" ? <a href="/reviewer">Reviewer queue</a> : null}
       <ul>
         {data.reviews.map((pill, index) => (
           <li key={index}>

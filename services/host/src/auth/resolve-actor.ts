@@ -22,6 +22,8 @@ export type ActorResolutionDeps = {
 declare module "fastify" {
   interface FastifyRequest {
     actor: AuthenticatedActor | undefined;
+    /** True only when this session passed a TOTP check (not merely "not required"). */
+    secondFactorSatisfied: boolean;
   }
   interface FastifyInstance {
     ports: {
@@ -61,8 +63,10 @@ function actorFor(
  */
 export function registerActorResolution(server: FastifyInstance, deps: ActorResolutionDeps): void {
   server.decorateRequest("actor", undefined);
+  server.decorateRequest("secondFactorSatisfied", false);
   server.addHook("preHandler", async (request) => {
     request.actor = undefined;
+    request.secondFactorSatisfied = false;
     const header = request.headers.cookie;
     const token = readSessionCookie(typeof header === "string" ? header : undefined, deps.sessionCookieSecure);
     if (token === undefined) {
@@ -79,6 +83,7 @@ export function registerActorResolution(server: FastifyInstance, deps: ActorReso
     }
     const grants = await deps.accounts.grantsFor(account.account_id);
     request.actor = actorFor(account.account_id, account.tenant_id, grants);
+    request.secondFactorSatisfied = session.second_factor_state === "satisfied";
     await deps.sessions.touch(session.session_handle, now);
   });
 }

@@ -42,6 +42,18 @@ E adds a **read-only** `web` route group (`src/routes/web.ts`) behind C's `regis
 
 What E explicitly does not add: no new evidence vocabulary, no protocol records, and no mutation surface. The finding/verification/attestation/static-bundle records these routes project come from a read-only `ReviewRecordSet` port (`src/web/record-store.ts`); the demo deployment seeds an in-memory store from the shipped synthetic-demo protocol fixtures at boot (`src/web/seed-record-store.ts`), and the pilot's store stays empty until a persisted read model exists.
 
+## P3: reviewer workflow
+
+`src/routes/reviewer.ts` lets a reviewer read the worker's normalized draft sets and record expert classifications. Every route requires a `codeattest_reviewer` grant for the review (a review-scoped customer grant still wins, as in `selectGrant`), a session confirmed with TOTP (`request.secondFactorSatisfied`; an account without TOTP gets `second_factor_required`), and a review owned by the reviewer's tenant. Nothing is read or logged until every check passes.
+
+- `GET /web/reviewer/queue` lists the reviews of the reviewer's tenant that have normalization results, with counts. It reads ids and counts only.
+- `GET /web/reviewer/reviews/:reviewScope/drafts` reads each normalized draft set through `requireEvidenceAccess` and the artifact store (one `evidence_accessed` receipt per reviewer and draft set, purpose `reviewer_classification`), checks it against the protocol schema and the review id, and returns one `ReviewerClassificationWorkbench` view per draft with the classification in force. Rejected normalizations are listed with their reason; a set that cannot be read is listed as unavailable, and a set that names another review as `draft_set_review_mismatch`.
+- `POST /web/reviewer/reviews/:reviewScope/classifications` takes only the reviewer's choices (classification, rationale, criteria, gaps, limitations, validation path, visibility) and refuses any other field. The server copies the evidence basis, evidence references, source reference state, and source-derived class from the stored draft, sets the reviewer actor and timestamp, supersedes the classification currently in force, and runs `buildFindingClassificationEvent` and `appendReviewEvent` before storing anything. A judgment rule failure is a 422 with the control-plane reason; a lost race is a 409 `classification_conflict`.
+
+Records live in the append-only `finding_classification_record` table (migration 0008). The review-event log decides which record is in force: a stored record whose event never landed is never current. Visibility defaults to `internal_only`; a `customer_facing` classification appears in the customer timeline as a `classification_recorded` entry without its rationale.
+
+Not in P3: remediation guidance, validation paths and scripts, false-positive and accepted-risk records, and the customer-facing finding records the `/findings` route projects. They have control-plane builders but no write route yet.
+
 ## Sub-project F boundary
 
 F's budget phase replaces the demo deployment's config-backed spend ratio with
