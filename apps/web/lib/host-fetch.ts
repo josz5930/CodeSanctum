@@ -94,3 +94,18 @@ export async function hostFetch(request: HostFetchRequest): Promise<HostFetchRes
     setCookie: readSetCookie(response)
   };
 }
+
+/**
+ * Next passes a dynamic segment such as `[scope]` still percent-encoded, so a
+ * link to `/reviews/review%3Aabc` arrives as `review%3Aabc`. Callers encode the
+ * value again for the host path, so it is decoded once here first. A value
+ * that is not valid percent-encoding is passed on as it is; the host refuses
+ * a review id it does not know.
+ */
+export function decodeRouteSegment(segment: string): string {
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}

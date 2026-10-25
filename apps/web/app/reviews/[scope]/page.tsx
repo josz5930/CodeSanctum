@@ -13,7 +13,7 @@ import { ReceiptBanner } from "../../../components/ReceiptBanner.js";
 import { RiskWarning } from "../../../components/RiskWarning.js";
 import { StatusPill } from "../../../components/StatusPill.js";
 import { TimelineEvent } from "../../../components/TimelineEvent.js";
-import { hostFetch, isSessionExpired } from "../../../lib/host-fetch.js";
+import { decodeRouteSegment, hostFetch, isSessionExpired } from "../../../lib/host-fetch.js";
 import { SessionExpiredPage } from "../../session-expired/page.js";
 
 type ReviewDetailView = {
@@ -32,7 +32,7 @@ type ReviewDetailView = {
  * non-200 the actor cannot resolve) falls back to the session-expired state.
  */
 export default async function ReviewDetailPage({ params }: { params: Promise<{ scope: string }> }) {
-  const { scope } = await params;
+  const scope = decodeRouteSegment((await params).scope);
   const cookieStore = await cookies();
   const headerStore = await headers();
   const result = await hostFetch({

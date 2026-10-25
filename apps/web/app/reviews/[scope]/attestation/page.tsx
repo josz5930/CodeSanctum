@@ -11,7 +11,7 @@ import { AttestationBuilder } from "../../../../components/AttestationBuilder.js
 import { AttestationFinalization } from "../../../../components/AttestationFinalization.js";
 import { StaticBundleGeneration } from "../../../../components/StaticBundleGeneration.js";
 import { SupportingEvidenceMapping } from "../../../../components/SupportingEvidenceMapping.js";
-import { hostFetch, isSessionExpired } from "../../../../lib/host-fetch.js";
+import { decodeRouteSegment, hostFetch, isSessionExpired } from "../../../../lib/host-fetch.js";
 import { SessionExpiredPage } from "../../../session-expired/page.js";
 
 type AttestationPageView = {
@@ -29,7 +29,7 @@ type AttestationPageView = {
  * read-only (E-11).
  */
 export default async function AttestationPage({ params }: { params: Promise<{ scope: string }> }) {
-  const { scope } = await params;
+  const scope = decodeRouteSegment((await params).scope);
   const cookieStore = await cookies();
   const headerStore = await headers();
   const result = await hostFetch({

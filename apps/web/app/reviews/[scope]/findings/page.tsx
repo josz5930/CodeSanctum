@@ -7,7 +7,7 @@ import type {
 import { AppShell } from "../../../../components/AppShell.js";
 import { CustomerFindingRecord } from "../../../../components/CustomerFindingRecord.js";
 import { VerificationPassScope } from "../../../../components/VerificationPassScope.js";
-import { hostFetch, isSessionExpired } from "../../../../lib/host-fetch.js";
+import { decodeRouteSegment, hostFetch, isSessionExpired } from "../../../../lib/host-fetch.js";
 import { SessionExpiredPage } from "../../../session-expired/page.js";
 
 type FindingsView = {
@@ -22,7 +22,7 @@ type FindingsView = {
  * pass scope for `[scope]`, read-only (E-11).
  */
 export default async function FindingsPage({ params }: { params: Promise<{ scope: string }> }) {
-  const { scope } = await params;
+  const scope = decodeRouteSegment((await params).scope);
   const cookieStore = await cookies();
   const headerStore = await headers();
   const result = await hostFetch({

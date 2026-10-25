@@ -60,7 +60,11 @@ html {
   outline-offset: var(--ca-spacing-1);
 }
 
-.min-target {
+/* Every actionable adapter element carries data-min-target-size-px (see
+   components/a11y.ts). The size comes from this stylesheet, not a style
+   attribute: the nonce CSP blocks style attributes. */
+.min-target,
+[data-min-target-size-px] {
   min-width: var(--ca-min-target);
   min-height: var(--ca-min-target);
 }

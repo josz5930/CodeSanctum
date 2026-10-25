@@ -104,6 +104,14 @@ function post(fields, headers = { cookie: "__Host-codeattest_session=opaque", "x
   assert.equal(calls.length, 0);
 }
 
+// Next passes `[scope]` percent-encoded; pages decode it once before the host path re-encodes it.
+{
+  const { decodeRouteSegment } = await importCompiled("lib/host-fetch.js");
+  assert.equal(decodeRouteSegment("review%3Asynthetic-reviewer-0001"), "review:synthetic-reviewer-0001");
+  assert.equal(decodeRouteSegment("review:synthetic-reviewer-0001"), "review:synthetic-reviewer-0001");
+  assert.equal(decodeRouteSegment("review%E0%A4%A"), "review%E0%A4%A", "malformed encoding is passed on unchanged");
+}
+
 assert.match(reviewerMessage("second_factor_required"), /authenticator/);
 assert.equal(reviewerMessage("unheard_of_code"), "The classification was not saved.");
 
@@ -138,11 +146,12 @@ assert.match(html, /name="rationale"[^>]*required/);
 assert.match(html, /name="share_with_customer" value="yes"/);
 assert.doesNotMatch(html, /name="share_with_customer"[^>]*checked/, "sharing is never preselected");
 assert.match(html, /data-min-target-size-px="44"/);
+assert.doesNotMatch(html, /\sstyle="/, "no style attribute: the nonce CSP would block it");
 assert.match(html, /Not classified yet\./);
 assert.doesNotMatch(html, /<script>/, "evidence-derived text is escaped");
 assert.match(html, /&lt;script&gt;/);
 for (const label of ["Rationale", "Limitations", "Threshold gaps"]) {
-  assert.match(html, new RegExp(`<label for="[^"]+">${label}</label>`), `${label} has a label`);
+  assert.match(html, new RegExp(`<label for="[^"]+"[^>]*>${label}</label>`), `${label} has a label`);
 }
 
 // A current classification shows its badge and is preselected for the next one.

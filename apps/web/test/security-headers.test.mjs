@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -54,6 +55,16 @@ assert.notEqual(mintCspNonce(), nonce, "each request gets a new nonce");
   assert.match(html, /<style nonce="abc123">:root\{--ca-surface-base:[^;]+;/, "the tokens are in the nonced <style>");
   assert.match(html, /prefers-reduced-motion/);
   assert.equal((html.match(/<style\b/g) ?? []).length, 1);
+}
+
+// --- adapters carry no style attribute either -----------------------------------------
+// The 44px minimum target comes from globals.css through data-min-target-size-px;
+// an inline style would be blocked by the nonce policy and silently do nothing.
+{
+  const { actionableAttributes } = await importCompiled("components/a11y.js");
+  assert.equal("style" in actionableAttributes({ minTargetSizePx: 44 }), false);
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(css, /\[data-min-target-size-px\]\s*\{\s*min-width: var\(--ca-min-target\);\s*min-height: var\(--ca-min-target\);/);
 }
 
 // --- the layout reads the nonce from proxy.ts --------------------------------------

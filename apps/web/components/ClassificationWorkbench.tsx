@@ -22,8 +22,8 @@ function fieldId(draftRef: string, name: string): string {
 /** The current classification, text-first: the label carries the meaning, colour never does. */
 function Badge({ badge }: { badge: ClassificationBadgeView }) {
   return (
-    <section data-slot="classification-badge" data-classification={badge.classification} data-token-role={badge.tokenRole}>
-      <h4>
+    <section data-slot="classification-badge" data-classification={badge.classification} data-token-role={badge.tokenRole} className="mt-3 rounded-md border border-border-strong p-ca-3">
+      <h4 className="font-semibold">
         Current classification: <span aria-label={badge.accessibleLabel}>{badge.visibleLabel}</span>
       </h4>
       <p>{badge.meaning}</p>
@@ -36,9 +36,9 @@ function Badge({ badge }: { badge: ClassificationBadgeView }) {
 
 function TextArea({ id, name, label, hint, defaultValue, required }: { id: string; name: string; label: string; hint?: string; defaultValue?: string; required?: boolean }) {
   return (
-    <div data-slot="workbench-field">
-      <label htmlFor={id}>{label}</label>
-      {hint === undefined ? null : <p id={`${id}-hint`}>{hint}</p>}
+    <div data-slot="workbench-field" className="mt-3">
+      <label htmlFor={id} className="block font-semibold">{label}</label>
+      {hint === undefined ? null : <p id={`${id}-hint`} className="text-sm text-ink-secondary">{hint}</p>}
       <textarea
         id={id}
         name={name}
@@ -48,6 +48,7 @@ function TextArea({ id, name, label, hint, defaultValue, required }: { id: strin
         required={required}
         aria-describedby={hint === undefined ? undefined : `${id}-hint`}
         data-text-entry-zone="true"
+        className="mt-1 block w-full max-w-3xl rounded-sm border border-border-strong bg-surface-base p-ca-2"
       />
     </div>
   );
@@ -63,9 +64,15 @@ export function ClassificationWorkbench({ view, reviewScope, draftSetDigest }: {
   const { workbench } = view;
   const id = (name: string) => fieldId(view.draftRef, name);
   return (
-    <article data-slot="classification-workbench" data-draft-ref={workbench.draftRef} data-available={String(workbench.available)} id={fieldId(view.draftRef, "draft")}>
-      <h3>{workbench.title}</h3>
-      <p data-slot="affected-area">{workbench.affectedArea}</p>
+    <article
+      data-slot="classification-workbench"
+      data-draft-ref={workbench.draftRef}
+      data-available={String(workbench.available)}
+      id={fieldId(view.draftRef, "draft")}
+      className="my-ca-4 rounded-md border border-border-hairline bg-surface-raised p-ca-4"
+    >
+      <h3 className="text-lg font-semibold">{workbench.title}</h3>
+      <p data-slot="affected-area" className="font-mono">{workbench.affectedArea}</p>
       {workbench.currentState.badge === null ? <p data-slot="unclassified">Not classified yet.</p> : <Badge badge={workbench.currentState.badge} />}
       {view.current === null ? null : (
         <p data-slot="current-record">
@@ -75,13 +82,13 @@ export function ClassificationWorkbench({ view, reviewScope, draftSetDigest }: {
       {workbench.panels
         .filter((panel) => panel.items.length > 0)
         .map((panel) => (
-          <section key={panel.id} data-slot="workbench-panel" data-panel-id={panel.id}>
-            <h4>{panel.title}</h4>
-            <p>{panel.summary}</p>
-            <dl>
+          <section key={panel.id} data-slot="workbench-panel" data-panel-id={panel.id} className="mt-3">
+            <h4 className="font-semibold">{panel.title}</h4>
+            <p className="text-sm text-ink-secondary">{panel.summary}</p>
+            <dl className="mt-1">
               {panel.items.map((item, index) => (
-                <div key={index}>
-                  <dt>{item.label}</dt>
+                <div key={index} className="flex flex-wrap gap-x-2">
+                  <dt className="text-ink-secondary">{item.label}:</dt>
                   <dd>{item.value}</dd>
                 </div>
               ))}
@@ -91,14 +98,14 @@ export function ClassificationWorkbench({ view, reviewScope, draftSetDigest }: {
       {!workbench.available ? (
         <p data-slot="workbench-unavailable">This draft cannot be classified.</p>
       ) : (
-        <form method="post" action="/reviewer/classify" data-slot="classification-form">
+        <form method="post" action="/reviewer/classify" data-slot="classification-form" className="mt-ca-4 border-t border-border-hairline pt-ca-3">
           <input type="hidden" name="review_scope" value={reviewScope} />
           <input type="hidden" name="draft_set_digest" value={draftSetDigest} />
           <input type="hidden" name="review_finding_draft_ref" value={view.draftRef} />
-          <fieldset>
-            <legend>{view.current === null ? "Classification" : "New classification (supersedes the current one)"}</legend>
+          <fieldset className="flex flex-wrap gap-x-ca-4">
+            <legend className="font-semibold">{view.current === null ? "Classification" : "New classification (supersedes the current one)"}</legend>
             {CHOICES.map((choice) => (
-              <label key={choice.value} {...actionableAttributes({ minTargetSizePx: workbench.minTargetSizePx })}>
+              <label key={choice.value} className="inline-flex items-center gap-ca-2" {...actionableAttributes({ minTargetSizePx: workbench.minTargetSizePx })}>
                 <input type="radio" name="classification" value={choice.value} required defaultChecked={view.current?.classification === choice.value} />
                 {choice.label}
               </label>
@@ -110,11 +117,11 @@ export function ClassificationWorkbench({ view, reviewScope, draftSetDigest }: {
           <TextArea id={id("validation")} name="validation_path_summary" label="Validation path" hint="Needed for Requires customer-side validation." />
           <TextArea id={id("gaps")} name="threshold_gaps" label="Threshold gaps" hint="One per line." defaultValue={view.defaults.thresholdGaps.join("\n")} />
           <TextArea id={id("limitations")} name="limitations" label="Limitations" hint="At least one. One per line." defaultValue={view.defaults.limitations.join("\n")} required />
-          <label {...actionableAttributes({ minTargetSizePx: workbench.minTargetSizePx })}>
+          <label className="mt-3 flex items-center gap-ca-2" {...actionableAttributes({ minTargetSizePx: workbench.minTargetSizePx })}>
             <input type="checkbox" name="share_with_customer" value="yes" />
             Show this classification in the customer review history
           </label>
-          <button type="submit" {...actionableAttributes({ minTargetSizePx: workbench.minTargetSizePx })}>
+          <button type="submit" className="mt-ca-3 rounded-md bg-primary px-ca-4 text-primary-foreground" {...actionableAttributes({ minTargetSizePx: workbench.minTargetSizePx })}>
             Record classification
           </button>
         </form>
