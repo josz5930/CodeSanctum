@@ -28,7 +28,7 @@ See `src/ports.ts` for the interfaces and `src/memory/` and `src/postgres/` for 
 
 ## Tests
 
-Tests compile this workspace via `tsc` into a cache (`test/helpers/compile.mjs`, mirroring the pattern in `apps/control-plane/test/`) and import the emitted `.js`, so they run on the system Node without native `.ts` execution. The Postgres tests (`test/postgres-*.test.mjs`, `test/digest-roundtrip.test.mjs`) skip cleanly when no database is reachable, so `npm run ci` passes on a machine without Docker. Start the local database with `docker compose -f infra/local/compose.yaml up -d` to exercise them.
+Tests compile this workspace via `tsc` into a cache (`test/helpers/compile.mjs`, mirroring the pattern in `apps/control-plane/test/`) and import the emitted `.js`, so they run on the system Node without native `.ts` execution. The Postgres tests (`test/postgres-*.test.mjs`, `test/digest-roundtrip.test.mjs`) skip cleanly when no database is reachable, so `npm run ci` passes on a machine without Docker. Follow the [local database setup](../../infra/local/README.md#start-the-local-database) to supply the database password, export the test connection URL, and start Postgres before exercising them.
 
 ## Dependency direction
 

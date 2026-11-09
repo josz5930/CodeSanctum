@@ -22,9 +22,10 @@ jobs:
     # The evidence-store, identity-store, and host Postgres tests skip cleanly
     # when no database answers on 127.0.0.1:55432. This service makes them run,
     # so the append-only grants, migrations, and worker process are exercised on
-    # every change, not only on a developer machine with Docker. The role and
-    # password are the synthetic local-development literals from
-    # infra/local/compose.yaml and infra/migrations/0002_roles_and_grants.sql.
+    # every change, not only on a developer machine with Docker. This ephemeral
+    # CI fixture uses the test harness defaults and synthetic app-role password
+    # from infra/migrations/0002_roles_and_grants.sql. Local Compose instead
+    # requires a separately supplied migrator password (infra/local/README.md).
     services:
       postgres:
         image: postgres:17.2-alpine

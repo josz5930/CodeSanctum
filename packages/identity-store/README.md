@@ -28,7 +28,7 @@ Supporting modules:
 
 ## Tests
 
-Tests compile this workspace via `tsc` into a cache (`test/helpers/compile.mjs`) and import the emitted `.js`. The Postgres tests skip cleanly when no database is reachable, so `npm run ci` passes on a machine without Docker. Start the local database with `docker compose -f infra/local/compose.yaml up -d` to exercise them.
+Tests compile this workspace via `tsc` into a cache (`test/helpers/compile.mjs`) and import the emitted `.js`. The Postgres tests skip cleanly when no database is reachable, so `npm run ci` passes on a machine without Docker. Follow the [local database setup](../../infra/local/README.md#start-the-local-database) to supply the database password, export the test connection URL, and start Postgres before exercising them.
 
 ## Dependency direction
 
