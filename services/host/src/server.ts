@@ -7,6 +7,7 @@
 // our side short of skipping lib checking for this workspace.
 import Fastify, { type FastifyInstance, type FastifyLoggerOptions } from "fastify";
 
+import { sendUnhandledError } from "./error-envelope.js";
 import { registerMetricLogging } from "./observability/metrics.js";
 
 export type HostLoggerOption = boolean | {
@@ -84,6 +85,10 @@ export function createServer(input: { isReady: () => boolean | Promise<boolean>;
   const server = Fastify({ logger: hostLogger(input.logger ?? false), trustProxy: "loopback" });
 
   registerMetricLogging(server);
+
+  server.setErrorHandler((error, request, reply) => {
+    sendUnhandledError(error, request, reply);
+  });
 
   server.get("/healthz", async () => ({ status: "ok" }));
 

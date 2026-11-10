@@ -36,9 +36,33 @@ const MESSAGES: Record<string, string> = {
   finding_classification_validation_path_required: "A classification that requires customer-side validation needs a validation path.",
   finding_classification_limitations_required: "A classification needs at least one limitation.",
   finding_classification_text_forbidden: "The classification text contains wording or source content that may not be recorded.",
+  request_invalid: "The request was not valid.",
+  internal_error: "The request could not be completed.",
   rate_limited: "Too many requests from this client; retry after a short delay."
 };
 
 export function errorEnvelope(reasonCode: string): ErrorEnvelopeBody {
   return { reason_code: reasonCode, message: MESSAGES[reasonCode] ?? "The request could not be completed." };
+}
+
+type ThrownError = { statusCode?: number; code?: string };
+type ErrorReply = { code(statusCode: number): { send(body: ErrorEnvelopeBody): unknown } };
+type ErrorRequest = { log: { error(details: object, message: string): void } };
+
+/**
+ * The reply for an error that no route handled. The text of the error goes to
+ * the log only. Fastify's default handler puts `error.message` in the response
+ * body, and for a database or file error that text names tables, roles and
+ * paths. A 4xx that Fastify raised (a body that is not JSON, a body that is too
+ * large) keeps its status with a fixed message.
+ */
+export function sendUnhandledError(error: unknown, request: ErrorRequest, reply: ErrorReply): void {
+  const thrown = (typeof error === "object" && error !== null ? error : {}) as ThrownError;
+  const status = thrown.statusCode;
+  if (typeof status === "number" && Number.isInteger(status) && status >= 400 && status < 500) {
+    reply.code(status).send(errorEnvelope("request_invalid"));
+    return;
+  }
+  request.log.error({ err: error }, "unhandled request error");
+  reply.code(500).send(errorEnvelope("internal_error"));
 }

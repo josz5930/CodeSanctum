@@ -147,6 +147,21 @@ const tooLarge = await server.inject({
 assert.equal(tooLarge.statusCode, 413);
 assert.equal(tooLarge.json().reason_code, "submission_artifact_too_large");
 
+// An upload with no valid credential is refused before the host reads the
+// body. If the body were read first, this oversize body would give 413, and a
+// body under the limit would be held in memory for a caller with no credential.
+for (const authorization of [undefined, "Bearer demo-runner-key-1:wrong", "Bearer no-such-key:wrong"]) {
+  const refusedUpload = await server.inject({
+    method: "PUT",
+    url: `/v0/submissions/${bundle.bundle_manifest.submission_attempt_id}/artifacts/${reference.digest}`,
+    headers: { ...(authorization === undefined ? {} : { authorization }), "content-type": "application/octet-stream" },
+    payload: Buffer.alloc(65 * 1024 * 1024)
+  });
+  assert.equal(refusedUpload.statusCode, 401, `${authorization}: the credential check must come before the body`);
+  assert.equal(refusedUpload.json().reason_code, "submission_credential_invalid");
+  assert.equal(refusedUpload.headers.connection, "close", "a refused upload closes the connection");
+}
+
 // Phase 3: finalize.
 const finalized = await server.inject({
   method: "POST",

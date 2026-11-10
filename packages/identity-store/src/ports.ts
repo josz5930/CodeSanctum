@@ -2,6 +2,12 @@ export const SESSION_IDLE_TIMEOUT_MS = 30 * 60 * 1000;
 export const SESSION_ABSOLUTE_LIFETIME_MS = 12 * 60 * 60 * 1000;
 export const LOGIN_LOCKOUT_THRESHOLD = 5;
 export const LOGIN_LOCKOUT_WINDOW_MS = 15 * 60 * 1000;
+/**
+ * Failed password attempts for one identifier, from all client networks
+ * together, in one lockout window. At this count the identifier accepts a
+ * sign-in only from a client network that signed in to it before.
+ */
+export const LOGIN_ACCOUNT_FAILURE_THRESHOLD = 20;
 
 export type AccountRecord = {
   account_id: string;
@@ -57,11 +63,21 @@ export interface SessionStore {
 
 /**
  * Counts failed logins per key. The key is a 64-character lowercase hex
- * SHA-256; the host hashes the identifier together with the client network, so
- * one client's failures do not lock the account for every other client.
+ * SHA-256. The host uses three kinds of key: the identifier together with the
+ * client network (one client's failures do not lock the account for every
+ * other client), the identifier alone (a cap on guesses from many networks),
+ * and the account's second factor.
  */
 export interface LoginThrottle {
+  /** "locked" when `failures` is at LOGIN_LOCKOUT_THRESHOLD or more. */
   state(throttleKey: string, now: Date): Promise<"open" | "locked">;
+  /**
+   * The failures recorded for the key in the lockout window that ends at
+   * `now`. A success recorded for the key starts the count again.
+   */
+  failures(throttleKey: string, now: Date): Promise<number>;
+  /** True when a success is on record for the key. */
+  hasSucceeded(throttleKey: string): Promise<boolean>;
   record(throttleKey: string, outcome: "succeeded" | "failed"): Promise<void>;
 }
 

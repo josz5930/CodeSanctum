@@ -6,14 +6,14 @@ export function createMemoryLoginThrottle(options?: { now?: () => Date }): Login
   const clock = options?.now ?? (() => new Date());
   const attempts = new Map<string, Attempt[]>();
 
-  return {
+  const throttle: LoginThrottle = {
     async record(identifierHash: string, outcome: "succeeded" | "failed") {
       const list = attempts.get(identifierHash) ?? [];
       list.push({ outcome, occurred_at: clock() });
       attempts.set(identifierHash, list);
     },
 
-    async state(identifierHash: string, now: Date) {
+    async failures(identifierHash: string, now: Date) {
       const list = attempts.get(identifierHash) ?? [];
       let lastSuccessMs: number | undefined;
       for (const attempt of list) {
@@ -32,7 +32,14 @@ export function createMemoryLoginThrottle(options?: { now?: () => Date }): Login
           failures += 1;
         }
       }
-      return failures >= LOGIN_LOCKOUT_THRESHOLD ? "locked" : "open";
+      return failures;
+    },
+    async state(identifierHash: string, now: Date) {
+      return (await throttle.failures(identifierHash, now)) >= LOGIN_LOCKOUT_THRESHOLD ? "locked" : "open";
+    },
+    async hasSucceeded(identifierHash: string) {
+      return (attempts.get(identifierHash) ?? []).some((attempt) => attempt.outcome === "succeeded");
     }
   };
+  return throttle;
 }

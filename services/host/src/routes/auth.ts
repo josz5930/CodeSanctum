@@ -4,6 +4,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 import {
   hashSecret,
+  LOGIN_ACCOUNT_FAILURE_THRESHOLD,
   matchTotpStep,
   mintSessionToken,
   openTotpSecret,
@@ -50,6 +51,28 @@ function throttleKeyFor(identifier: string, request: FastifyRequest): string {
     .update("\0", "utf8")
     .update(clientNetworkKey(request.ip), "utf8")
     .digest("hex");
+}
+
+/**
+ * Counts failed passwords for the identifier from all client networks
+ * together. The per-network key alone lets a caller who changes address for
+ * each try guess without limit (OWASP: associate the counter with the account,
+ * not the source address). No success is ever recorded on this key, so it is
+ * the plain number of failures in the lockout window.
+ */
+function accountThrottleKeyFor(identifier: string): string {
+  return createHash("sha256").update("account\0", "utf8").update(identifier, "utf8").digest("hex");
+}
+
+/**
+ * Counts wrong authenticator codes for the account, from all client networks
+ * and all pending sessions together. This key is separate from the password
+ * keys on purpose: a correct password records a success on the password key,
+ * and if the codes used that key too, a caller who has the password could
+ * sign in again after each few wrong codes and never be locked.
+ */
+function secondFactorThrottleKeyFor(accountId: string): string {
+  return createHash("sha256").update("second-factor\0", "utf8").update(accountId, "utf8").digest("hex");
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -123,17 +146,30 @@ export async function registerAuthRoutes(server: FastifyInstance, deps: AuthRout
     }
     const identifier = request.body.identifier.toLowerCase();
     const throttleKey = throttleKeyFor(identifier, request);
+    const accountThrottleKey = accountThrottleKeyFor(identifier);
     const now = clock(deps);
 
     if ((await deps.throttle.state(throttleKey, now)) === "locked") {
       await deps.throttle.record(throttleKey, "failed");
       return credentialsInvalid(deps, reply);
     }
+    // Too many failures for this identifier from all networks together: only a
+    // network that signed in to it before may try. The account owner at a
+    // usual location can still sign in; a caller who changes address for each
+    // guess cannot. Refusals here are not recorded, so the caller cannot
+    // extend the block, and it ends when the failures leave the window.
+    if (
+      (await deps.throttle.failures(accountThrottleKey, now)) >= LOGIN_ACCOUNT_FAILURE_THRESHOLD &&
+      !(await deps.throttle.hasSucceeded(throttleKey))
+    ) {
+      return credentialsInvalid(deps, reply);
+    }
 
     const account = await deps.accounts.findByIdentifier(identifier);
-    const secretOk = verifySecret(account?.secret_hash ?? DUMMY_SECRET_HASH, request.body.secret);
+    const secretOk = await verifySecret(account?.secret_hash ?? DUMMY_SECRET_HASH, request.body.secret);
     if (account === undefined || !secretOk) {
       await deps.throttle.record(throttleKey, "failed");
+      await deps.throttle.record(accountThrottleKey, "failed");
       return credentialsInvalid(deps, reply);
     }
 
@@ -167,9 +203,11 @@ export async function registerAuthRoutes(server: FastifyInstance, deps: AuthRout
     if (account === undefined || account.totp_secret_box === null) {
       return credentialsInvalid(deps, reply);
     }
-    const throttleKey = throttleKeyFor(account.identifier, request);
+    const throttleKey = secondFactorThrottleKeyFor(account.account_id);
     if ((await deps.throttle.state(throttleKey, now)) === "locked") {
-      await deps.throttle.record(throttleKey, "failed");
+      // The pending session is of no more use. The caller must give the
+      // password again, and the code count stays until its window ends.
+      await deps.sessions.revoke(pending.session_handle, "rotated");
       return credentialsInvalid(deps, reply);
     }
     const secret = openTotpSecret(account.totp_secret_box, deps.totpKey);

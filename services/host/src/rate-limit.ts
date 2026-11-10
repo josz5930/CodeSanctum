@@ -33,6 +33,7 @@ export function registerRateLimit(server: FastifyInstance, options: RateLimitOpt
   const now = options.now ?? (() => Date.now());
   const exempt = new Set(options.exemptRoutes ?? ["/healthz", "/readyz"]);
   const windows = new Map<string, Window>();
+  let nextSweepAt = now() + options.windowMs;
 
   server.addHook("onRequest", async (request, reply) => {
     const route = request.routeOptions.url ?? request.url.split("?", 1)[0] ?? request.url;
@@ -48,9 +49,13 @@ export function registerRateLimit(server: FastifyInstance, options: RateLimitOpt
     }
     window.count += 1;
 
-    // Opportunistically evict windows that have fully expired so the map does
-    // not grow without bound under a churn of distinct client IPs.
-    if (windows.size > 1024) {
+    // Remove expired windows one time for each window length, not on each
+    // request. A sweep on each request made every request scan the full map
+    // when many clients were active, so more source addresses meant slower
+    // requests. With one sweep per window the map holds at most the clients of
+    // the last two windows, and the cost per request stays constant.
+    if (current >= nextSweepAt) {
+      nextSweepAt = current + options.windowMs;
       for (const [otherKey, otherWindow] of windows) {
         if (current >= otherWindow.resetAt) {
           windows.delete(otherKey);

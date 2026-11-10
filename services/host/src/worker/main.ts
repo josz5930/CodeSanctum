@@ -17,6 +17,7 @@ import {
   releaseStaleJobClaims,
   type PostgresPool
 } from "../../../../packages/evidence-store/src/index.js";
+import { pruneIdentityRecords } from "../../../../packages/identity-store/src/index.js";
 import { createSignatureVerifier } from "../../../../packages/signing/src/index.js";
 
 import { ConfigError, loadConfig, type HostConfig } from "../config.js";
@@ -127,6 +128,9 @@ async function runCommand(command: Command, config: HostConfig, pool: PostgresPo
     const caughtUp = await catchUpRetentionExpiry({ jobs, retentionRecords, now, artifacts });
     const processed = await processRetentionExpiryJob({ jobs, artifacts, retentionRecords, now, actor });
     log({ event: "retention_run", ...caughtUp, ...processed });
+    // Old login attempts and long-expired sessions go in the same hourly run.
+    const pruned = await pruneIdentityRecords(pool);
+    log({ event: "identity_prune_run", ...pruned });
     // A failed purge stays queued for the next run, but this run must show as
     // failed so the timer's unit state reports it.
     return processed.failed.length > 0 ? 1 : 0;

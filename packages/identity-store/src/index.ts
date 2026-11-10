@@ -10,6 +10,7 @@ export * from "./memory/submission-credential-store.js";
 export * from "./postgres/account-store.js";
 export * from "./postgres/session-store.js";
 export * from "./postgres/login-throttle.js";
+export * from "./postgres/prune.js";
 export * from "./postgres/submission-credential-store.js";
 
 export const workspaceName = "@onevps/identity-store";

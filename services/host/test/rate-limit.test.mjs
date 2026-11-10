@@ -47,6 +47,31 @@ assert.equal(clientNetworkKey("64:ff9b::192.0.2.1"), "64:ff9b:0:0::/64");
   await server.close();
 }
 
+// The cleanup of expired windows runs one time per window length. It must not
+// remove a window that is still open: a client over the cap stays limited
+// after a sweep, until its own window ends.
+{
+  let clock = 0;
+  const server = createServer({ isReady: () => true });
+  registerRateLimit(server, { max: 1, windowMs: 1000, errorEnvelope, now: () => clock });
+  server.get("/web/context", async () => ({ ok: true }));
+  await server.ready();
+  const from = (ip) => server.inject({ method: "GET", url: "/web/context", headers: { "x-forwarded-for": ip } });
+
+  assert.equal((await from("198.51.100.1")).statusCode, 200);
+  clock = 600;
+  assert.equal((await from("198.51.100.2")).statusCode, 200);
+  assert.equal((await from("198.51.100.2")).statusCode, 429);
+  // At 1000 the sweep runs: the first client's window is gone, the second
+  // client's window (open until 1600) is not.
+  clock = 1100;
+  assert.equal((await from("198.51.100.1")).statusCode, 200, "an expired window starts again");
+  assert.equal((await from("198.51.100.2")).statusCode, 429, "a sweep must not reset a window that is still open");
+  clock = 1601;
+  assert.equal((await from("198.51.100.2")).statusCode, 200);
+  await server.close();
+}
+
 // Behind Caddy (or the web app) every connection comes from loopback. Each
 // client must get its own window, keyed by the X-Forwarded-For address that the
 // loopback proxy sets, not one shared window for 127.0.0.1.

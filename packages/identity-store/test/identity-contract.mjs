@@ -126,8 +126,14 @@ export async function runIdentityContract(name, makePorts) {
   assert.equal(await throttle.state(hash, t0), "locked", `${name}: the fifth failure locks`);
   assert.equal(await throttle.state(hash, new Date(t0.getTime() + 16 * 60 * 1000)), "open",
     `${name}: the lock expires after fifteen minutes`);
+  assert.equal(await throttle.failures(hash, t0), 5, `${name}: failures gives the count in the window`);
+  assert.equal(await throttle.failures(hash, new Date(t0.getTime() + 16 * 60 * 1000)), 0);
+  assert.equal(await throttle.hasSucceeded(hash), false, `${name}: failures are not a success`);
   await throttle.record(hash, "succeeded");
   assert.equal(await throttle.state(hash, t0), "open", `${name}: a success clears the count`);
+  assert.equal(await throttle.failures(hash, t0), 0);
+  assert.equal(await throttle.hasSucceeded(hash), true);
+  assert.equal(await throttle.hasSucceeded("e".repeat(64)), false, `${name}: a success is per key`);
 
   // --- submission credentials -------------------------------------------------
   const t1 = new Date("2026-08-16T12:00:00Z");

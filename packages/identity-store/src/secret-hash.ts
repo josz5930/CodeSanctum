@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { randomBytes, scrypt, scryptSync, timingSafeEqual, type ScryptOptions } from "node:crypto";
 
 /**
  * Memory-hard by design. The parameters are stored in the hash string rather
@@ -20,7 +20,25 @@ export function hashSecret(plaintext: string): string {
   return `scrypt$${SCRYPT_PARAMETERS.N}$${SCRYPT_PARAMETERS.r}$${SCRYPT_PARAMETERS.p}$${salt.toString("hex")}$${derived.toString("hex")}`;
 }
 
-export function verifySecret(stored: string, presented: string): boolean {
+function scryptAsync(password: string, salt: Buffer, keyLength: number, options: ScryptOptions): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    scrypt(password, salt, keyLength, options, (error, derived) => {
+      if (error === null) {
+        resolve(derived);
+      } else {
+        reject(error);
+      }
+    });
+  });
+}
+
+/**
+ * The derivation runs on the libuv thread pool, not on the main thread. One
+ * derivation takes tens of milliseconds, and the host calls this for each
+ * login and each submission request, so a synchronous call would stop every
+ * other request (health checks included) while it runs.
+ */
+export async function verifySecret(stored: string, presented: string): Promise<boolean> {
   const parts = stored.split("$");
   if (parts.length !== 6 || parts[0] !== "scrypt") {
     return false;
@@ -41,7 +59,7 @@ export function verifySecret(stored: string, presented: string): boolean {
   }
   let derived: Buffer;
   try {
-    derived = scryptSync(presented, salt, expected.length, { N, r, p, maxmem: 128 * N * r * 2 });
+    derived = await scryptAsync(presented, salt, expected.length, { N, r, p, maxmem: 128 * N * r * 2 });
   } catch {
     return false;
   }

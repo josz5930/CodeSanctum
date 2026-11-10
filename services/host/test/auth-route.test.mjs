@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import { buildTestServer, SEEDED } from "./helpers/identity-fixtures.mjs";
+import { importCompiled } from "./helpers/compile.mjs";
+
+const { sessionHandleFor } = await importCompiled("../../packages/identity-store/src/session-token.js");
 
 const { server, ports } = await buildTestServer();
 
@@ -161,6 +164,89 @@ const unknown = await server.inject({
 });
 assert.equal(unknown.statusCode, 204, unknown.body);
 assert.match(setCookie(unknown.headers) ?? "", /Max-Age=0/);
+
+// --- a cap on guesses from many networks ---------------------------------------
+// The owner signs in from a usual network first. Then 20 wrong passwords
+// arrive, 4 from each of 5 networks, so no one network reaches its own limit.
+const usualNetwork = { "x-forwarded-for": "192.0.2.77" };
+const usualLogin = await server.inject({
+  method: "POST", url: "/v0/auth/login", headers: usualNetwork,
+  payload: { identifier: SEEDED.scopedCustomer.identifier, secret: SEEDED.scopedCustomer.password }
+});
+assert.equal(usualLogin.statusCode, 204);
+for (let network = 0; network < 5; network += 1) {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    await server.inject({
+      method: "POST", url: "/v0/auth/login", headers: { "x-forwarded-for": `203.0.113.${network + 1}` },
+      payload: { identifier: SEEDED.scopedCustomer.identifier, secret: "wrong" }
+    });
+  }
+}
+const freshNetworkWithPassword = await server.inject({
+  method: "POST", url: "/v0/auth/login", headers: { "x-forwarded-for": "203.0.113.200" },
+  payload: { identifier: SEEDED.scopedCustomer.identifier, secret: SEEDED.scopedCustomer.password }
+});
+assert.equal(freshNetworkWithPassword.statusCode, 401,
+  "after 20 failures from many networks, a network that never signed in gets no more guesses");
+assert.equal(freshNetworkWithPassword.json().reason_code, "auth_credentials_invalid");
+assert.equal(freshNetworkWithPassword.headers["set-cookie"], undefined);
+const usualAgain = await server.inject({
+  method: "POST", url: "/v0/auth/login", headers: usualNetwork,
+  payload: { identifier: SEEDED.scopedCustomer.identifier, secret: SEEDED.scopedCustomer.password }
+});
+assert.equal(usualAgain.statusCode, 204, "the owner's usual network can still sign in");
+
+// --- second factor: wrong codes lock, and a new password sign-in does not reset --
+// Before this was fixed, a caller who had the password could try 4 codes, sign
+// in again (a success that cleared the count), and continue without end.
+let wrongCodeReplies = 0;
+for (let cycle = 0; cycle < 3; cycle += 1) {
+  const cyclePending = await pendingReviewerCookie();
+  for (let guess = 0; guess < 2; guess += 1) {
+    const wrongCode = await server.inject({
+      method: "POST", url: "/v0/auth/login/second-factor",
+      headers: { cookie: cyclePending },
+      payload: { code: "abcdef" }
+    });
+    assert.equal(wrongCode.statusCode, 401);
+    wrongCodeReplies += 1;
+  }
+}
+assert.equal(wrongCodeReplies, 6);
+const lockedPending = await pendingReviewerCookie();
+const correctWhileLocked = await server.inject({
+  method: "POST", url: "/v0/auth/login/second-factor",
+  headers: { cookie: lockedPending },
+  payload: { code: SEEDED.reviewer.currentTotpCode() }
+});
+assert.equal(correctWhileLocked.statusCode, 401,
+  "five wrong codes lock the second factor, also across new password sign-ins");
+assert.equal(correctWhileLocked.headers["set-cookie"], undefined);
+// The pending session is revoked, so it is of no use when the lock ends.
+assert.equal(await ports.sessions.resolve(sessionHandleFor(lockedPending.split(";")[0].split("=")[1]), new Date()), undefined,
+  "a pending session that meets the lock must be revoked");
+
+// --- an unexpected failure does not show its text ------------------------------
+const realFind = ports.accounts.findByIdentifier;
+ports.accounts.findByIdentifier = async () => {
+  throw new Error('relation "account" does not exist; role codeattest_app at 10.0.0.5');
+};
+const failed = await server.inject({
+  method: "POST", url: "/v0/auth/login",
+  payload: { identifier: "nobody-2@synthetic.invalid", secret: "x" }
+});
+ports.accounts.findByIdentifier = realFind;
+assert.equal(failed.statusCode, 500);
+assert.deepEqual(failed.json(), { reason_code: "internal_error", message: "The request could not be completed." });
+assert.equal(failed.body.includes("codeattest_app"), false, "the error text must stay in the log");
+
+// A request that Fastify refuses keeps its 4xx status, with a fixed message.
+const notJson = await server.inject({
+  method: "POST", url: "/v0/auth/login",
+  headers: { "content-type": "application/json" }, payload: "{not json"
+});
+assert.equal(notJson.statusCode, 400);
+assert.equal(notJson.json().reason_code, "request_invalid");
 
 await server.close();
 console.log("Auth route test passed.");

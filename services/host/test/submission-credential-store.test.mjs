@@ -33,9 +33,9 @@ assert.equal(found.review_id, "review:synthetic-demo-0001");
 
 assert.equal(await store.resolve("no-such-key", t1), undefined, "an unknown key id must resolve to undefined");
 
-assert.equal(verifyCredentialSecret(found, SECRET), true, "the correct secret must verify");
-assert.equal(verifyCredentialSecret(found, "wrong"), false, "an incorrect secret must not verify");
-assert.equal(verifyCredentialSecret(found, ""), false, "an empty secret must not verify");
-assert.equal(verifyCredentialSecret({ ...found, secret_hash: "not-a-hash" }, SECRET), false, "a malformed stored hash must not verify");
+assert.equal(await verifyCredentialSecret(found, SECRET), true, "the correct secret must verify");
+assert.equal(await verifyCredentialSecret(found, "wrong"), false, "an incorrect secret must not verify");
+assert.equal(await verifyCredentialSecret(found, ""), false, "an empty secret must not verify");
+assert.equal(await verifyCredentialSecret({ ...found, secret_hash: "not-a-hash" }, SECRET), false, "a malformed stored hash must not verify");
 
 console.log("Submission credential store test passed.");

@@ -1,10 +1,12 @@
 import { createHash } from "node:crypto";
 
-import type { FastifyError, FastifyInstance } from "fastify";
+import type { FastifyError, FastifyInstance, FastifyRequest } from "fastify";
 import canonicalizeJson from "canonicalize";
 
 import { validateProtocolSchema, type StoredObjectClassification } from "../../../../packages/protocol-ts/src/index.js";
 import { buildSubmissionOutcome, completeVendorReceipt, prepareVendorReceipt, verifyIntakeSubmission } from "../../../../services/intake/src/index.js";
+import { hashSecret } from "../../../../packages/identity-store/src/index.js";
+import { sendUnhandledError } from "../error-envelope.js";
 import { MANAGED_KEY_LIMITATIONS } from "../signing/key-service.js";
 import { artifactCountSummaryFromManifest, assembleIntakeRequest, submissionOutcomeIdFor } from "../submission/assemble-intake-request.js";
 import { budgetTierFor } from "../submission/budget-tiers.js";
@@ -58,6 +60,15 @@ export function storedObjectRefFor(digest: string): string {
   return `stored_object:${digest.replace(/^sha256:/, "")}`;
 }
 
+/** Compared against when the key id is unknown, so that case costs the same. */
+const DUMMY_CREDENTIAL = { secret_hash: hashSecret("codeattest-unused-dummy-submission-secret") };
+
+/**
+ * The credential that the artifact route authenticated in its `onRequest`
+ * hook, before Fastify read the request body.
+ */
+const authenticatedUpload = new WeakMap<FastifyRequest, SubmissionCredential>();
+
 /**
  * Every authentication failure returns the same reason code so a caller
  * cannot enumerate valid key ids. The secret comparison always runs, even
@@ -72,7 +83,7 @@ async function authenticate(
     return undefined;
   }
   const credential = await deps.credentials.resolve(presented.tokenKeyId, new Date(deps.now()));
-  const secretOk = credential !== undefined && verifyCredentialSecret(credential, presented.secret);
+  const secretOk = await verifyCredentialSecret(credential ?? DUMMY_CREDENTIAL, presented.secret);
   return credential !== undefined && secretOk ? credential : undefined;
 }
 
@@ -116,12 +127,12 @@ async function enqueueNormalization(deps: SubmissionRouteDeps, attempt: { review
 }
 
 export async function registerSubmissionRoutes(server: FastifyInstance, deps: SubmissionRouteDeps): Promise<void> {
-  server.setErrorHandler((error: FastifyError, _request, reply) => {
+  server.setErrorHandler((error: FastifyError, request, reply) => {
     if (error.code === "FST_ERR_CTP_BODY_TOO_LARGE") {
       reply.code(413).send(deps.errorEnvelope("submission_artifact_too_large"));
       return;
     }
-    reply.send(error);
+    sendUnhandledError(error, request, reply);
   });
 
   server.post("/v0/submissions", async (request, reply) => {
@@ -209,9 +220,24 @@ export async function registerSubmissionRoutes(server: FastifyInstance, deps: Su
 
   server.put<{ Params: { attemptId: string; digest: string } }>(
     "/v0/submissions/:attemptId/artifacts/:digest",
-    { bodyLimit: ARTIFACT_BODY_LIMIT_BYTES },
+    {
+      bodyLimit: ARTIFACT_BODY_LIMIT_BYTES,
+      // The credential check runs before Fastify reads the body. In the
+      // handler it would run after the host had taken up to 64 MiB into memory
+      // for a caller that has no credential. The connection closes, so the
+      // host does not read the remaining bytes of a refused upload.
+      onRequest: async (request, reply) => {
+        const credential = await authenticate(parseSubmissionCredentialHeader(request.headers.authorization), deps);
+        if (credential === undefined) {
+          reply.header("connection", "close");
+          return reply.code(401).send(deps.errorEnvelope("submission_credential_invalid"));
+        }
+        authenticatedUpload.set(request, credential);
+        return undefined;
+      }
+    },
     async (request, reply) => {
-      const credential = await authenticate(parseSubmissionCredentialHeader(request.headers.authorization), deps);
+      const credential = authenticatedUpload.get(request);
       if (credential === undefined) {
         return reply.code(401).send(deps.errorEnvelope("submission_credential_invalid"));
       }
